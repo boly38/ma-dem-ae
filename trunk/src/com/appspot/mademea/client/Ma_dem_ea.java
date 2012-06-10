@@ -1,14 +1,16 @@
 package com.appspot.mademea.client;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 
+import com.appspot.mademea.client.domain.Proposal;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -21,7 +23,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Ma_dem_ea implements EntryPoint {
-	private static final int ROW_COUNT_QUOTA = 20;
+	
+	private final ProposalServiceAsync proposalService = GWT
+			.create(ProposalService.class);
 
 	  private VerticalPanel mainPanel = new VerticalPanel();
 	  private FlexTable proposalsFlexTable = new FlexTable();
@@ -29,9 +33,7 @@ public class Ma_dem_ea implements EntryPoint {
 	  private Label proposalLabel = new Label("Input you proposal");
 	  private TextBox newProposalTextBox = new TextBox();
 	  private Button addProposalButton = new Button("Add your proposal");
-	  private ArrayList<String> proposals = new ArrayList<String>();
-	  private Label lastOverkillLabel = new Label();
-	  private static int nbOverkill = 0;
+	  private Label feedbackLabel = new Label();
 	
 	private void initTabHeader() {
 	    // Create table for proposals
@@ -52,7 +54,7 @@ public class Ma_dem_ea implements EntryPoint {
 	    // Assemble Main panel.
 	    mainPanel.add(proposalsFlexTable);
 	    mainPanel.add(addPanel);
-	    mainPanel.add(lastOverkillLabel);
+	    mainPanel.add(feedbackLabel);
 	    
 	    // Associate the Main panel with the HTML host page.
 	    RootPanel.get("proposalsList").add(mainPanel);
@@ -78,32 +80,48 @@ public class Ma_dem_ea implements EntryPoint {
 	    });	    
 	}
 	
+	
+	private void updateTable() {
+		proposalService.getProposals(new AsyncCallback<Collection<Proposal>>() {
+			public void onSuccess(Collection<Proposal> props) {
+				proposalsFlexTable.removeAllRows();
+				proposalsFlexTable.removeAllRows();
+				initTabHeader();				
+				for (Proposal p : props) {
+					int row = proposalsFlexTable.getRowCount();
+					proposalsFlexTable.setText(row, 0, p.getTitle());
+					proposalsFlexTable.setText(row, 1, p.getAuthor());
+					proposalsFlexTable.setText(row, 2, p.getCreationDate().toString());
+				}
+			}
+
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				feedbackLabel.setText("unable to update table : " + caught.getMessage());
+			}
+		});
+	}
+	
 	  /**
 	   * Add proposal to FlexTable. Executed when the user clicks the addProposalButton or
 	   * presses enter in the newProposalTextBox.
 	   */
 	  private void addProposal() {
-		  final String newProposal = newProposalTextBox.getText();
+		  final String proposalTitle = newProposalTextBox.getText();
 		  final String who = "anonymous";
-		  final String when = (new Date()).toString();
-		  int row = proposalsFlexTable.getRowCount();
-		  newProposalTextBox.setText("");
-		  // Don't add the stock if it's already in the table.
-		  if (proposals.contains(newProposal))
-			  return;
-		  if (row == ROW_COUNT_QUOTA) {
-			  proposalsFlexTable.removeAllRows();
-			  initTabHeader();
-			  proposals.clear();
-			  nbOverkill++;
-			  String newOverkillLabel = (new Date()).toString() + "  overKillCount=" + nbOverkill;
-			  lastOverkillLabel.setText(newOverkillLabel);
-			  row = proposalsFlexTable.getRowCount();
-		  }
-		  proposals.add(newProposal);
-		  proposalsFlexTable.setText(row, 0, newProposal);
-		  proposalsFlexTable.setText(row, 1, who);
-		  proposalsFlexTable.setText(row, 2, when);
+		  Proposal newProposal = new Proposal(proposalTitle, "", who);
+		  proposalService.addProposal(newProposal, new AsyncCallback<Void>() {
+						public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+							feedbackLabel.setText("unable to add proposal : " + caught.getMessage());
+						}
+
+						public void onSuccess(Void result) {
+							updateTable();
+							newProposalTextBox.setText("");
+						}
+					});
+
 	  }
 	
 	

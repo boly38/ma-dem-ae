@@ -10,12 +10,18 @@
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>com.appspot.mademea.server.GreetingServiceImpl</servlet-class>
   </servlet>
-  
+  <servlet>
+    <servlet-name>proposalServlet</servlet-name>
+    <servlet-class>com.appspot.mademea.server.ProposalServiceImpl</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/ma_dem_ea/greet</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>proposalServlet</servlet-name>
+    <url-pattern>/ma_dem_ea/proposal</url-pattern>
+  </servlet-mapping>
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Ma_dem_ea.html</welcome-file>
