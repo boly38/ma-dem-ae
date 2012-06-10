@@ -58,9 +58,7 @@ public class Ma_dem_ea implements EntryPoint {
 	    
 	    // Associate the Main panel with the HTML host page.
 	    RootPanel.get("proposalsList").add(mainPanel);
-	    	
-	    // Move cursor focus to the input box.
-	    newProposalTextBox.setFocus(true);
+
 	    
 
 	    // Listen for mouse events on the Add button.
@@ -77,7 +75,11 @@ public class Ma_dem_ea implements EntryPoint {
 	         addProposal();
 	        }
 	      }
-	    });	    
+	    });	
+	    
+	    updateTable();	
+	    // Move cursor focus to the input box.
+	    newProposalTextBox.setFocus(true);	    
 	}
 	
 	
