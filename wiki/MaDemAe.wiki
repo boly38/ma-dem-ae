@@ -11,4 +11,4 @@ No more info for now.. project under construction :
 ==references==
 * tutorial java used [https://developers.google.com/web-toolkit/doc/latest/tutorial/codeclient dev gg]
 
-* jdo tut [ https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore?hl=fr dev gg]
+* jdo tut [https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore?hl=fr dev gg]
