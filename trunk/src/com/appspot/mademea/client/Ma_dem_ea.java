@@ -52,9 +52,9 @@ public class Ma_dem_ea implements EntryPoint {
 	    addPanel.add(addProposalButton);
 
 	    // Assemble Main panel.
-	    mainPanel.add(proposalsFlexTable);
-	    mainPanel.add(addPanel);
 	    mainPanel.add(feedbackLabel);
+	    mainPanel.add(addPanel);
+	    mainPanel.add(proposalsFlexTable);
 	    
 	    // Associate the Main panel with the HTML host page.
 	    RootPanel.get("proposalsList").add(mainPanel);
