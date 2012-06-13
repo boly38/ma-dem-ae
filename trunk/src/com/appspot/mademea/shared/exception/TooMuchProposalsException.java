@@ -1,4 +1,4 @@
-package com.appspot.mademea.client.domain.exception;
+package com.appspot.mademea.shared.exception;
 
 public class TooMuchProposalsException extends Exception {
 

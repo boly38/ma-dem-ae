@@ -1,12 +1,17 @@
 package com.appspot.mademea.server;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+
 import com.appspot.mademea.client.ProposalService;
-import com.appspot.mademea.client.domain.Proposal;
-import com.appspot.mademea.client.domain.exception.TooMuchProposalsException;
+import com.appspot.mademea.model.Proposal;
+import com.appspot.mademea.shared.ProposalProxy;
+import com.appspot.mademea.shared.exception.TooMuchProposalsException;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -15,21 +20,41 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ProposalServiceImpl extends RemoteServiceServlet implements
 										 ProposalService {
-	private static final int PROPOSAL_QUOTA = 5000;	
-	private List<Proposal> proposals = new ArrayList<Proposal>();
-	  
-	public void addProposal(Proposal newProposal)
+	public void addProposal(String title, String description)
 			throws IllegalArgumentException, TooMuchProposalsException {
-		if (proposals.size() < PROPOSAL_QUOTA) {
-			proposals.add(newProposal);
-		} else {
-			throw new TooMuchProposalsException("Proposals is limited to " + PROPOSAL_QUOTA);
-		}
-		
+		UserService userService = UserServiceFactory.getUserService();
+        User user = userService.getCurrentUser();
+        Proposal newProposal = new Proposal(title, description);
+        if (user != null) {
+          newProposal.setAuthor(user.getNickname());
+        } else {
+          newProposal.setAuthor("Anonymous");	
+        }
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        try {
+            pm.makePersistent(newProposal);
+        } finally {
+            pm.close();
+        }
 	}
 
-	public Collection<Proposal> getProposals() {
-		return proposals;
+	public List<ProposalProxy> getProposals() {
+	    PersistenceManager pm = PMF.get().getPersistenceManager();
+	    String query = "select from " + Proposal.class.getName() + " order by " + Proposal.PROPOSAL_CREATION_DATE +" desc range 0,20";
+	    @SuppressWarnings("unchecked")
+		List<Proposal> props = (List<Proposal>) pm.newQuery(query).execute();
+	    List<ProposalProxy> returnProps = new ArrayList<ProposalProxy>();
+	    for(Proposal p: props)
+	    {
+	    	ProposalProxy pProxy = new ProposalProxy();
+	    	pProxy.setId(p.getId());
+	    	pProxy.setCreationDate(p.getCreationDate());
+	    	pProxy.setAuthor(p.getAuthor());
+	    	pProxy.setTitle(p.getTitle());
+	    	pProxy.setDescription(p.getDescription());
+	    	returnProps.add(pProxy);
+	    }
+	    return returnProps;
 	} 
 
 }

@@ -1,28 +1,24 @@
-package com.appspot.mademea.client.domain;
+package com.appspot.mademea.shared;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Proposal implements Serializable {
-
-	/**
-	 * 
+public class ProposalProxy implements Serializable {
+    /**
+	 * serialUID
 	 */
-	private static final long serialVersionUID = 2162676902409015528L;
+	private static final long serialVersionUID = -3055088271357139222L;
+	
+	private Long id;
 	private String title;
 	private String description;
 	private Date creationDate;
 	private String author;
-	
-	public Proposal() {
-		super();
+	public Long getId() {
+		return id;
 	}
-	public Proposal(String title, String description, String author) {
-		super();
-		this.creationDate = new Date();
-		this.title = title;
-		this.description = description;
-		this.author = author;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;
@@ -48,5 +44,4 @@ public class Proposal implements Serializable {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
 }

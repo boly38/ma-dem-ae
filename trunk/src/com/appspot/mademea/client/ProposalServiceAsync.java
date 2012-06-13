@@ -1,8 +1,8 @@
 package com.appspot.mademea.client;
 
-import java.util.Collection;
+import java.util.List;
 
-import com.appspot.mademea.client.domain.Proposal;
+import com.appspot.mademea.shared.ProposalProxy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -10,9 +10,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface ProposalServiceAsync {
 
-	void addProposal(Proposal newProposal, AsyncCallback<Void> callback);
+	void addProposal(String title, String description, AsyncCallback<Void> callback);
 	
 
-	void getProposals(AsyncCallback<Collection<Proposal>> callback);
+	void getProposals(AsyncCallback<List<ProposalProxy>> callback);
 
 }

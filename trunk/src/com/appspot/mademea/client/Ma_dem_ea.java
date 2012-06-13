@@ -1,8 +1,8 @@
 package com.appspot.mademea.client;
 
-import java.util.Collection;
+import java.util.List;
 
-import com.appspot.mademea.client.domain.Proposal;
+import com.appspot.mademea.shared.ProposalProxy;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -84,12 +84,12 @@ public class Ma_dem_ea implements EntryPoint {
 	
 	
 	private void updateTable() {
-		proposalService.getProposals(new AsyncCallback<Collection<Proposal>>() {
-			public void onSuccess(Collection<Proposal> props) {
+		proposalService.getProposals(new AsyncCallback<List<ProposalProxy>>() {
+			public void onSuccess(List<ProposalProxy> props) {
 				proposalsFlexTable.removeAllRows();
 				proposalsFlexTable.removeAllRows();
 				initTabHeader();				
-				for (Proposal p : props) {
+				for (ProposalProxy p : props) {
 					int row = proposalsFlexTable.getRowCount();
 					proposalsFlexTable.setText(row, 0, p.getTitle());
 					proposalsFlexTable.setText(row, 1, p.getAuthor());
@@ -110,9 +110,7 @@ public class Ma_dem_ea implements EntryPoint {
 	   */
 	  private void addProposal() {
 		  final String proposalTitle = newProposalTextBox.getText();
-		  final String who = "anonymous";
-		  Proposal newProposal = new Proposal(proposalTitle, "", who);
-		  proposalService.addProposal(newProposal, new AsyncCallback<Void>() {
+		  proposalService.addProposal(proposalTitle, "", new AsyncCallback<Void>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
 							feedbackLabel.setText("unable to add proposal : " + caught.getMessage());
