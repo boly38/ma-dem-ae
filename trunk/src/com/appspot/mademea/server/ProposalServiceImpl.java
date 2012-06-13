@@ -6,8 +6,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 
 import com.appspot.mademea.client.ProposalService;
-import com.appspot.mademea.model.Proposal;
-import com.appspot.mademea.shared.ProposalProxy;
+import com.appspot.mademea.shared.Proposal;
 import com.appspot.mademea.shared.exception.TooMuchProposalsException;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -38,23 +37,14 @@ public class ProposalServiceImpl extends RemoteServiceServlet implements
         }
 	}
 
-	public List<ProposalProxy> getProposals() {
+	public List<Proposal> getProposals() {
 	    PersistenceManager pm = PMF.get().getPersistenceManager();
 	    String query = "select from " + Proposal.class.getName() + " order by " + Proposal.PROPOSAL_CREATION_DATE +" desc range 0,20";
 	    @SuppressWarnings("unchecked")
 		List<Proposal> props = (List<Proposal>) pm.newQuery(query).execute();
-	    List<ProposalProxy> returnProps = new ArrayList<ProposalProxy>();
-	    for(Proposal p: props)
-	    {
-	    	ProposalProxy pProxy = new ProposalProxy();
-	    	pProxy.setId(p.getId());
-	    	pProxy.setCreationDate(p.getCreationDate());
-	    	pProxy.setAuthor(p.getAuthor());
-	    	pProxy.setTitle(p.getTitle());
-	    	pProxy.setDescription(p.getDescription());
-	    	returnProps.add(pProxy);
-	    }
-	    return returnProps;
+	    // serialization issue workaround
+	    List<Proposal> propsReturned = new ArrayList<Proposal>(props);
+	    return propsReturned;
 	} 
 
 }

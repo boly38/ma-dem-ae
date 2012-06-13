@@ -2,7 +2,7 @@ package com.appspot.mademea.client;
 
 import java.util.List;
 
-import com.appspot.mademea.shared.ProposalProxy;
+import com.appspot.mademea.shared.Proposal;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -84,12 +84,12 @@ public class Ma_dem_ea implements EntryPoint {
 	
 	
 	private void updateTable() {
-		proposalService.getProposals(new AsyncCallback<List<ProposalProxy>>() {
-			public void onSuccess(List<ProposalProxy> props) {
+		proposalService.getProposals(new AsyncCallback<List<Proposal>>() {
+			public void onSuccess(List<Proposal> props) {
 				proposalsFlexTable.removeAllRows();
 				proposalsFlexTable.removeAllRows();
 				initTabHeader();				
-				for (ProposalProxy p : props) {
+				for (Proposal p : props) {
 					int row = proposalsFlexTable.getRowCount();
 					proposalsFlexTable.setText(row, 0, p.getTitle());
 					proposalsFlexTable.setText(row, 1, p.getAuthor());

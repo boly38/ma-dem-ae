@@ -1,4 +1,4 @@
-package com.appspot.mademea.model;
+package com.appspot.mademea.shared;
 
 import java.io.Serializable;
 import java.util.Date;
