@@ -2,6 +2,7 @@ package com.appspot.mademea.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 
@@ -19,8 +20,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ProposalServiceImpl extends RemoteServiceServlet implements
 										 ProposalService {
+    private final static Logger LOGGER = Logger.getLogger(ProposalServiceImpl.class.getName()); 
+    
 	public void addProposal(String title, String description)
 			throws IllegalArgumentException, TooMuchProposalsException {
+	    LOGGER.info("addProposal title='" + title + "' description:" + description); 		
 		UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         Proposal newProposal = new Proposal(title, description);
@@ -44,6 +48,7 @@ public class ProposalServiceImpl extends RemoteServiceServlet implements
 		List<Proposal> props = (List<Proposal>) pm.newQuery(query).execute();
 	    // serialization issue workaround
 	    List<Proposal> propsReturned = new ArrayList<Proposal>(props);
+	    LOGGER.info("getProposals return count=" + propsReturned.size()); 		
 	    return propsReturned;
 	} 
 
