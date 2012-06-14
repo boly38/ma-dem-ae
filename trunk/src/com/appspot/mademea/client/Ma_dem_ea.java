@@ -34,6 +34,8 @@ public class Ma_dem_ea implements EntryPoint {
 			.create(SecurityService.class);
 
 	  private VerticalPanel mainPanel = new VerticalPanel();
+
+	  private Label proposalsTableLabel = new Label("Last 20 proposals :");
 	  private FlexTable proposalsFlexTable = new FlexTable();
 	  
 	  private HorizontalPanel addPanel = new HorizontalPanel();
@@ -70,6 +72,7 @@ public class Ma_dem_ea implements EntryPoint {
 	    mainPanel.add(welcomePanel);
 	    mainPanel.add(feedbackLabel);
 	    mainPanel.add(addPanel);
+	    mainPanel.add(proposalsTableLabel);
 	    mainPanel.add(proposalsFlexTable);
 	    
 	    // Associate the Main panel with the HTML host page.
