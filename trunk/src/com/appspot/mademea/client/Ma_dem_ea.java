@@ -64,9 +64,11 @@ public class Ma_dem_ea implements EntryPoint {
 	    addPanel.add(proposalLabel);
 	    addPanel.add(newProposalTextBox);
 	    addPanel.add(addProposalButton);
+	    addPanel.addStyleName("addPanel");
 
 	    welcomePanel.add(helloLabel);
 	    welcomePanel.add(authLink);
+	    welcomePanel.addStyleName("welcomePanel");
 	    
 	    // Assemble Main panel.
 	    mainPanel.add(welcomePanel);
@@ -136,6 +138,9 @@ public class Ma_dem_ea implements EntryPoint {
 					proposalsFlexTable.setText(row, 1, p.getAuthor());
 					proposalsFlexTable.setText(row, 2, p.getCreationDate().toString());
 				}
+			    // Add styles
+			    proposalsFlexTable.getRowFormatter().addStyleName(0, "proposalsListHeader");
+			    proposalsFlexTable.addStyleName("watchList");
 			    updateWelcomePanel();
 			}
 
