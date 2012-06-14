@@ -2,15 +2,20 @@
 
 = Introduction =
 
-No more info for now.. project under construction
-<!--
+No more info for now.. project under construction !
+
+<wiki:comment>
  :
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
--->
+</wiki:comment>
 
 ==references==
   * tutorial java used [https://developers.google.com/web-toolkit/doc/latest/tutorial/codeclient dev gg]
   * jdo tut [https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore?hl=fr dev gg]
   * styles [http://twitter.github.com/bootstrap/index.html twitter bootstrap]
+
+
+
+<g:plusone size="medium"></g:plusone>
