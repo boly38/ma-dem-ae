@@ -14,8 +14,10 @@ No more info for now.. project under construction !
 ==references==
   * tutorial java used [https://developers.google.com/web-toolkit/doc/latest/tutorial/codeclient dev gg]
   * jdo tut [https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore?hl=fr dev gg]
-  * styles [http://twitter.github.com/bootstrap/index.html twitter bootstrap]
+  * Smart GWT [http://www.smartclient.com/smartgwt/showcase/ showcase]
 
+(future usage maybe)
+  * styles [http://twitter.github.com/bootstrap/index.html twitter bootstrap]
 
 
 <g:plusone size="medium"></g:plusone>
