@@ -12,7 +12,7 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="Ma_dem_ea.css">
-
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
@@ -32,7 +32,39 @@
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
   <body>
-
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Ma-Dem-AE</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li class="divider-vertical"></li>
+              <li>
+                <form class="navbar-form pull-left">
+					<input type="text" class="span2">
+				</form>              
+              </li>
+              <li><a href="#about" class="pull-right">About</a></li>
+              <li><a href="#contact" class="pull-right">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+	<div class="container">
+     <div class="hero-unit">
+      <h1>Welcome on Ma-Dem-AE!</h1>
+      <p>This site is under construction...</p>
+      <p>This project is hosted on a gg-code project.<br/>
+         <a class="btn btn-primary btn-large" href="http://code.google.com/p/ma-dem-ae/wiki/MaDemAe" target="_new">Learn more...</a></p>
+     </div>
+    </div> <!-- /container -->      
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
     
@@ -43,5 +75,10 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    <div id="mademae_main"></div>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/bootstrap.js"></script>
   </body>
 </html>

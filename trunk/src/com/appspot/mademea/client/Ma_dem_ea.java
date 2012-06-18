@@ -9,6 +9,7 @@ import com.appspot.mademea.shared.Proposal;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.types.TitleOrientation;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.HTMLFlow;
@@ -46,7 +47,6 @@ public class Ma_dem_ea implements EntryPoint {
 	  
 	  private Label feedbackLabel = new Label();
 	  
-	  private HTMLFlow welcomeBanner = new HTMLFlow();
 	  private HLayout welcomePanel = new HLayout();
 	  private HTMLFlow authLink = new HTMLFlow();
 	  
@@ -84,14 +84,6 @@ public class Ma_dem_ea implements EntryPoint {
 	}
 	
 	public void onModuleLoad() {
-		
-        String welcomeHtml = "<div style='align:center'><h1>Ma-Dem-AE</h1>"
-        				   + "<p>Welcome on Ma-Dem-AE<sup><a href=\"http://code.google.com/p/ma-dem-ae/\">a gg-code project</a></sup> !</p>"
-        				   + "<p>This site is under construction...</p><br/><br/></div>";
-        welcomeBanner.setContents(welcomeHtml);
-        welcomeBanner.setWidth(STANDARD_WIDTH);
-        
-        
         authLink.setWidth(STANDARD_WIDTH);
 	    welcomePanel.addMember(authLink);
 	    welcomePanel.setWidth(STANDARD_WIDTH);
@@ -119,7 +111,6 @@ public class Ma_dem_ea implements EntryPoint {
         // addLayout.setAlign(VerticalAlignment.CENTER);
 	    
 	    // Assemble Main panel.
-	    mainPanel.addMember(welcomeBanner);
 	    mainPanel.addMember(welcomePanel);
 	    mainPanel.addMember(feedbackLabel);
 	    mainPanel.addMember(addLayout);
@@ -127,6 +118,8 @@ public class Ma_dem_ea implements EntryPoint {
 	    mainPanel.addMember(proposalsGrid);
 	    mainPanel.setWidth(STANDARD_WIDTH);
 	    mainPanel.setStyleName("mainPanel");
+	    // header
+	    mainPanel.setTop(60);
 	    // mainPanel.setWidth100();
 	    // mainPanel.setAlign(Alignment.CENTER);
 	    /* sample modal window
@@ -172,9 +165,10 @@ public class Ma_dem_ea implements EntryPoint {
 	    */
 	    
 	    // draw main panel
-	    mainPanel.draw();
+	    // mainPanel.draw();
 	    // Associate the Main panel with the HTML host page.
-	    // RootPanel.get("proposalsList").add(mainPanel);
+	    RootPanel.get("mademae_main").add(mainPanel);
+	    
 	    // load datas
 	    updateProposalsGrid();	
 	    newProposalTextBox.focusInItem();	    

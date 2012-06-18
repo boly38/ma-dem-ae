@@ -1,5 +1,16 @@
-/** Add css rules here for your application. */
-/* Main panel */
+/** Css project rules here */
+/**
+  * head / bottom handled by nav bar
+  */  
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+      
+/**
+  * Main panel 
+  * head / bottom handled by nav bar
+  */
 .mainPanel {
   margin: 10px;
 }
