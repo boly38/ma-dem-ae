@@ -12,7 +12,7 @@ No more info for now.. project under construction !
 </wiki:comment>
 
 ==references==
-  * sample [http://code.google.com/p/wicket-gae-template/ wicket-gae-template]
+  * sample [http://code.google.com/p/wicket-gae-template/ wicket-gae-template] [http://blog.oxiane.com/2009/04/27/deploiement-dune-application-wicket-sur-google-app-engine/ autre exemple]
   * styles [http://twitter.github.com/bootstrap/index.html twitter bootstrap]
   * Smart GWT [http://www.smartclient.com/smartgwt/showcase/ showcase]
   * jdo tut [https://developers.google.com/appengine/docs/java/gettingstarted/usingdatastore?hl=fr dev gg]
