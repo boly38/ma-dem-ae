@@ -1,0 +1,68 @@
+/** Css project rules here */
+/**
+  * head / bottom handled by nav bar
+  */  
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+      
+/**
+  * Main panel 
+  * head / bottom handled by nav bar
+  */
+.mainPanel {
+  margin: 10px;
+}
+/* Welcome panel */
+.welcomePanel {
+  margin: 5px 0px 5px 0px;
+}
+
+/* Add Proposal panel */
+.addPanel {
+  margin: 5px 0px 5px 0px;
+}
+
+
+div.globalFeedback ul {
+    border-top: #F60 solid 1px;
+    border-bottom: #F60 solid 1px;
+}
+
+li.feedbackPanelINFO {
+/*    background: url("../images/common/valide.gif") no-repeat; */
+    background-position:10px 3px;
+    min-height:65px;
+    line-height:20px;
+    padding-left:75px;
+    vertical-align:middle;
+}
+
+li.feedbackPanelWARNING {
+/*	background: url("../images/common/warning_logo.jpg") no-repeat; */
+    background-position:10px 3px;
+    min-height:65px;
+    line-height:20px;
+    padding-left:75px;
+    vertical-align:middle;
+}
+
+li.feedbackPanelERROR {
+/*	background: url("../images/common/error_logo.png") no-repeat; */
+    background-position:10px 3px;
+    min-height:65px;
+    line-height:20px;
+    padding-left:75px;
+    vertical-align:middle;
+}
+
+span.feedbackPanelINFO {
+    color:black;
+}
+span.feedbackPanelWARNING {
+    color:#F60;
+}
+span.feedbackPanelERROR {
+    color:red;
+}
