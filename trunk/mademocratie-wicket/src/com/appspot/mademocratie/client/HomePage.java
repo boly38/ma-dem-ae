@@ -15,7 +15,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.appspot.mademocratie.model.Proposal;
 import com.appspot.mademocratie.server.service.IProposal;
-import com.appspot.mademocratie.server.service.IRepository;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -71,6 +70,9 @@ public class HomePage extends WebPage {
 
         WebMarkupContainer helloAnon = new WebMarkupContainer("hello-anon");
         add(helloAnon);
+        
+        WebMarkupContainer specialAdmin = new WebMarkupContainer("special-admin");
+        add(specialAdmin);
 
         Label userNickname = new Label("user");
         helloUser.add(userNickname);
@@ -80,6 +82,11 @@ public class HomePage extends WebPage {
 
         ExternalLink signIn = new ExternalLink("sign-in", userService.createLoginURL("/" + getRequest().getClientUrl()));
         helloAnon.add(signIn);
+
+    	ExternalLink linkBackOffice = new ExternalLink("link-backoffice", "/_ah/admin");
+    	specialAdmin.add(linkBackOffice);
+
+       	specialAdmin.setVisible((userService.isUserLoggedIn() && userService.isUserAdmin()));
 
         if (user != null)
         {
@@ -104,9 +111,13 @@ public class HomePage extends WebPage {
         // This LoadableDetachableModel allows the following ListView<Proposal> to always load the latest persisted
         // Proposal entities on-demand, without having to store any model data in the session when this Guestbook page
         // gets serialized.
-        LoadableDetachableModel<List<Proposal>> latestProposals = new LoadableDetachableModel<List<Proposal>>()
-        {
-            @Override
+        LoadableDetachableModel<List<Proposal>> latestProposals = new LoadableDetachableModel<List<Proposal>>() {
+            /**
+			 * serialVersionUID
+			 */
+			private static final long serialVersionUID = -1821066687751312009L;
+
+			@Override
             protected List<Proposal> load()
             {
             	LOGGER.info("load proposals");
@@ -119,9 +130,13 @@ public class HomePage extends WebPage {
 //            noMessages.setVisible(false);
 //        }
 
-        ListView<Proposal> messages = new ListView<Proposal>("proposals", latestProposals)
-        {
-            @Override
+        ListView<Proposal> messages = new ListView<Proposal>("proposals", latestProposals) {
+            /**
+			 * serialVersionUID
+			 */
+			private static final long serialVersionUID = 2961302430978521634L;
+
+			@Override
             protected void populateItem(ListItem<Proposal> item)
             {
                 Proposal Proposal = item.getModel().getObject();
