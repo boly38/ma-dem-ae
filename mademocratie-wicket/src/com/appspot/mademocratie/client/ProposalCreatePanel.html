@@ -1,0 +1,26 @@
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+<wicket:panel>
+    <div wicket:id="feedback">[[ feedback ]]</div>
+    <form wicket:id="propForm" name="propForm" class="formCss1">
+	    <!-- class="globalFeedback" -->
+        <fieldset>
+            <!-- <legend>Proposal</legend> -->
+            <p class="content">
+                 <span class="param">
+                    <label for="title">Title</label>
+                </span>
+                <span class="required" title="required field">*</span>
+                <span class="value">
+                    <input type="text" id="title" wicket:id="title" name="title"/>
+                </span>
+            </p>
+            <div class="form_buttons">
+                <a wicket:id="cancelPropButton" name="propCreateCancel" class="btn"><span>Cancel</span></a>
+                <a wicket:id="addPropButton"    name="propCreateSubmit" class="btn"><span>Create</span></a>
+            </div>
+        </fieldset>
+    </form>
+
+</wicket:panel>
+</html>

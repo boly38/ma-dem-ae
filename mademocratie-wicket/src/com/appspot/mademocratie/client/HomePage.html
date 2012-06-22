@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    	<link type="text/css" rel="stylesheet" href="css/MaDemocratie.css">
+    	<link type="text/css" rel="stylesheet" href="css/bootstrap.css">        
+        <title>MaDemocratie</title>
+    </head>
+    <body>
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Ma-Dem-AE</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li class="divider-vertical"></li>
+              <li>
+                <form class="navbar-form pull-left">
+					<input type="text" class="span2">
+				</form>              
+              </li>
+              <li><a href="#about" class="pull-right">About</a></li>
+              <li><a href="#contact" class="pull-right">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-unit">
+		<div wicket:id="hello-user">
+	    	Hello, <span wicket:id="user">user</span>! (You can <a wicket:id="sign-out" href="#">sign out</a>.)
+		</div>
+		<div wicket:id="hello-anon">
+	    	Hello! <a wicket:id="sign-in" href="#">Sign in</a> to include your name with greetings you post.
+		</div>
+	  </div>
+      <div class="row">
+        <div class="span4">
+            <h3>Last 5 Proposals</h3>	  
+            <div wicket:id="proposals">
+                <p><span style="font-weight: bold" wicket:id="author">somebody@somewhere</span> wrote:</p>
+            	<blockquote wicket:id="proposal">some content</blockquote>
+            </div>
+        </div>
+        <div class="span4">
+            <h3>Add a proposal</h3>        
+            <div wicket:id="createPropContainer">
+              <div wicket:id="propCreateForm" />
+            </div>
+        </div>
+      </div>
+    </div><!-- container -->	
+  </body>
+</html>
