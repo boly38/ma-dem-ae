@@ -3,17 +3,8 @@
 <wicket:panel>
     <div wicket:id="feedback">[[ feedback ]]</div>
     <form wicket:id="propForm" name="propForm" class="well form-horizontal">
-	  <fieldset>
-    	<legend>Proposal</legend>
-    	<div class="control-group">
-      		<label class="control-label" for="title">Title</label>
-      		<div class="controls">
-        		<input type="text" class="input-xlarge" id="title" wicket:id="title" name="title">
-        		<p class="help-block">Proposal title</p>
-      		</div>
-            <a wicket:id="addPropButton"    name="propCreateSubmit" class="btn"><span>Create</span></a>      		
-    	</div>
-  	  </fieldset>
+	  <span>Title</span> <input type="text" class="input-xlarge" id="title" wicket:id="title" name="title">
+      <a wicket:id="addPropButton"    name="propCreateSubmit" class="btn"><span>Create</span></a>      		
     </form>
 
 </wicket:panel>
