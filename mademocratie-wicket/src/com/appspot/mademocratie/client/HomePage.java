@@ -65,6 +65,14 @@ public class HomePage extends WebPage {
         UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
 
+
+        String boLink = "https://appengine.google.com/dashboard?&app_id=s~ma-dem-ae";
+        String loginUrl = userService.createLoginURL("/" + getRequest().getClientUrl());
+        String logoutUrl = userService.createLogoutURL("/" + getRequest().getClientUrl());
+        if (loginUrl.contains("localhost")) {
+        	boLink = "/_ah/admin";
+        }
+        
         WebMarkupContainer helloUser = new WebMarkupContainer("hello-user");
         add(helloUser);
 
@@ -77,13 +85,13 @@ public class HomePage extends WebPage {
         Label userNickname = new Label("user");
         helloUser.add(userNickname);
 
-        ExternalLink signOut = new ExternalLink("sign-out", userService.createLogoutURL("/" + getRequest().getClientUrl()));
+        ExternalLink signOut = new ExternalLink("sign-out", logoutUrl);
         helloUser.add(signOut);
 
-        ExternalLink signIn = new ExternalLink("sign-in", userService.createLoginURL("/" + getRequest().getClientUrl()));
+        ExternalLink signIn = new ExternalLink("sign-in", loginUrl);
         helloAnon.add(signIn);
-
-    	ExternalLink linkBackOffice = new ExternalLink("link-backoffice", "/_ah/admin");
+        
+    	ExternalLink linkBackOffice = new ExternalLink("link-backoffice", boLink);
     	specialAdmin.add(linkBackOffice);
 
        	specialAdmin.setVisible((userService.isUserLoggedIn() && userService.isUserAdmin()));
@@ -142,7 +150,11 @@ public class HomePage extends WebPage {
                 Proposal Proposal = item.getModel().getObject();
                 String email = Proposal.getAuthor() != null ? Proposal.getAuthor().getNickname() : "An anonymous person ";
                 item.add(new Label("author", email));
-                item.add(new Label("proposal", Proposal.getTitle()));
+                String proposalTitle = Proposal.getTitle();
+                if (proposalTitle != null && proposalTitle.length() > 30) {
+                	proposalTitle = proposalTitle.substring(0, 30).concat("...");
+                }
+                item.add(new Label("proposal", proposalTitle));
             }
         };
         add(messages);		
