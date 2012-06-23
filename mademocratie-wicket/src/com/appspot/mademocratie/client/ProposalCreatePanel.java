@@ -115,28 +115,6 @@ public class ProposalCreatePanel  extends Panel{
         };
         appform.add(addButton);
 
-        // Cancel first application add / update button
-        AjaxSubmitLink cancelButton = new AjaxSubmitLink("cancelPropButton") {
-            /**
-			 * serialUID
-			 */
-			private static final long serialVersionUID = -634373265575343862L;
-
-			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-            	LOGGER.info("cancel");
-            	form.clearInput();
-			}
-
-			@Override
-			protected void onError(AjaxRequestTarget arg0, Form<?> arg1) {
-				LOGGER.warning("cancel Error");
-			}
-        };
-
-        cancelButton.setDefaultFormProcessing(false);
-        appform.add(cancelButton);
-
     }
 
 	public Page getParentPage() {

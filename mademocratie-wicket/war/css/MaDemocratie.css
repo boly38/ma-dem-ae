@@ -30,33 +30,6 @@ div.globalFeedback ul {
     border-bottom: #F60 solid 1px;
 }
 
-li.feedbackPanelINFO {
-/*    background: url("../images/common/valide.gif") no-repeat; */
-    background-position:10px 3px;
-    min-height:65px;
-    line-height:20px;
-    padding-left:75px;
-    vertical-align:middle;
-}
-
-li.feedbackPanelWARNING {
-/*	background: url("../images/common/warning_logo.jpg") no-repeat; */
-    background-position:10px 3px;
-    min-height:65px;
-    line-height:20px;
-    padding-left:75px;
-    vertical-align:middle;
-}
-
-li.feedbackPanelERROR {
-/*	background: url("../images/common/error_logo.png") no-repeat; */
-    background-position:10px 3px;
-    min-height:65px;
-    line-height:20px;
-    padding-left:75px;
-    vertical-align:middle;
-}
-
 span.feedbackPanelINFO {
     color:black;
 }
