@@ -21,44 +21,57 @@
               <li><a href="#">My proposals</a></li>
               <li class="divider-vertical"></li>
               <li>
-                <form class="navbar-form pull-left">
-					<input type="text" class="span2">
+                <form class="navbar-form pull-left form-search">
+					<input type="text" class="input-medium search-query" placeholder="some text">
+					<button type="submit" class="btn"><i class="icon-search"></i> Search</button>
 				</form>              
               </li>
               <li><a href="#about" class="pull-right">About</a></li>
-              <li><a href="#contact" class="pull-right">Contact</a></li>
+              <li><a href="#contact" class="pull-right"><i class="icon-envelope"></i> Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
-    </div>
+    </div>  
     <div class="container">
-      <div class="hero-unit">
+      <div class="row-fluid">
+       <div class="span12 well">
 		<div wicket:id="hello-user">
 	    	Hello, <span wicket:id="user">user</span>! (You can <a wicket:id="sign-out" href="#">sign out</a>.)
-		</div>
+		</div>		
+		<div class="alert fade in">
+  			<button type="button" class="close" data-dismiss="alert">x</button>
+  			<strong><i class="icon-warning-sign"></i> Warning!</strong> This site is under construction...
+		</div>  		
 		<div wicket:id="hello-anon">
-	    	Hello! <a wicket:id="sign-in" href="#">Sign in</a> to include your name with greetings you post.
+	    	Hello! <a wicket:id="sign-in" href="#">Sign in</a> to include your name with proposals you post.
 		</div>
 		<div wicket:id="special-admin">
 			As administrator, you can go to the <a wicket:id="link-backoffice" href="#" target="_new">back office </a>
 		</div>
+	   </div>
 	  </div>
       <div class="row">
-        <div class="span4">
-            <h3>Last 5 Proposals</h3>	  
-            <div wicket:id="proposals">
+        <div class="span5">
+			<div class="page-header">
+  				<h3>Last 5 proposals</h3>
+			</div>            	  
+            <div wicket:id="proposals" class="well form-inline">
                 <p><span style="font-weight: bold" wicket:id="author">somebody@somewhere</span> wrote:</p>
             	<blockquote wicket:id="proposal">some content</blockquote>
             </div>
         </div>
-        <div class="span4">
+        <div class="span7">
             <h3>Add a proposal</h3>        
             <div wicket:id="createPropContainer">
               <div wicket:id="propCreateForm" />
             </div>
         </div>
       </div>
-    </div><!-- container -->	
+    </div><!-- container -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-alert.js"></script>	    
   </body>
 </html>
