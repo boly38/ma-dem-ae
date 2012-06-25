@@ -6,33 +6,7 @@
         <title>MaDemocratie</title>
     </head>
     <body>
-	<div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Ma-Dem-AE</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">My proposals</a></li>
-              <li class="divider-vertical"></li>
-              <li>
-                <form class="navbar-form pull-left form-search">
-					<input type="text" class="input-medium search-query" placeholder="some text">
-					<button type="submit" class="btn"><i class="icon-search"></i> Search</button>
-				</form>              
-              </li>
-              <li><a href="#about" class="pull-right">About</a></li>
-              <li><a href="#contact" class="pull-right"><i class="icon-envelope"></i> Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>  
+    <div wicket:id="headerPanel"></div>    
     <div class="container">
       <div class="row-fluid">
        <div class="span12 well">
@@ -51,27 +25,59 @@
 		</div>
 	   </div>
 	  </div>
+      <!-- **************** -->
       <div class="row">
         <div class="span4 well">
 			<div class="page-header">
-  				<h3>Last 5 proposals</h3>
+  				<h3>Citizen of the week</h3>
+			</div>            	  
+			(...)
+        </div>
+        <div class="span7 well">
+			<div class="page-header">
+  				<h3>Proposals of the week</h3>
+			</div>            	  
+            (...)
+        </div>
+      </div>
+      <!-- **************** -->
+      <div class="row">
+        <div class="span4 well">
+			<div class="page-header">
+  				<h3>New citizens</h3>
+			</div>
+			(...)            	  
+        </div>
+        <div class="span7 well">
+			<div class="page-header">
+  				<h3>Last proposals</h3>
 			</div>            	  
             <div wicket:id="proposals">
                 <p><span style="font-weight: bold" wicket:id="author">somebody@somewhere</span> wrote:</p>
-            	<blockquote wicket:id="proposal">some content</blockquote>
-            </div>
-        </div>
-        <div class="span6">
-            <h3>Add a proposal</h3>        
-            <div wicket:id="createPropContainer">
-              <div wicket:id="propCreateForm" />
+            	<blockquote wicket:id="proposal"><a href="#" wicket:id="proposalLabel">some content</a></blockquote>
             </div>
         </div>
       </div>
+      <!-- **************** -->
+      <div class="row">
+        <div class="span4 well">
+			(citizen search)
+        </div>
+        <div class="span7 well">
+            (proposal search)
+        </div>
+      </div>
+      <!-- **************** -->
+      <div class="row">
+        <div class="span4 well">
+			(invite a citizen)
+        </div>
+        <div class="span7 well">
+            <h3>Add a proposal</h3>        
+            <div wicket:id="proposalCreatePanel"></div>
+        </div>
+      </div>
     </div><!-- container -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.7.2.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap-alert.js"></script>	    
+    <div wicket:id="footerPanel"></div>   
   </body>
 </html>

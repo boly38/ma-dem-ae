@@ -20,7 +20,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 
-public class ProposalCreatePanel  extends Panel{
+public class ProposalCreatePanel extends Panel{
 
     private static final long serialVersionUID = 6343641923671807395L;
 
