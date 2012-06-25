@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -13,6 +14,8 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import com.appspot.mademocratie.client.common.FooterPanel;
+import com.appspot.mademocratie.client.common.HeaderPanel;
 import com.appspot.mademocratie.model.Proposal;
 import com.appspot.mademocratie.server.service.IProposal;
 import com.google.appengine.api.users.User;
@@ -29,8 +32,7 @@ public class HomePage extends WebPage {
     private final static Logger LOGGER = Logger.getLogger(HomePage.class.getName()); 
 	//~design
 	HomePage page;
-    private WebMarkupContainer container;	
-    private ProposalCreatePanel propCreatePanel;
+    private ProposalCreatePanel proposalCreatePanel;
     
     // ~services
     @Inject
@@ -49,8 +51,9 @@ public class HomePage extends WebPage {
 //    }
 	
     private void initComponents() {
+    	createCommons();
     	createHelloUser();
-        createPropFormPanel();
+        createProposalPanel();
         createProposalsList();
 //        setPagetitle();
 //        createFirstLevelNavigation();
@@ -59,6 +62,13 @@ public class HomePage extends WebPage {
 //        createNewAppButton();
 //        createAppsTable();
 
+    }
+    
+    private void createCommons() {
+    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", page);
+    	FooterPanel footerPanel = new FooterPanel("footerPanel", page);
+        add(headerPanel);
+        add(footerPanel);
     }
 
     private void createHelloUser() {
@@ -107,12 +117,9 @@ public class HomePage extends WebPage {
         }    	
     }
 
-	private void createPropFormPanel() {
-        container = new WebMarkupContainer("createPropContainer");
-        container.setOutputMarkupId(true);
-        propCreatePanel = new ProposalCreatePanel("propCreateForm", page);
-        container.add(propCreatePanel);
-        add(container);
+	private void createProposalPanel() {
+		proposalCreatePanel = new ProposalCreatePanel("proposalCreatePanel", page);
+        add(proposalCreatePanel);
     }   
 	
 	private void createProposalsList() {
@@ -154,7 +161,13 @@ public class HomePage extends WebPage {
                 if (proposalTitle != null && proposalTitle.length() > 30) {
                 	proposalTitle = proposalTitle.substring(0, 30).concat("...");
                 }
-                item.add(new Label("proposal", proposalTitle));
+                PageParameters params = new PageParameters();
+                params.set("proposalId", Proposal.getId());
+                BookmarkablePageLink<ProposalPage> proposalDetailsLink = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
+                item.add(proposalDetailsLink);
+                Label proposalLabel = new Label("proposalLabel", proposalTitle);
+                proposalDetailsLink.add(proposalLabel);                
+                //item.add(new Label("proposal", proposalTitle));
             }
         };
         add(messages);		

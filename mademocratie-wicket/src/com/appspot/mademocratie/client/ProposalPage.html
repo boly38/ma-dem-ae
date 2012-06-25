@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    	<link type="text/css" rel="stylesheet" href="css/MaDemocratie.css">
+    	<link type="text/css" rel="stylesheet" href="css/bootstrap.css">        
+        <title>MaDemocratie</title>
+    </head>
+    <body>
+    <div wicket:id="headerPanel"></div>
+    <div id="breadcrumbs" /><!-- wicket:id="breadcrumbs"  -->    
+    <div class="container">
+      <div class="row-fluid">
+       <div class="span12 well">
+<div class="tabbable">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tabDes" data-toggle="tab">Description</a></li>
+    <li><a href="#tabVot" data-toggle="tab">Votes</a></li>
+    <li><a href="#tabCom" data-toggle="tab">Comments</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabDes">
+      <p>&lt;Proposal description&gt;</p>
+    </div>
+    <div class="tab-pane" id="tabVot">
+      <p>&lt;Proposal votes&gt;</p>
+    </div>
+    <div class="tab-pane" id="tabCom">
+      <p>&lt;Proposal comments&gt;</p>
+    </div>
+  </div>
+</div>
+	   </div>
+	  </div>
+    </div><!-- container -->
+    <div wicket:id="footerPanel"></div>
+  </body>
+</html>
