@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
+import org.apache.wicket.util.string.StringValueConversionException;
 
 import com.appspot.mademocratie.client.common.FooterPanel;
 import com.appspot.mademocratie.client.common.HeaderPanel;
@@ -41,8 +42,13 @@ public class ProposalPage extends WebPage {
     
     private void createProposalDescription() {
     	PageParameters params = this.getPageParameters();
-    	StringValue propIdStr = (params != null ? params.get("proposalId") : null);
-    	Long propId = (propIdStr != null ? propIdStr.toLong() : null);
+    	StringValue propIdStr = (params != null ? params.get("id") : null);
+    	Long propId = null;
+    	try {
+    		propId = (propIdStr != null ? propIdStr.toLong() : null);
+    	} catch (StringValueConversionException nfe) {
+    		// nothing
+    	}
     	Proposal p = (propId != null ? proposalRepo.get(propId) : null);
     	if (p == null) {
     		getSession().error("Unable to retrieve the proposal");

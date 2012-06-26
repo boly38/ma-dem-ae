@@ -27,7 +27,10 @@ public class MaDemocratieApp extends WebApplication {
 	}
 
     protected void mountBookmarks() {
-    	mountPage("proposal", ProposalPage.class);
+    	mountPage("proposal/${id}", ProposalPage.class);
+    	// TODO 
+    	// MixedParamUrlCodingStrategy proposalUrl = new MixedParamUrlCodingStrategy("proposal",ProposalPage.class, new String[]{"id"}
+    	// mountPage(proposalUrl);
     	mountPage("addproposal", AddProposalPage.class);
     	// TOFIX annotation seems insufisant
         // AnnotatedMountScanner annotatedMountScanner = new AnnotatedMountScanner();
