@@ -6,6 +6,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.HttpSessionStore;
 import org.apache.wicket.session.ISessionStore;
 
+import com.appspot.mademocratie.client.AddProposalPage;
 import com.appspot.mademocratie.client.HomePage;
 import com.appspot.mademocratie.client.ProposalPage;
 
@@ -27,6 +28,7 @@ public class MaDemocratieApp extends WebApplication {
 
     protected void mountBookmarks() {
     	mountPage("proposal", ProposalPage.class);
+    	mountPage("addproposal", AddProposalPage.class);
     	// TOFIX annotation seems insufisant
         // AnnotatedMountScanner annotatedMountScanner = new AnnotatedMountScanner();
         // annotatedMountScanner.scanPackage("com.appspot.mademocratie.client").mount(this);
