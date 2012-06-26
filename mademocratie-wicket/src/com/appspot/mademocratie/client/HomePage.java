@@ -32,7 +32,6 @@ public class HomePage extends WebPage {
     private final static Logger LOGGER = Logger.getLogger(HomePage.class.getName()); 
 	//~design
 	HomePage page;
-    private ProposalCreatePanel proposalCreatePanel;
     
     // ~services
     @Inject
@@ -53,7 +52,6 @@ public class HomePage extends WebPage {
     private void initComponents() {
     	createCommons();
     	createHelloUser();
-        createProposalPanel();
         createProposalsList();
 //        setPagetitle();
 //        createFirstLevelNavigation();
@@ -117,11 +115,6 @@ public class HomePage extends WebPage {
         }    	
     }
 
-	private void createProposalPanel() {
-		proposalCreatePanel = new ProposalCreatePanel("proposalCreatePanel", page);
-        add(proposalCreatePanel);
-    }   
-	
 	private void createProposalsList() {
         // This LoadableDetachableModel allows the following ListView<Proposal> to always load the latest persisted
         // Proposal entities on-demand, without having to store any model data in the session when this Guestbook page
