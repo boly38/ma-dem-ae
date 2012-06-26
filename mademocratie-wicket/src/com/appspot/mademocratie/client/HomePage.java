@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -33,6 +34,7 @@ public class HomePage extends WebPage {
 	//~design
 	HomePage page;
     
+    private FeedbackPanel feedback;    
     // ~services
     @Inject
     private IProposal proposalsQueries;
@@ -50,6 +52,10 @@ public class HomePage extends WebPage {
 //    }
 	
     private void initComponents() {
+    	//      feedback = new FeedbackPanel("feedback", new ComponentFeedbackMessageFilter(this));
+	    feedback = new FeedbackPanel("feedback");
+	    feedback.setOutputMarkupId(true);
+	    add(feedback);    	
     	createCommons();
     	createHelloUser();
         createProposalsList();
@@ -155,7 +161,7 @@ public class HomePage extends WebPage {
                 	proposalTitle = proposalTitle.substring(0, 30).concat("...");
                 }
                 PageParameters params = new PageParameters();
-                params.set("proposalId", Proposal.getId());
+                params.set("id", Proposal.getId());
                 BookmarkablePageLink<ProposalPage> proposalDetailsLink = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
                 item.add(proposalDetailsLink);
                 Label proposalLabel = new Label("proposalLabel", proposalTitle);
