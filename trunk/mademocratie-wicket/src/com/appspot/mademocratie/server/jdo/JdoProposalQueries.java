@@ -1,4 +1,4 @@
-package com.appspot.mademocratie.server.service;
+package com.appspot.mademocratie.server.jdo;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.appspot.mademocratie.model.Proposal;
-import com.appspot.mademocratie.server.jdo.JdoQueries;
+import com.appspot.mademocratie.server.service.IProposal;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
