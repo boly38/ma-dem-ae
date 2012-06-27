@@ -13,12 +13,14 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.appspot.mademocratie.client.common.FooterPanel;
 import com.appspot.mademocratie.client.common.HeaderPanel;
 import com.appspot.mademocratie.model.Proposal;
-import com.appspot.mademocratie.server.service.IProposal;
+import com.appspot.mademocratie.server.service.IManageProposal;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -37,8 +39,12 @@ public class HomePage extends WebPage {
     private FeedbackPanel feedback;    
     // ~services
     @Inject
-    private IProposal proposalsQueries;
+    private IManageProposal manageProposals;
 
+    public HomePage() {
+        initComponents();
+        this.page = this;
+    }
     public HomePage(PageParameters params) {
         super(params);
 //        initServices();
@@ -52,28 +58,35 @@ public class HomePage extends WebPage {
 //    }
 	
     private void initComponents() {
-    	//      feedback = new FeedbackPanel("feedback", new ComponentFeedbackMessageFilter(this));
-	    feedback = new FeedbackPanel("feedback");
-	    feedback.setOutputMarkupId(true);
-	    add(feedback);    	
+	    createFeedback();
     	createCommons();
     	createHelloUser();
         createProposalsList();
 //        setPagetitle();
-//        createFirstLevelNavigation();
 //        createBreadCrumbs();
-//        createGlobalFeedbackPanel();
-//        createNewAppButton();
-//        createAppsTable();
-
     }
     
+    private void createFeedback() {
+    	//      feedback = new FeedbackPanel("feedback", new ComponentFeedbackMessageFilter(this));
+	    feedback = new FeedbackPanel("feedback");
+	    feedback.setOutputMarkupId(true);
+	    add(feedback);    	
+    }
+
     private void createCommons() {
     	HeaderPanel headerPanel = new HeaderPanel("headerPanel", page);
     	FooterPanel footerPanel = new FooterPanel("footerPanel", page);
         add(headerPanel);
         add(footerPanel);
     }
+    
+    private String getRequestUrl(){
+    	// src: https://cwiki.apache.org/WICKET/getting-a-url-for-display.html
+    	return RequestCycle.get().getUrlRenderer().renderFullUrl(
+    			   Url.parse(urlFor(HomePage.class,null).toString()));
+
+    }
+    
 
     private void createHelloUser() {
         UserService userService = UserServiceFactory.getUserService();
@@ -83,7 +96,7 @@ public class HomePage extends WebPage {
         String boLink = "https://appengine.google.com/dashboard?&app_id=s~ma-dem-ae";
         String loginUrl = userService.createLoginURL("/" + getRequest().getClientUrl());
         String logoutUrl = userService.createLogoutURL("/" + getRequest().getClientUrl());
-        if (loginUrl.contains("localhost")) {
+        if (getRequestUrl().contains("localhost")) {
         	boLink = "/_ah/admin";
         }
         
@@ -135,7 +148,7 @@ public class HomePage extends WebPage {
             protected List<Proposal> load()
             {
             	LOGGER.info("load proposals");
-                return proposalsQueries.latest(5);
+                return manageProposals.latest(5);
             }
         };
 
@@ -166,7 +179,6 @@ public class HomePage extends WebPage {
                 item.add(proposalDetailsLink);
                 Label proposalLabel = new Label("proposalLabel", proposalTitle);
                 proposalDetailsLink.add(proposalLabel);                
-                //item.add(new Label("proposal", proposalTitle));
             }
         };
         add(messages);		
