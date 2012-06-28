@@ -20,9 +20,9 @@ public class AddProposalPage extends WebPage {
     
     public AddProposalPage(PageParameters params) {
         super(params);
+        this.page = this;
 //        initServices();
         initComponents();
-        this.page = this;
     }
 
     private void initComponents() {
@@ -31,8 +31,8 @@ public class AddProposalPage extends WebPage {
     }  
 
 	private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", page);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", page);
+    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
+    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
         add(headerPanel);
         add(footerPanel);
     }

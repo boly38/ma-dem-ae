@@ -1,7 +1,10 @@
 package com.appspot.mademocratie.client.common;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
 public class HeaderPanel extends Panel {
     /**
@@ -17,7 +20,16 @@ public class HeaderPanel extends Panel {
     }
     
     private void initComponents() {
-    	// Nothing to do
+        WebMarkupContainer menuLiHome = new WebMarkupContainer("li-home");
+        add(menuLiHome);
+        WebMarkupContainer menuAHome = new WebMarkupContainer("a-home");
+        menuLiHome.add(menuAHome);
+        
+        String currentPage = this.parentPage.getClass().getSimpleName(); 
+        String appHomePage = getApplication().getHomePage().getSimpleName();
+        if (appHomePage.equals(currentPage)) {
+            menuLiHome.add(new AttributeAppender("class", new Model<String>("active")));
+        }
     }
 
 	public Page getParentPage() {

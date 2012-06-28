@@ -74,8 +74,8 @@ public class HomePage extends WebPage {
     }
 
     private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", page);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", page);
+    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
+    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
         add(headerPanel);
         add(footerPanel);
     }
