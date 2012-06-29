@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    	<link type="text/css" rel="stylesheet" href="css/bootstrap.css">        
+    	<link type="text/css" rel="stylesheet" href="css/MaDemocratie.css">
+        <title>MaDemocratie</title>
+    </head>
+    <body>
+    <div wicket:id="headerPanel"></div>    
+    <div class="container">
+      <div class="row-fluid" wicket:id="feedback">[[ feedback ]]</div>		
+      <!-- **************** -->
+      <div class="row">
+        <div class="span12 well">
+			<div class="page-header">
+  				<h3>Last proposals</h3>
+			</div>            	  
+            <div wicket:id="proposals">
+                <p><span style="font-weight: bold" wicket:id="author">somebody@somewhere</span> wrote:</p>
+            	<blockquote wicket:id="proposal"><a href="#" wicket:id="proposalLabel">some content</a></blockquote>
+            </div>
+        </div>
+      </div>
+    </div><!-- container -->
+    <div wicket:id="footerPanel"></div>   
+  </body>
+</html>
