@@ -1,7 +1,7 @@
 <html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://wicket.apache.org/ ">
 <wicket:panel>
-	<div class="navbar navbar-fixed-top">
+	<div class="navbar navbar-fixed-top" id="topmenu">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -11,20 +11,43 @@
           </a>
           <a class="brand" href="/">Ma-Dem-AE</a>
           <div class="nav-collapse collapse">
-            <ul class="nav"><!--  class="active" for the current menu  -->
-              <li wicket:id="li-home"><a wicket:id="a-home" href="/">Home</a></li>
-              <li><a href="#">My proposals</a></li>
+            <ul class="nav nav-pills"><!--  class="active" for the current menu  -->
+              <li wicket:id="li-home"><a wicket:id="a-home" href="/"><i class="icon-home icon-white"></i>home</a></li>
+              <li wicket:id="li-last"><a wicket:id="a-last" href="proposals">last proposals</a></li>
               <li class="divider-vertical"></li>
               <li>
                 <form class="navbar-form pull-left form-search">
 					<input type="text" class="input-medium search-query" placeholder="some text">
-					<button type="submit" class="btn"><i class="icon-search"></i> Search</button>
 				</form>              
               </li>
-              <li><a href="#about" class="pull-right">About</a></li>
-              <li><a href="#contact" class="pull-right"><i class="icon-envelope"></i> Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+			  <li wicket:id="li-search"><a wicket:id="a-search" href="#"><i class="icon-search icon-white"></i> search</a></li>
+			</ul>
+            <ul class="nav pull-right">			  
+			  <!-- *** user usermenu -->             
+			  <li class="dropdown" data-toggle="dropdown" id="usermenu">
+    <a class="dropdown-toggle" href="#usermenu">
+      <i class="icon-user icon-white"></i> Anonymous
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#"><i class="icon-plus-sign"></i> Connexion</a></li>
+      <li class="divider"></li>
+      <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+    </ul>
+			  </li><!-- *** /user usermenu -->
+			  <!-- *** helpmenu -->
+			  <li class="dropdown" data-toggle="dropdown" id="helpmenu">
+    <a class="dropdown-toggle" href="#helpmenu">
+      <i class="icon-question-sign icon-white"></i> Help
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="#">About</a></li>
+      <li><a href="#"><i class="icon-envelope"></i> Contact</a></li>
+    </ul>
+			  </li><!-- *** /helpmenu -->		         		  
+          </ul>
+         </div>    
         </div>
       </div>
     </div>
