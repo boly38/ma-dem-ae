@@ -6,6 +6,8 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
+import com.appspot.mademocratie.client.ProposalsPage;
+
 public class HeaderPanel extends Panel {
     /**
 	 * serialVersionUID
@@ -19,16 +21,32 @@ public class HeaderPanel extends Panel {
         initComponents();
     }
     
+    private void addActiveStyle(WebMarkupContainer webContainer) { {
+    	webContainer.add(new AttributeAppender("class", new Model<String>("active")));
+    }
+    	
+    }
+    
     private void initComponents() {
         WebMarkupContainer menuLiHome = new WebMarkupContainer("li-home");
         add(menuLiHome);
         WebMarkupContainer menuAHome = new WebMarkupContainer("a-home");
         menuLiHome.add(menuAHome);
-        
+        WebMarkupContainer menuLiLast = new WebMarkupContainer("li-last");
+        add(menuLiLast);
+        WebMarkupContainer menuALast = new WebMarkupContainer("a-last");
+        menuLiLast.add(menuALast);
+        WebMarkupContainer menuLiSearch = new WebMarkupContainer("li-search");
+        add(menuLiSearch);
+        WebMarkupContainer menuAsearch = new WebMarkupContainer("a-search");
+        menuLiSearch.add(menuAsearch);        
+
         String currentPage = this.parentPage.getClass().getSimpleName(); 
         String appHomePage = getApplication().getHomePage().getSimpleName();
         if (appHomePage.equals(currentPage)) {
-            menuLiHome.add(new AttributeAppender("class", new Model<String>("active")));
+        	addActiveStyle(menuLiHome);
+        } else if (currentPage.equals(ProposalsPage.class.getSimpleName())) {
+        	addActiveStyle(menuLiLast);
         }
     }
 
