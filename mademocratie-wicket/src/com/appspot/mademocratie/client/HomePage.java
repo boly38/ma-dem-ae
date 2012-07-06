@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -17,8 +16,7 @@ import org.apache.wicket.request.Url;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.appspot.mademocratie.client.common.FooterPanel;
-import com.appspot.mademocratie.client.common.HeaderPanel;
+import com.appspot.mademocratie.client.common.PageTemplate;
 import com.appspot.mademocratie.model.Proposal;
 import com.appspot.mademocratie.server.service.IManageProposal;
 import com.google.appengine.api.users.User;
@@ -26,7 +24,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 
-public class HomePage extends WebPage {
+public class HomePage extends PageTemplate {
     /**
 	 * serialUID
 	 */
@@ -42,6 +40,7 @@ public class HomePage extends WebPage {
     private IManageProposal manageProposals;
 
     public HomePage() {
+        super(new PageParameters());
         initComponents();
         this.page = this;
     }
@@ -53,7 +52,6 @@ public class HomePage extends WebPage {
 	
     private void initComponents() {
 	    createFeedback();
-    	createCommons();
     	createHelloUser();
         createProposalsList();
     }
@@ -64,13 +62,6 @@ public class HomePage extends WebPage {
 	    add(feedback);    	
     }
 
-    private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
-        add(headerPanel);
-        add(footerPanel);
-    }
-    
     private String getRequestUrl(){
     	// src: https://cwiki.apache.org/WICKET/getting-a-url-for-display.html
     	return RequestCycle.get().getUrlRenderer().renderFullUrl(
