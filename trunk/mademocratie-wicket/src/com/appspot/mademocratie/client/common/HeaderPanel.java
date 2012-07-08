@@ -1,32 +1,43 @@
 package com.appspot.mademocratie.client.common;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
 import com.appspot.mademocratie.client.ProposalsPage;
+import com.appspot.mademocratie.client.common.menu.LinkMenu;
+import com.appspot.mademocratie.client.common.menu.UserMenu;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 public class HeaderPanel extends Panel {
     /**
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 8262836430220919697L;
-	private Page parentPage;
+	private PageTemplate parentPage;
     
-    public HeaderPanel (String id, Page parentPage) {
+    public HeaderPanel (String id, PageTemplate parentPage) {
         super(id);
-        this.setParentPage(parentPage);
+        this.setParentPage(parentPage);    
         initComponents();
+        initUserMenu();
     }
     
-    private void addActiveStyle(WebMarkupContainer webContainer) { {
-    	webContainer.add(new AttributeAppender("class", new Model<String>("active")));
-    }
-    	
+    private void addActiveStyle(WebMarkupContainer webContainer) {
+    	webContainer.add(new AttributeAppender("class", new Model<String>("active")));    	
     }
     
+    private void initUserMenu() {
+        UserService userService = UserServiceFactory.getUserService();
+        // User user = userService.getCurrentUser();
+        if (userService.isUserLoggedIn()) {
+        	add(new UserMenu("user-menu"));
+        } else {
+        	add(new LinkMenu("user-menu", "sign-in !"));
+        }
+    }
     private void initComponents() {
         WebMarkupContainer menuLiHome = new WebMarkupContainer("li-home");
         add(menuLiHome);
@@ -50,11 +61,11 @@ public class HeaderPanel extends Panel {
         }
     }
 
-	public Page getParentPage() {
+	public PageTemplate getParentPage() {
 		return parentPage;
 	}
 
-	public void setParentPage(Page parentPage) {
+	public void setParentPage(PageTemplate parentPage) {
 		this.parentPage = parentPage;
 	}    
 }

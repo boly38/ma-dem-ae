@@ -1,12 +1,10 @@
 package com.appspot.mademocratie.client;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.appspot.mademocratie.client.common.FooterPanel;
-import com.appspot.mademocratie.client.common.HeaderPanel;
+import com.appspot.mademocratie.client.common.PageTemplate;
 
-public class AddProposalPage extends WebPage {
+public class AddProposalPage extends PageTemplate {
     /**
 	 * serialUID
 	 */
@@ -26,16 +24,8 @@ public class AddProposalPage extends WebPage {
     }
 
     private void initComponents() {
-    	createCommons();
     	createProposalPanel();
     }  
-
-	private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
-        add(headerPanel);
-        add(footerPanel);
-    }
     
 	private void createProposalPanel() {
 		proposalCreatePanel = new ProposalCreatePanel("proposalCreatePanel", page);

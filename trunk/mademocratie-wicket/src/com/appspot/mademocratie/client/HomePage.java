@@ -49,7 +49,7 @@ public class HomePage extends PageTemplate {
         initComponents();
         this.page = this;
     }
-	
+
     private void initComponents() {
 	    createFeedback();
     	createHelloUser();
@@ -117,7 +117,8 @@ public class HomePage extends PageTemplate {
     }
 
 	private void createProposalsList() {
-		BookmarkablePageLink<ProposalsPage> proposalsLink = new BookmarkablePageLink<ProposalsPage>("last-proposals", ProposalsPage.class, null);
+		BookmarkablePageLink<ProposalsPage> proposalsLink
+		  = new BookmarkablePageLink<ProposalsPage>("last-proposals", ProposalsPage.class, new PageParameters());
         add(proposalsLink);
         LoadableDetachableModel<List<Proposal>> latestProposals = new LoadableDetachableModel<List<Proposal>>() {
             /**
@@ -156,7 +157,8 @@ public class HomePage extends PageTemplate {
                 }
                 PageParameters params = new PageParameters();
                 params.set("id", Proposal.getId());
-                BookmarkablePageLink<ProposalPage> proposalDetailsLink = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
+                BookmarkablePageLink<ProposalPage> proposalDetailsLink
+                  = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
                 item.add(proposalDetailsLink);
                 Label proposalLabel = new Label("proposalLabel", proposalTitle);
                 proposalDetailsLink.add(proposalLabel);                

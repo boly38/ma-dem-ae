@@ -3,7 +3,6 @@ package com.appspot.mademocratie.client;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -12,13 +11,12 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import com.appspot.mademocratie.client.common.FooterPanel;
-import com.appspot.mademocratie.client.common.HeaderPanel;
+import com.appspot.mademocratie.client.common.PageTemplate;
 import com.appspot.mademocratie.model.Proposal;
 import com.appspot.mademocratie.server.service.IManageProposal;
 import com.google.inject.Inject;
 
-public class ProposalsPage extends WebPage {
+public class ProposalsPage extends PageTemplate {
     /**
 	 * serialUID
 	 */
@@ -34,9 +32,11 @@ public class ProposalsPage extends WebPage {
     private IManageProposal manageProposals;
 
     public ProposalsPage() {
+    	super(null);
         initComponents();
         this.page = this;
     }
+   
     public ProposalsPage(PageParameters params) {
         super(params);
         initComponents();
@@ -45,7 +45,6 @@ public class ProposalsPage extends WebPage {
 	
     private void initComponents() {
 	    createFeedback();
-    	createCommons();
         createProposalsList();
     }
     
@@ -53,13 +52,6 @@ public class ProposalsPage extends WebPage {
 	    feedback = new FeedbackPanel("feedback");
 	    feedback.setOutputMarkupId(true);
 	    add(feedback);    	
-    }
-
-    private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
-        add(headerPanel);
-        add(footerPanel);
     }
     
 	private void createProposalsList() {
