@@ -2,25 +2,24 @@ package com.appspot.mademocratie.client;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 import org.apache.wicket.util.string.StringValueConversionException;
 
-import com.appspot.mademocratie.client.common.FooterPanel;
-import com.appspot.mademocratie.client.common.HeaderPanel;
+import com.appspot.mademocratie.client.common.PageTemplate;
 import com.appspot.mademocratie.model.Proposal;
 import com.appspot.mademocratie.server.service.IRepository;
 import com.google.inject.Inject;
+import java.util.logging.Logger;
 
-public class ProposalPage extends WebPage {
+public class ProposalPage extends PageTemplate {
     /**
 	 * serialUID
 	 */
 	private static final long serialVersionUID = -8997275197440920875L;
 
-    // private final static Logger LOGGER = Logger.getLogger(ProposalPage.class.getName()); 
+    private final static Logger LOGGER = Logger.getLogger(ProposalPage.class.getName()); 
 	//~design
     ProposalPage page;
     
@@ -35,7 +34,6 @@ public class ProposalPage extends WebPage {
     }
 
     private void initComponents() {
-    	createCommons();
         createBreadCrumbs();
         createProposalDescription();
     }  
@@ -49,6 +47,7 @@ public class ProposalPage extends WebPage {
     	} catch (StringValueConversionException nfe) {
     		// nothing
     	}
+    	LOGGER.info("display proposal n°" + propId);
     	Proposal p = (propId != null ? proposalRepo.get(propId) : null);
     	if (p == null) {
     		getSession().error("Unable to retrieve the proposal");
@@ -72,15 +71,8 @@ public class ProposalPage extends WebPage {
     	
     	pDescContainer.setVisible(pDescString != null);
 	}
-
-	private void createCommons() {
-    	HeaderPanel headerPanel = new HeaderPanel("headerPanel", this);
-    	FooterPanel footerPanel = new FooterPanel("footerPanel", this);
-        add(headerPanel);
-        add(footerPanel);
-    }
     
     private void createBreadCrumbs() {
         // TODO breadcrumbs
-    }    
+    }   
 }

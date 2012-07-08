@@ -6,7 +6,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.appspot.mademocratie.server.MaDemocratieApp;
 
-public class PageTemplate extends WebPage {
+public abstract class PageTemplate extends WebPage {
     /**
 	 * serialVersionUID
 	 */
@@ -25,6 +25,7 @@ public class PageTemplate extends WebPage {
      * @param params - page parameters map
      */
     public PageTemplate(final PageParameters params) {
+    	super(params);
         this.params = params;
         app = (MaDemocratieApp)getApplication();
         createCommons();

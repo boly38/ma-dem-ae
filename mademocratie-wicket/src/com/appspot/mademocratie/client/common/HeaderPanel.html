@@ -12,32 +12,22 @@
           <a class="brand" href="/">Ma-Dem-AE</a>
           <div class="nav-collapse collapse">
             <ul class="nav nav-pills"><!--  class="active" for the current menu  -->
-              <li wicket:id="li-home"><a wicket:id="a-home" href="/"><i class="icon-home icon-white"></i>home</a></li>
-              <li wicket:id="li-last"><a wicket:id="a-last" href="proposals">last proposals</a></li>
+              <li wicket:id="li-home"><a wicket:id="a-home" href="/"><i class="icon-home icon-white"></i>&#160;home</a></li>
+              <li wicket:id="li-last"><a wicket:id="a-last" href="proposals">last prop.</a></li>
               <li class="divider-vertical"></li>
               <li>
                 <form class="navbar-form pull-left form-search">
-					<input type="text" class="input-medium search-query" placeholder="some text">
+					<input type="text" class="input-small search-query" placeholder="some text">
 				</form>              
               </li>
-			  <li wicket:id="li-search"><a wicket:id="a-search" href="#"><i class="icon-search icon-white"></i> search</a></li>
+			  <li wicket:id="li-search"><a wicket:id="a-search" href="#"><i class="icon-search icon-white"></i></a></li>
 			</ul>
-            <ul class="nav pull-right">			  
-			  <!-- *** user usermenu -->             
-			  <li class="dropdown" data-toggle="dropdown" id="usermenu">
-    <a class="dropdown-toggle" href="#usermenu">
-      <i class="icon-user icon-white"></i> Anonymous
-      <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="#"><i class="icon-plus-sign"></i> Connexion</a></li>
-      <li class="divider"></li>
-      <li><a href="#"><i class="icon-user"></i> Profile</a></li>
-    </ul>
-			  </li><!-- *** /user usermenu -->
+            <ul class="nav pull-right">
+              <li wicket:id="user-menu">
+              </li>            		  
 			  <!-- *** helpmenu -->
-			  <li class="dropdown" data-toggle="dropdown" id="helpmenu">
-    <a class="dropdown-toggle" href="#helpmenu">
+			  <li class="dropdown pull-right" id="help-menu-dropdown">
+    <a href="#help-menu-dropdown" class="dropdown-toggle" data-toggle="dropdown">
       <i class="icon-question-sign icon-white"></i> Help
       <b class="caret"></b>
     </a>
