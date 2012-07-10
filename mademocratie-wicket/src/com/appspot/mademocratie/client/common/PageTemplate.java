@@ -2,6 +2,8 @@ package com.appspot.mademocratie.client.common;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.appspot.mademocratie.server.MaDemocratieApp;
@@ -43,4 +45,11 @@ public abstract class PageTemplate extends WebPage {
         /* set head page title to display in browser title bar */
         add(new Label("head_page_title", "MaDemAe"));
     }
+
+    public String getRequestUrl(){
+    	// src: https://cwiki.apache.org/WICKET/getting-a-url-for-display.html
+    	return RequestCycle.get().getUrlRenderer().renderFullUrl(
+    			   Url.parse(urlFor(getClass(),null).toString()));
+
+    }    
 }

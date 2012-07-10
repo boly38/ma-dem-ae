@@ -6,17 +6,17 @@
       <fieldset>
        <div wicket:id="feedback">[[ feedback ]]</div>
        <div class="control-group">
-        <label class="control-label">Title</label>
+        <label class="control-label" for="title">Title</label>
         <div class="controls docs-input-sizes">
               <input class="span7" type="text" placeholder="proposal title" id="title" wicket:id="title" name="title">
         </div>        
        </div>
-       <div class="control-group">
-        <label class="control-label">Description</label>
-        <div class="controls docs-input-sizes">
-              (TO COME)
-        </div>        
-       </div>
+	   <div class="control-group">
+            <label class="control-label" for="content">Description</label>
+            <div class="controls">
+              <textarea class="input-xlarge" rows="3" placeholder="proposal content" id="content" wicket:id="content" name="content"></textarea>
+            </div>
+       </div>       
        <div class="control-group">
         <div class="controls docs-input-sizes">
        	 <a wicket:id="addPropButton"    name="propCreateSubmit" class="btn"><span>Create</span></a>

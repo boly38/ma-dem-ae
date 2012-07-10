@@ -7,6 +7,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -61,6 +62,11 @@ public class ProposalCreatePanel extends Panel{
         propTitle.setRequired(true);
         propTitle.add(StringValidator.maximumLength(140));
         propForm.add(propTitle);
+        
+        TextArea<String> propContent = new TextArea<String>("content");
+        propContent.setRequired(false);
+        propForm.add(propContent);
+        
 
         createFormButtons(propForm);
 

@@ -12,8 +12,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.Url;
-import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import com.appspot.mademocratie.client.common.PageTemplate;
@@ -61,14 +59,7 @@ public class HomePage extends PageTemplate {
 	    feedback.setOutputMarkupId(true);
 	    add(feedback);    	
     }
-
-    private String getRequestUrl(){
-    	// src: https://cwiki.apache.org/WICKET/getting-a-url-for-display.html
-    	return RequestCycle.get().getUrlRenderer().renderFullUrl(
-    			   Url.parse(urlFor(HomePage.class,null).toString()));
-
-    }
-    
+   
 
     private void createHelloUser() {
         UserService userService = UserServiceFactory.getUserService();
