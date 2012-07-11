@@ -6,6 +6,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.HttpSessionStore;
 import org.apache.wicket.session.ISessionStore;
 
+import com.appspot.mademocratie.client.AboutPage;
 import com.appspot.mademocratie.client.AddProposalPage;
 import com.appspot.mademocratie.client.HomePage;
 import com.appspot.mademocratie.client.ProposalPage;
@@ -28,6 +29,7 @@ public class MaDemocratieApp extends WebApplication {
 	}
 
     protected void mountBookmarks() {
+    	mountPage("about", AboutPage.class);
     	mountPage("addproposal", AddProposalPage.class);
     	mountPage("proposals", ProposalsPage.class);
     	mountPage("proposal/${id}", ProposalPage.class);
