@@ -1,0 +1,31 @@
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+<wicket:panel>
+    <div class="span8">
+     <form wicket:id="propForm" name="propForm" class="well form-horizontal">
+      <fieldset>
+       <div wicket:id="feedback">[[ feedback ]]</div>
+       <div class="control-group">
+        <label class="control-label" for="title">Title</label>
+        <div class="controls docs-input-sizes">
+              <input class="span7" type="text" placeholder="proposal title" id="title" wicket:id="title" name="title">
+        </div>        
+       </div>
+	   <div class="control-group">
+            <label class="control-label" for="content">Description</label>
+            <div class="controls">
+              <textarea class="input-xlarge" rows="3" placeholder="proposal content" id="content" wicket:id="content" name="content"></textarea>
+            </div>
+       </div>       
+       <div class="control-group">
+        <div class="controls docs-input-sizes">
+       	 <a wicket:id="addPropButton"    name="propCreateSubmit" class="btn"><span>Create</span></a>
+       	</div>   
+       </div>       
+      </fieldset>
+      	
+     </form>
+    </div>
+
+</wicket:panel>
+</html>

@@ -1,0 +1,83 @@
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+    <wicket:extend>    
+    <div class="container">
+      <div class="row">
+      	<div class="span12" wicket:id="feedback">[[ feedback ]]</div>
+      </div>		
+      <div class="row">
+       <div class="span12">
+		<div class="alert alert-info" wicket:id="hello-user">
+			<button type="button" class="close" data-dismiss="alert">x</button>
+	    	Hello, <span wicket:id="user">user</span>! (You can <a wicket:id="sign-out" href="#">sign out</a>.)
+		</div>		
+		<div class="alert fade in">
+  			<button type="button" class="close" data-dismiss="alert">x</button>
+  			<strong><i class="icon-warning-sign"></i> Warning!</strong> This site is under construction...
+		</div>  		
+		<div class="alert alert-info" wicket:id="hello-anon">
+		  	<button type="button" class="close" data-dismiss="alert">x</button>
+	    	Hello! <a wicket:id="sign-in" href="#">Sign in</a> to include your name with proposals you post.
+		</div>
+		<div class="alert fade in" wicket:id="special-admin">
+  			<button type="button" class="close" data-dismiss="alert">x</button>
+  			<strong><i class="icon-info-sign"></i> Tip</strong> As administrator, you can go to the <a wicket:id="link-backoffice" href="#" target="_new">back office </a>
+		</div>  		
+	   </div>
+	  </div>
+      <!-- **************** --><!-- TO COME
+      <div class="row">
+        <div class="span6 compo">
+			<div class="page-header">
+  				<h3>Citizen of the week</h3>
+			</div>            	  
+			(...)
+        </div>
+        <div class="span6 compo">
+			<div class="page-header">
+  				<h3>Proposals of the week</h3>
+			</div>            	  
+            (...)
+        </div>
+      </div>
+      -->
+      <!-- **************** -->
+      <div class="row">
+        <div class="span6 compo">
+			<i>TO COME : invite a citizen</i>
+        </div>
+        <div class="span6 compo">
+        	<a class="btn btn-info" href="addproposal">Add a proposal</a>
+        </div>
+      </div>      
+      <!-- **************** -->
+      <div class="row">
+        <div class="span6 compo">
+			<div class="page-header">
+  				<h3>New citizens</h3>
+			</div>
+			<i>TO COME</i>            	  
+        </div>
+        <div class="span5 well compo">
+			<div class="page-header">
+  				<h3><a href="#" wicket:id="last-proposals">Last proposals</a></h3>
+			</div>            	  
+            <div wicket:id="proposals">
+                <p><span style="font-weight: bold" wicket:id="author">somebody@somewhere</span> wrote:</p>
+            	<blockquote wicket:id="proposal"><a href="#" wicket:id="proposalLabel">some content</a></blockquote>
+            </div>
+        </div>
+      </div>
+      <!-- **************** --><!-- TO COME
+      <div class="row">
+        <div class="span6 compo">
+			(citizen search)
+        </div>
+        <div class="span6 compo">
+            (proposal search)
+        </div>
+      </div>
+      -->
+    </div><!-- container -->
+    </wicket:extend>
+</html>
