@@ -53,6 +53,13 @@
       </pluginRepository>
   </pluginRepositories>
   <repositories>
+      <repository><!-- com.google.appengine:appengine-local-runtime:jar: -->
+          <id>maven2-repository.seasar.org</id>
+          <name>seasar.org Repository for Maven</name>
+          <url>http://maven.seasar.org/maven2/</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+      </repository>
       <repository>
           <id>sonatype</id>
           <url>http://repository.sonatype.org</url>
