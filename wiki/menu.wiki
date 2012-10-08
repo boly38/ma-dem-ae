@@ -1,1 +1,2 @@
-* [[MaDemAe]]
+* [[MaDemAe]] : _project description_
+* [[References]] :_usefull links_
