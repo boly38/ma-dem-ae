@@ -9,6 +9,10 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(ManageProposalImpl.class)
 public interface IManageProposal {
 
+    /**
+     * add a new proposal to the database
+     * @param inputProposal
+     */
 	public void addProposal(Proposal inputProposal);
 
     /**
