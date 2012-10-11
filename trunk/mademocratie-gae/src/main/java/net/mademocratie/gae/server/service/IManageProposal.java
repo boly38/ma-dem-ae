@@ -1,10 +1,10 @@
 package net.mademocratie.gae.server.service;
 
-import java.util.List;
-
+import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
-import com.google.inject.ImplementedBy;
+
+import java.util.List;
 
 @ImplementedBy(ManageProposalImpl.class)
 public interface IManageProposal {
@@ -21,5 +21,10 @@ public interface IManageProposal {
      * @param max the maximum number of proposals to return
      * @return the proposals
      */
-    List<Proposal> latest(int max);	
+    List<Proposal> latest(int max);
+
+    /**
+     * remove all proposals from the repository (test usage only)
+     */
+    void removeAll();
 }

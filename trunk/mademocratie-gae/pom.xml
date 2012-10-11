@@ -28,6 +28,8 @@
     <gae.port>8080</gae.port>
     <wicket.version>6.0.0</wicket.version>
     <datanucleus.version>3.1.1</datanucleus.version>
+    <junit.version>4.8.2</junit.version>
+    <mockito.version>1.8.5</mockito.version>
   </properties>
 
   <pluginRepositories>
@@ -285,7 +287,13 @@
       <dependency>
           <groupId>com.google.appengine</groupId>
           <artifactId>appengine-api-1.0-sdk</artifactId>
-          <version>1.7.0</version>
+          <version>${gae.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.appengine</groupId>
+          <artifactId>appengine-testing</artifactId>
+          <version>${gae.version}</version>
+          <scope>test</scope>
       </dependency>
       <dependency>
           <groupId>com.google.appengine.orm</groupId>
@@ -308,6 +316,26 @@
           <version>3.0.1</version>
       </dependency>
 
+      <!-- test dependencies are always included -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <!-- Spring TestContext 2.5.6 only supports JUnit 4.4 see http://jira.springframework.org/browse/SPR-5145 -->
+          <version>${junit.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-all</artifactId>
+          <version>${mockito.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>${mockito.version}</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
 </project>

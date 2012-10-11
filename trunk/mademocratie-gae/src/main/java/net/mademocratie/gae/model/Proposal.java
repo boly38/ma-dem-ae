@@ -1,17 +1,10 @@
 package net.mademocratie.gae.model;
 
+import com.google.appengine.api.users.User;
+
+import javax.jdo.annotations.*;
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.NullValue;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.annotations.Query;
-
-import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 @Query(name="latestProposals",
@@ -77,4 +70,15 @@ public class Proposal implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("proposal[");
+        sb.append("id:").append(id);
+        sb.append(", title:").append(title);
+        sb.append(", author:").append(author);
+        sb.append(", content:").append(content);
+        sb.append("]");
+        return sb.toString();
+    }
 }
