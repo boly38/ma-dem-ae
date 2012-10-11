@@ -13,4 +13,9 @@ public interface IManageCitizen {
      * @param inputCitizen
      */
     public void addCitizen(Citizen inputCitizen);
+
+    /**
+     * remove all citizen from the repository (test usage only)
+     */
+    void removeAll();
 }
