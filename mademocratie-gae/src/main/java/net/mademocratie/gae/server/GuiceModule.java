@@ -1,5 +1,7 @@
 package net.mademocratie.gae.server;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.jdo.JdoProposalQueries;
 import net.mademocratie.gae.server.jdo.JdoProposalRepository;
@@ -8,8 +10,6 @@ import net.mademocratie.gae.server.service.IManageProposal;
 import net.mademocratie.gae.server.service.IProposal;
 import net.mademocratie.gae.server.service.IRepository;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 
 public class GuiceModule extends AbstractModule {
 

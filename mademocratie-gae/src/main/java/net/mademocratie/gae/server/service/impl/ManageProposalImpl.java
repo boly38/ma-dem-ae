@@ -1,17 +1,20 @@
 package net.mademocratie.gae.server.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IManageProposal;
-import net.mademocratie.gae.server.service.IProposal;
-import net.mademocratie.gae.server.service.IRepository;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IManageProposal;
+import net.mademocratie.gae.server.service.IProposal;
+import net.mademocratie.gae.server.service.IRepository;
 
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @DevInProgress
+ */
 public class ManageProposalImpl implements IManageProposal {
     // ~services
     @Inject
@@ -23,7 +26,7 @@ public class ManageProposalImpl implements IManageProposal {
 	@Override
 	public void addProposal(Proposal inputProposal) {
     	UserService userService = UserServiceFactory.getUserService();
-    	User user = userService.getCurrentUser();                
+    	User user = userService.getCurrentUser();
     	inputProposal.setAuthor(user);
 		inputProposal.setDate(new Date());
 		inputProposal.setAuthor(user);
@@ -36,4 +39,16 @@ public class ManageProposalImpl implements IManageProposal {
 		return proposalsQueries.latest(max);
 	}
 
+    @Override
+    public void removeAll() {
+        // TODO : implement me
+    }
+
+    public void setProposalsQueries(IProposal proposalsQueries) {
+        this.proposalsQueries = proposalsQueries;
+    }
+
+    public void setProposalRepo(IRepository<Proposal> proposalRepo) {
+        this.proposalRepo = proposalRepo;
+    }
 }
