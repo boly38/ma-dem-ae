@@ -45,6 +45,9 @@ public class ManageProposalImplIT extends BaseIT {
         manageProposal.removeAll();
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     public void testAddProposal() throws Exception {
         Proposal testProposal = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
@@ -57,6 +60,9 @@ public class ManageProposalImplIT extends BaseIT {
         Assert.assertEquals("just created proposal content has been updated",PROPOSAL_CONTENT, testProposal.getContent());
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
     public void testLatest() throws Exception {
         Proposal testProposal = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
