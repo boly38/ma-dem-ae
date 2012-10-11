@@ -22,7 +22,7 @@
     -->
     <gae.version>1.7.0</gae.version>
 
-    <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
+      <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
     <gae.application.version>test</gae.application.version>
     <!-- port defaults to 8080 -->
     <gae.port>8080</gae.port>
@@ -30,6 +30,7 @@
     <datanucleus.version>3.1.1</datanucleus.version>
     <junit.version>4.8.2</junit.version>
     <mockito.version>1.8.5</mockito.version>
+    <skipUTs>false</skipUTs>
   </properties>
 
   <pluginRepositories>
@@ -111,6 +112,35 @@
   </profiles>
 
   <build>
+    <pluginManagement>
+        <plugins>
+        <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Fork to be sure that context are clean (avoid transaction problems) -->
+                            <forkMode>always</forkMode>
+                            <argLine>-Xmx512m -XX:MaxPermSize=256m</argLine>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+          <plugin>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <configuration>
+                  <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
+                  <!-- see properties for further details -->
+                  <skipTests>${skipUTs}</skipTests>
+              </configuration>
+          </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <!--
         The actual maven-gae-plugin. Type "mvn gae:run" to run project, "mvn gae:update"
@@ -197,6 +227,9 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
