@@ -20,10 +20,11 @@ public class ManageCitizenImpl implements IManageCitizen {
     @Inject
     private IRepository<Citizen> citizenRepo;
 
+    private UserService userService = UserServiceFactory.getUserService();
+
 
     @Override
     public Citizen suggestCitizen() {
-        UserService userService = UserServiceFactory.getUserService();
         User user = userService.getCurrentUser();
         Citizen suggestCitizen = new Citizen();
         if (user != null) {
@@ -50,4 +51,7 @@ public class ManageCitizenImpl implements IManageCitizen {
         this.citizenRepo = citizenRepo;
     }
 
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

@@ -1,10 +1,11 @@
-package net.mademocratie.gae.server.service.impl;
+package net.mademocratie.gae.server.service.impl.it;
 
 import junit.framework.Assert;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.GuiceModule;
 import net.mademocratie.gae.server.jdo.JdoCitizenQueries;
 import net.mademocratie.gae.server.jdo.JdoCitizenRepository;
+import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 import net.mademocratie.gae.test.GuiceJUnitRunner;
 import org.junit.After;
 import org.junit.Before;
