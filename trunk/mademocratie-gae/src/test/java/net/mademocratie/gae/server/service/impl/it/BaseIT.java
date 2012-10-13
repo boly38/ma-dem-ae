@@ -1,4 +1,4 @@
-package net.mademocratie.gae.server.service.impl;
+package net.mademocratie.gae.server.service.impl.it;
 
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
