@@ -1,14 +1,13 @@
 package net.mademocratie.gae.server.jdo;
 
-import java.util.List;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IProposal;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IProposal;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import java.util.List;
 
 public class JdoProposalQueries extends JdoQueries<Proposal> implements IProposal
 {

@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-@Query(name="latestProposals",
-       value="select from net.mademocratie.gae.model.Proposal order by date desc range 0,5")
+// @Query(name="latestProposals",
+//       value="select from net.mademocratie.gae.model.Proposal order by date desc range 0,5")
 public class Proposal implements Serializable {
 
 	/**

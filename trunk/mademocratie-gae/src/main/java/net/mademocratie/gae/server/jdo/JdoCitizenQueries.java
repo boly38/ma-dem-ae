@@ -18,6 +18,19 @@ public class JdoCitizenQueries extends JdoQueries<Citizen> implements ICitizen
     }
 
     @Override
+    public Citizen findByEmail(String emailParam) {
+        Citizen c = null;
+        Query query = newQuery();
+        query.setFilter("email == emailParam");
+        try {
+             c = (Citizen) query.execute(emailParam);
+        } finally {
+            query.closeAll();
+        }
+        return c;
+    }
+
+    @Override
     public List<Citizen> latest(int max)
     {
         Query query = newQuery();

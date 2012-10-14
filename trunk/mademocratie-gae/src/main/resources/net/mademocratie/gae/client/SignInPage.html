@@ -1,0 +1,43 @@
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+    <wicket:extend>     
+    <div class="container">
+      <div class="row">
+      	<div class="span12" wicket:id="feedback">[[ feedback ]]</div>
+      </div>	
+      <!-- **************** -->
+      <div class="row">
+        <div class="span12 well">
+			<div class="page-header">
+  				<h3>Sign In</h3>
+			</div>
+            <p>
+                <i>Not already register ? please  <wicket:link><a href="registerPage.html">Register</a></wicket:link></i>
+            </p>
+            <form wicket:id = "signInForm">
+                <table>
+                    <tr>
+                        <td align = "right">Username:</td>
+                        <td>
+                            <input wicket:id = "username" type = "text" value = "foo@goo.moo" size = "30"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align = "right">Password:</td>
+                        <td>
+                            <input wicket:id = "password" type = "password" value = "password" size="30"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type = "submit" value = "Sign In"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+      </div>
+    </div><!-- container -->
+    </wicket:extend>
+</html>

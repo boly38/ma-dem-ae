@@ -9,6 +9,8 @@ import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IRepository;
 
+import java.util.List;
+
 
 /**
  * @DevInProgress
@@ -39,8 +41,22 @@ public class ManageCitizenImpl implements IManageCitizen {
     }
 
     @Override
+    public List<Citizen> latest(int max) {
+        return citizensQueries.latest(max);
+    }
+
+    @Override
     public void removeAll() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Citizen authenticateCitizen(String email, String password) {
+        Citizen citizen = citizensQueries.findByEmail(email);
+        if (citizen.isPasswordEqualsTo(password)) {
+            return citizen;
+        }
+        return null;
     }
 
     public void setCitizensQueries(ICitizen citizensQueries) {
