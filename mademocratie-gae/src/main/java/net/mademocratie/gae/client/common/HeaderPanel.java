@@ -1,21 +1,20 @@
 package net.mademocratie.gae.client.common;
 
+import net.mademocratie.gae.client.ProposalsPage;
+import net.mademocratie.gae.client.common.menu.LinkMenu;
+import net.mademocratie.gae.client.common.menu.UserMenu;
+import net.mademocratie.gae.server.CitizenSession;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
-
-import net.mademocratie.gae.client.ProposalsPage;
-import net.mademocratie.gae.client.common.menu.LinkMenu;
-import net.mademocratie.gae.client.common.menu.UserMenu;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 
 public class HeaderPanel extends Panel {
     /**
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 8262836430220919697L;
+
 	private PageTemplate parentPage;
     
     public HeaderPanel (String id, PageTemplate parentPage) {
@@ -30,9 +29,9 @@ public class HeaderPanel extends Panel {
     }
     
     private void initUserMenu() {
-        UserService userService = UserServiceFactory.getUserService();
         // User user = userService.getCurrentUser();
-        if (userService.isUserLoggedIn()) {
+        CitizenSession session = (CitizenSession)getSession();
+        if (session.isSignedIn()) {
         	add(new UserMenu("user-menu"));
         } else {
         	add(new LinkMenu("user-menu", "sign-in !"));
