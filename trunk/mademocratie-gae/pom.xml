@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>net.mademocratie.gae</groupId>
   <artifactId>mademocratie-gae</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1-2-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>ma-dem-ae</name>
@@ -149,9 +149,15 @@
       <plugin>
         <groupId>net.kindleit</groupId>
         <artifactId>maven-gae-plugin</artifactId>
-        <version>0.9.3</version>
+        <version>0.9.4</version>
         <configuration>
           <sdkDir>${gae.home}</sdkDir>
+            <!-- http://code.google.com/p/maven-gae-plugin/issues/detail?id=38
+           <jvmFlags>
+            <jvmFlag>-Xdebug</jvmFlag>
+            <jvmFlag>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000</jvmFlag>
+          </jvmFlags>
+          -->
         </configuration>
           <dependencies>
               <dependency>
@@ -166,7 +172,7 @@
             <artifactId>maven-datanucleus-plugin</artifactId>
             <version>3.0.2</version>
             <configuration>
-                <mappingIncludes>**/jdo/*.class</mappingIncludes>
+                <!-- <mappingIncludes>**/jdo/*.class</mappingIncludes> -->
                 <verbose>true</verbose>
                 <enhancerName>ASM</enhancerName>
                 <api>JDO</api>

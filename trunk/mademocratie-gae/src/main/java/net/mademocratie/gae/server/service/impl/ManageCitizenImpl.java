@@ -5,17 +5,20 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IRepository;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 /**
  * @DevInProgress
  */
 public class ManageCitizenImpl implements IManageCitizen {
+    private final static Logger LOGGER = Logger.getLogger(ManageCitizenImpl.class.getName());
     // ~services
     @Inject
     private ICitizen citizensQueries;
@@ -53,10 +56,23 @@ public class ManageCitizenImpl implements IManageCitizen {
     @Override
     public Citizen authenticateCitizen(String email, String password) {
         Citizen citizen = citizensQueries.findByEmail(email);
-        if (citizen.isPasswordEqualsTo(password)) {
+        if (citizen != null
+         && citizen.isPasswordEqualsTo(password)) {
             return citizen;
         }
         return null;
+    }
+
+    @Override
+    public boolean signInCitizen(CitizenSession session, String email, String password) {
+        Citizen authCitizen =  authenticateCitizen(email, password);
+        if (authCitizen != null) {
+            LOGGER.info(authCitizen.getEmail() + " sign in");
+            session.setCitizen(authCitizen);
+            return true;
+        }
+        LOGGER.info("unable to sign in with the following email : " + email);
+        return false;
     }
 
     public void setCitizensQueries(ICitizen citizensQueries) {

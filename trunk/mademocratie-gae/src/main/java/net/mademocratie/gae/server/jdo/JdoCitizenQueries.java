@@ -22,12 +22,13 @@ public class JdoCitizenQueries extends JdoQueries<Citizen> implements ICitizen
         Citizen c = null;
         Query query = newQuery();
         query.setFilter("email == emailParam");
+        List<Citizen> citizens = null;
         try {
-             c = (Citizen) query.execute(emailParam);
+             citizens = toList(query.execute(emailParam));
         } finally {
             query.closeAll();
         }
-        return c;
+        return (citizens != null && citizens.size() > 0 ? citizens.get(0) : null);
     }
 
     @Override

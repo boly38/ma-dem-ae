@@ -2,6 +2,7 @@ package net.mademocratie.gae.server.service;
 
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 
 import java.util.List;
@@ -39,4 +40,13 @@ public interface IManageCitizen {
      * @return
      */
     Citizen authenticateCitizen(String email, String password);
+
+    /**
+     * Sign in a citizen an store it into the given session or return false;
+     * @param session
+     * @param email
+     * @param password
+     * @return
+     */
+    boolean signInCitizen(CitizenSession session, String email, String password);
 }
