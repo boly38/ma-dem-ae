@@ -6,8 +6,10 @@ package net.mademocratie.gae.client;/**
  * To change this template use File | Settings | File Templates.
  */
 
+import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.server.CitizenSession;
+import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -24,6 +26,9 @@ import org.apache.wicket.util.value.ValueMap;
  * @version : $
  */
 public class SignInPage extends PageTemplate {
+    // ~services
+    @Inject
+    private IManageCitizen manageCitizen;
     /**
      * Constructor
      */
@@ -76,7 +81,7 @@ public class SignInPage extends PageTemplate {
             CitizenSession session = getMySession();
 
             // Sign the user in
-            if (session.signIn(getUsername(), getPassword()))
+            if (manageCitizen.signInCitizen(session, getUsername(), getPassword()))
             {
                 /*
                 if (!continueToOriginalDestination())

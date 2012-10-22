@@ -82,7 +82,8 @@ public class MaDemocratieApp extends WebApplication {
         mountPage("about", AboutPage.class);
         mountPage("signin", SignInPage.class);
         mountPage("signout", SignOutPage.class);
-    	mountPage("addproposal", AddProposalPage.class);
+        mountPage("register", RegisterPage.class);
+        mountPage("addproposal", AddProposalPage.class);
     	mountPage("proposals", ProposalsPage.class);
     	mountPage("proposal/${id}", ProposalPage.class);
     	// TO FIX annotation seems insufisant

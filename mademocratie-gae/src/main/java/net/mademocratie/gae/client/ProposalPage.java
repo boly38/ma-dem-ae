@@ -47,7 +47,7 @@ public class ProposalPage extends PageTemplate {
     	} catch (StringValueConversionException nfe) {
     		// nothing
     	}
-    	LOGGER.info("display proposal n�" + propId);
+    	LOGGER.info("display proposal number " + propId);
     	Proposal p = (propId != null ? proposalRepo.get(propId) : null);
     	if (p == null) {
     		getSession().error("Unable to retrieve the proposal");
