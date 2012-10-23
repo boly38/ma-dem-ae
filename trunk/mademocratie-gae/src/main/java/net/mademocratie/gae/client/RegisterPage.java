@@ -3,13 +3,17 @@ package net.mademocratie.gae.client;
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.server.service.IManageCitizen;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 
+import java.util.logging.Logger;
+
 public class RegisterPage extends PageTemplate {
+    private final static Logger LOGGER = Logger.getLogger(RegisterPage.class.getName());
     // ~services
     @Inject
     private IManageCitizen manageCitizen;
@@ -25,8 +29,14 @@ public class RegisterPage extends PageTemplate {
         // Create feedback panel and add to page
         add(new FeedbackPanel("feedback"));
 
-        // Add sign-in form to page
+        WebMarkupContainer helloAnon = new WebMarkupContainer("header-info");
+        add(helloAnon);
+
+        // Add register form to page
         add(new RegisterForm("registerForm"));
+
+        // Add register form to page
+        add(new RegisterUsingGoogleForm("registerUsingGoogleForm"));
     }
 
     /**
@@ -34,7 +44,8 @@ public class RegisterPage extends PageTemplate {
      */
     public final class RegisterForm extends Form<Void>
     {
-        private static final String USERNAME = "username";
+        private static final String PSEUDO = "pseudo";
+        private static final String EMAIL = "email";
 
         // El-cheapo model for form
         private final ValueMap properties = new ValueMap();
@@ -45,29 +56,54 @@ public class RegisterPage extends PageTemplate {
          * @param id
          *            id of the form component
          */
-        public RegisterForm(final String id)
-        {
+        public RegisterForm(final String id) {
             super(id);
 
             // Attach textfield components that edit properties map model
-            add(new TextField<String>(USERNAME, new PropertyModel<String>(properties, USERNAME)));
+            add(new TextField<String>(PSEUDO, new PropertyModel<String>(properties, PSEUDO)));
+            add(new TextField<String>(EMAIL, new PropertyModel<String>(properties, EMAIL)));
         }
 
         /**
          * @see org.apache.wicket.markup.html.form.Form#onSubmit()
          */
         @Override
-        public final void onSubmit()
-        {
+        public final void onSubmit() {
+            LOGGER.info("register email=" + getEmail() + " pseudo=" + getPseudo());
             // register TODO
         }
 
-        /**
-         * @return
-         */
-        private String getUsername()
+        private String getEmail() {
+            return properties.getString(EMAIL);
+        }
+
+        private String getPseudo()
         {
-            return properties.getString(USERNAME);
+            return properties.getString(PSEUDO);
+        }
+    }
+
+    /**
+     * Sign in form
+     */
+    public final class RegisterUsingGoogleForm extends Form<Void> {
+        /**
+         * Constructor
+         *
+         * @param id
+         *            id of the form component
+         */
+        public RegisterUsingGoogleForm(final String id) {
+            super(id);
+        }
+
+        /**
+         * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+         */
+        @Override
+        public final void onSubmit() {
+            LOGGER.info("register using google");
+            // register TODO
         }
     }
 }
