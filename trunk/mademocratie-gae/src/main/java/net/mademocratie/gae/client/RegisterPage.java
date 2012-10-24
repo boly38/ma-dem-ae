@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -87,6 +88,7 @@ public class RegisterPage extends PageTemplate {
      * Sign in form
      */
     public final class RegisterUsingGoogleForm extends Form<Void> {
+        private boolean showButton = false;
         /**
          * Constructor
          *
@@ -95,6 +97,12 @@ public class RegisterPage extends PageTemplate {
          */
         public RegisterUsingGoogleForm(final String id) {
             super(id);
+            add(new Button("gg-button") {
+                @Override
+                public boolean isVisible() {
+                    return showButton;
+                }
+            });
         }
 
         /**
