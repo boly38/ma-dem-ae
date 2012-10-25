@@ -3,6 +3,7 @@ package net.mademocratie.gae.server.service.impl;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,10 @@ public class ManageCitizenImplTest {
 
     @Mock UserService userService;
 
+    @SuppressWarnings({"UnusedDeclaration"})
+    @Mock private ICitizen citizensQueries;
+
+    @SuppressWarnings({"UnusedDeclaration"})
     @Mock private IRepository<Citizen> citizenIRepository;
 
     @InjectMocks ManageCitizenImpl manageCitizen = new ManageCitizenImpl();
@@ -41,6 +46,12 @@ public class ManageCitizenImplTest {
         MockitoAnnotations.initMocks(this);
         User user = new User(USER_EMAIL, USER_DOMAIN, USER_PSEUDO);
         when(userService.getCurrentUser()).thenReturn(user);
+    }
+
+    @Test
+    public void testLatest() {
+        manageCitizen.latest(100);
+        verify(citizensQueries).latest(100);
     }
 
     @Test
