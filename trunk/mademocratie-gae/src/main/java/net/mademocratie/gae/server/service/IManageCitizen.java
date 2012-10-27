@@ -1,7 +1,9 @@
 package net.mademocratie.gae.server.service;
 
+import com.google.appengine.api.users.User;
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.model.ImplementationInProgressException;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 
@@ -14,11 +16,6 @@ public interface IManageCitizen {
      * @return
      */
     Citizen suggestCitizen();
-    /**
-     * add a new citizen to the database
-     * @param inputCitizen
-     */
-    void addCitizen(Citizen inputCitizen);
 
     /**
      * Return the latest citizens, ordered by descending date.
@@ -49,4 +46,13 @@ public interface IManageCitizen {
      * @return
      */
     boolean signInCitizen(CitizenSession session, String email, String password);
+
+    User getGoogleUser();
+
+    String getGoogleLoginURL(String destination);
+    String getGoogleLogoutURL(String destination);
+
+    void register(String pseudo, User googleUser) throws ImplementationInProgressException;
+
+    void register(String pseudo, String email) throws ImplementationInProgressException;
 }

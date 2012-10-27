@@ -50,9 +50,34 @@
                 <form wicket:id="registerUsingGoogleForm">
                     <table>
                         <tr>
+                            <td align="right">Google account:</td>
+                            <td>
+                                <div wicket:id="googleOut">
+                                    <a wicket:id="signIn-google" href="#">sign in</a>.
+                                </div>
+                                <div wicket:id="googleIn">
+                                    <i class="icon-user icon-white"></i> user <span wicket:id="gguser">google</span>
+                                    &#160;&#160;
+                                    <a wicket:id="signOut-google" href="#">signOut</a>.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Pseudo:</td>
+                            <td>
+                                <input wicket:id = "pseudo" type="text" value="frite aux four" size="30"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Email:</td>
+                            <td>
+                                <input wicket:id = "email" type="text" value="" size="30"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
-                                <input type="button" wicket:id="gg-button" value="Register with google account"/>
+                                <input type="submit" wicket:id="gg-button" value="Register with google account"/>
                             </td>
                         </tr>
                     </table>

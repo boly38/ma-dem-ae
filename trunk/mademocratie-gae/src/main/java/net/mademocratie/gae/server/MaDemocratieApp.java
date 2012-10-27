@@ -1,7 +1,9 @@
 package net.mademocratie.gae.server;
 
+import com.google.inject.Inject;
 import net.mademocratie.gae.client.*;
 import net.mademocratie.gae.client.common.AuthenticatedWebPage;
+import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
@@ -17,7 +19,12 @@ import org.apache.wicket.session.HttpSessionStore;
 import org.apache.wicket.session.ISessionStore;
 
 public class MaDemocratieApp extends WebApplication {
-    // private static final Logger logger = Logger.getLogger(MaDemocratieApp.class.getName());	
+    // private static final Logger logger = Logger.getLogger(MaDemocratieApp.class.getName());
+
+    // TODO : find why inject does work here
+    @Inject
+    private IManageCitizen manageCitizen;
+
 	@Override
 	public Class<? extends Page> getHomePage() {
 		return HomePage.class;
@@ -29,7 +36,7 @@ public class MaDemocratieApp extends WebApplication {
     @Override
     public Session newSession(Request request, Response response)
     {
-        return new CitizenSession(request);
+        return new CitizenSession(request, manageCitizen);
     }
 
 	@Override
