@@ -5,6 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.model.ImplementationInProgressException;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
@@ -38,8 +39,11 @@ public class ManageCitizenImpl implements IManageCitizen {
         return suggestCitizen;
     }
 
-    @Override
-    public void addCitizen(Citizen inputCitizen) {
+    /**
+     * add a new citizen to the database
+     * @param inputCitizen
+     */
+    void addCitizen(Citizen inputCitizen) {
         citizenRepo.persist(inputCitizen);
     }
 
@@ -74,6 +78,33 @@ public class ManageCitizenImpl implements IManageCitizen {
         LOGGER.info("unable to sign in with the following email : " + email);
         return false;
     }
+
+    @Override
+    public User getGoogleUser() {
+        return userService.getCurrentUser();
+    }
+
+    @Override
+    public String getGoogleLoginURL(String destination) {
+        return userService.createLoginURL(destination);
+    }
+
+    @Override
+    public String getGoogleLogoutURL(String destination) {
+        return userService.createLogoutURL(destination);
+    }
+
+    @Override
+    public void register(String pseudo, User googleUser) throws ImplementationInProgressException {
+        throw new ImplementationInProgressException("dev in progress...");
+    }
+
+    @Override
+    public void register(String pseudo, String email) throws ImplementationInProgressException {
+        throw new ImplementationInProgressException("dev in progress...");
+    }
+
+    //~ getters && setters
 
     public void setCitizensQueries(ICitizen citizensQueries) {
         this.citizensQueries = citizensQueries;

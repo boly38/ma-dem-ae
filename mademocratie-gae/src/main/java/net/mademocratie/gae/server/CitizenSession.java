@@ -1,6 +1,5 @@
 package net.mademocratie.gae.server;
 
-import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
@@ -10,12 +9,11 @@ import org.apache.wicket.request.Request;
 public class CitizenSession extends AuthenticatedWebSession {
     private Citizen citizen;
 
-    // TODO : find why inject does work here
-    @Inject
     private IManageCitizen manageCitizen;
 
-    public CitizenSession(Request request) {
+    public CitizenSession(Request request, IManageCitizen manageCitizen) {
         super(request);
+        this.manageCitizen = manageCitizen;
     }
 
     @Override

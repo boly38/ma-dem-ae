@@ -11,7 +11,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.mademocratie.gae.client.common.PageTemplate;
@@ -63,48 +62,19 @@ public class HomePage extends PageTemplate {
 
     private void createHelloUser() {
         UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();
-
 
         String boLink = "https://appengine.google.com/dashboard?&app_id=s~ma-dem-ae";
-        String loginUrl = userService.createLoginURL("/" + getRequest().getClientUrl());
-        String logoutUrl = userService.createLogoutURL("/" + getRequest().getClientUrl());
         if (getRequestUrl().contains("localhost")) {
         	boLink = "/_ah/admin";
         }
         
-        WebMarkupContainer helloUser = new WebMarkupContainer("hello-user");
-        add(helloUser);
-
-        WebMarkupContainer helloAnon = new WebMarkupContainer("hello-anon");
-        add(helloAnon);
-        
         WebMarkupContainer specialAdmin = new WebMarkupContainer("special-admin");
         add(specialAdmin);
-
-        Label userNickname = new Label("user");
-        helloUser.add(userNickname);
-
-        ExternalLink signOut = new ExternalLink("sign-out", logoutUrl);
-        helloUser.add(signOut);
-
-        ExternalLink signIn = new ExternalLink("sign-in", loginUrl);
-        helloAnon.add(signIn);
         
     	ExternalLink linkBackOffice = new ExternalLink("link-backoffice", boLink);
     	specialAdmin.add(linkBackOffice);
 
        	specialAdmin.setVisible((userService.isUserLoggedIn() && userService.isUserAdmin()));
-
-        if (user != null)
-        {
-            userNickname.setDefaultModel(new Model<String>(user.getNickname()));
-            helloAnon.setVisible(false);
-        }
-        else
-        {
-            helloUser.setVisible(false);
-        }    	
     }
 
 	private void createProposalsList() {
