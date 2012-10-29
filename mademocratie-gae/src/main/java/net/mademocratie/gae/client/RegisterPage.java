@@ -3,7 +3,7 @@ package net.mademocratie.gae.client;
 import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
-import net.mademocratie.gae.model.ImplementationInProgressException;
+import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -77,7 +77,7 @@ public class RegisterPage extends PageTemplate {
             LOGGER.info("register email=" + getEmail() + " pseudo=" + getPseudo());
             try {
                 manageCitizen.register(getPseudo(), getEmail());
-            } catch (ImplementationInProgressException e) {
+            } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
         }
@@ -157,10 +157,6 @@ public class RegisterPage extends PageTemplate {
 
         }
 
-        private String getEmail() {
-            return properties.getString(EMAIL);
-        }
-
         private String getPseudo() {
             return properties.getString(PSEUDO);
         }
@@ -174,7 +170,7 @@ public class RegisterPage extends PageTemplate {
             LOGGER.info("register " + getPseudo() + " using google " + googleUser.getEmail());
             try {
                 manageCitizen.register(getPseudo(), googleUser);
-            } catch (ImplementationInProgressException e) {
+            } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
         }

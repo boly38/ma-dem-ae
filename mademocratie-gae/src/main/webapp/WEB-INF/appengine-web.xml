@@ -6,8 +6,8 @@ xsi:schemaLocation="http://appengine.google.com/ns/1.0 http://googleappengine.go
     <version>0-3-alpha</version>
 
     <system-properties>
-        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-        <property name="log4j.configuration" value="WEB-INF/log4j.properties"/>
+        <property name="log4j.configuration" value="WEB-INF/classes/log4j.properties"/>
+        <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties"/>
     </system-properties>
 
     <sessions-enabled>true</sessions-enabled>

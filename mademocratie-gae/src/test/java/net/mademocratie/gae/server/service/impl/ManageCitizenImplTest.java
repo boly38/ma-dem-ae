@@ -3,6 +3,7 @@ package net.mademocratie.gae.server.service.impl;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.exception.CitizenAlreadyExistsException;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IRepository;
 import org.junit.Before;
@@ -67,9 +68,21 @@ public class ManageCitizenImplTest {
     }
 
     @Test
-    public void testAddCitizen() {
+    public void testAddCitizen() throws CitizenAlreadyExistsException {
         Citizen inputCitizen = new Citizen(null, USER_PSEUDO, "toto", USER_EMAIL, "location");
         manageCitizen.addCitizen(inputCitizen);
         verify(citizenIRepository).persist(inputCitizen);
+    }
+
+    @Test(expected = CitizenAlreadyExistsException.class)
+    public void testAddCitizenThatAlReadyExists() throws CitizenAlreadyExistsException {
+        when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(null);
+
+        Citizen inputCitizen = new Citizen(null, USER_PSEUDO, "toto", USER_EMAIL, "location");
+        manageCitizen.addCitizen(inputCitizen);
+        verify(citizenIRepository).persist(inputCitizen);
+        when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(inputCitizen);
+
+        manageCitizen.addCitizen(inputCitizen);
     }
 }
