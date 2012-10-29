@@ -5,12 +5,15 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
-import net.mademocratie.gae.model.ImplementationInProgressException;
 import net.mademocratie.gae.server.CitizenSession;
+import net.mademocratie.gae.server.exception.CitizenAlreadyExistsException;
+import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IRepository;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,7 +46,10 @@ public class ManageCitizenImpl implements IManageCitizen {
      * add a new citizen to the database
      * @param inputCitizen
      */
-    void addCitizen(Citizen inputCitizen) {
+    void addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
+        if (citizensQueries.findByEmail(inputCitizen.getEmail()) != null) {
+            throw new CitizenAlreadyExistsException();
+        }
         citizenRepo.persist(inputCitizen);
     }
 
@@ -94,14 +100,35 @@ public class ManageCitizenImpl implements IManageCitizen {
         return userService.createLogoutURL(destination);
     }
 
-    @Override
-    public void register(String pseudo, User googleUser) throws ImplementationInProgressException {
-        throw new ImplementationInProgressException("dev in progress...");
+    private void registerCitizen(Citizen c) throws RegisterFailedException {
+        try {
+            addCitizen(c);
+        } catch (CitizenAlreadyExistsException e) {
+            LOGGER.warning("CitizenAlreadyExistsException while register citizen " + c.toString() + " : " + e.getMessage());
+            throw new RegisterFailedException("Unable to register with this email, you should already been registred.");
+        }
+    }
+
+
+    public String generateRandomPassword(int size) {
+        SecureRandom random = new SecureRandom();
+        String str = "pw-" + new BigInteger(130, random).toString(32);
+        if (str != null && str.length()>size) {
+            return str.substring(0,size);
+        }
+        return str;
     }
 
     @Override
-    public void register(String pseudo, String email) throws ImplementationInProgressException {
-        throw new ImplementationInProgressException("dev in progress...");
+    public void register(String pseudo, User googleUser) throws RegisterFailedException {
+        Citizen newCitizen = new Citizen(googleUser, pseudo, generateRandomPassword(10), googleUser.getEmail(), null);
+        registerCitizen(newCitizen);
+    }
+
+    @Override
+    public void register(String pseudo, String email) throws RegisterFailedException {
+        Citizen newCitizen = new Citizen(null, pseudo, generateRandomPassword(10), email, null);
+        registerCitizen(newCitizen);
     }
 
     //~ getters && setters
