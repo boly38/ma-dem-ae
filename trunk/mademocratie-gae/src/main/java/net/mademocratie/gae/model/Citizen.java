@@ -35,6 +35,8 @@ public class Citizen implements Serializable {
     @Unique
     private String email;
 
+    private boolean emailValidated = false;
+
     @Persistent
     private String location;
 
@@ -104,12 +106,23 @@ public class Citizen implements Serializable {
         this.date = date;
     }
 
+    public boolean isEmailValidated() {
+        return emailValidated;
+    }
+
+    public void setEmailValidated(boolean emailValidated) {
+        this.emailValidated = emailValidated;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("citizen[");
         sb.append("id:").append(id);
         sb.append(", pseudo:").append(pseudo);
         sb.append(", email:").append(email);
+        if (!emailValidated) {
+            sb.append(" *non validated*");
+        }
         sb.append(", location:").append(location);
         sb.append("]");
         return sb.toString();
