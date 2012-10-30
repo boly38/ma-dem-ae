@@ -12,9 +12,17 @@ import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IRepository;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 
@@ -30,6 +38,8 @@ public class ManageCitizenImpl implements IManageCitizen {
     private IRepository<Citizen> citizenRepo;
 
     private UserService userService = UserServiceFactory.getUserService();
+    private static final String MADEM_FROM_EMAIL = "info@mademocratie.net";
+    private static final String MADEM_FROM_NAME = "MaDémocratie";
 
 
     @Override
@@ -103,9 +113,31 @@ public class ManageCitizenImpl implements IManageCitizen {
     private void registerCitizen(Citizen c) throws RegisterFailedException {
         try {
             addCitizen(c);
+            notifCitizen(c);
         } catch (CitizenAlreadyExistsException e) {
             LOGGER.warning("CitizenAlreadyExistsException while register citizen " + c.toString() + " : " + e.getMessage());
             throw new RegisterFailedException("Unable to register with this email, you should already been registred.");
+        }
+    }
+
+    private void notifCitizen(Citizen c) {
+        Properties props = new Properties();
+        // props.put("mail.smtp.host", "smtp");
+        // props.put("mail.smtp.port", 25);
+
+        Session session = Session.getDefaultInstance(props);
+        Message msg = new MimeMessage(session);
+        try {
+            msg.setFrom(new InternetAddress(MADEM_FROM_EMAIL, MADEM_FROM_NAME));
+            msg.addRecipient(Message.RecipientType.TO,
+                             new InternetAddress(c.getEmail(), c.getPseudo()));
+            msg.setSubject("Welcome on MaDemocratie.net");
+            msg.setText("pouet");
+            Transport.send(msg);
+        } catch (MessagingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
