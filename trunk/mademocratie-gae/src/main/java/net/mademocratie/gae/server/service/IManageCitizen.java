@@ -52,7 +52,7 @@ public interface IManageCitizen {
     String getGoogleLoginURL(String destination);
     String getGoogleLogoutURL(String destination);
 
-    void register(String pseudo, User googleUser) throws RegisterFailedException;
+    void register(String destination, String pseudo, User googleUser) throws RegisterFailedException;
 
-    void register(String pseudo, String email) throws RegisterFailedException;
+    void register(String destination, String pseudo, String email) throws RegisterFailedException;
 }

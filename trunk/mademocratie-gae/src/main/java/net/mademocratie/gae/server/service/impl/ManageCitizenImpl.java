@@ -47,14 +47,14 @@ public class ManageCitizenImpl implements IManageCitizen {
         User user = userService.getCurrentUser();
         Citizen suggestCitizen = new Citizen();
         if (user != null) {
-            suggestCitizen = new Citizen(user, user.getNickname(), "", user.getEmail(), "");
+            suggestCitizen = new Citizen(user.getNickname(), user, "", user.getEmail(), "");
         }
         return suggestCitizen;
     }
 
     /**
      * add a new citizen to the database
-     * @param inputCitizen
+     * @param inputCitizen citizen to add
      */
     void addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
         if (citizensQueries.findByEmail(inputCitizen.getEmail()) != null) {
@@ -110,30 +110,49 @@ public class ManageCitizenImpl implements IManageCitizen {
         return userService.createLogoutURL(destination);
     }
 
-    private void registerCitizen(Citizen c) throws RegisterFailedException {
+
+    public String generateRandomString(int size) {
+        SecureRandom random = new SecureRandom();
+        String str = new BigInteger(130, random).toString(32);
+        if (str != null && str.length()>size) {
+            return str.substring(0,size);
+        }
+        return str;
+    }
+
+    private void registerCitizen(String destination, String pseudo, String email, User googleUser) throws RegisterFailedException {
+        Citizen newCitizen = new Citizen(pseudo, googleUser, generateRandomString(10), email, generateRandomString(32));
         try {
-            addCitizen(c);
-            notifCitizen(c);
+            addCitizen(newCitizen);
+            notifCitizen(newCitizen, destination);
         } catch (CitizenAlreadyExistsException e) {
-            LOGGER.warning("CitizenAlreadyExistsException while register citizen " + c.toString() + " : " + e.getMessage());
-            throw new RegisterFailedException("Unable to register with this email, you should already been registred.");
+            LOGGER.warning("CitizenAlreadyExistsException while register citizen " + newCitizen.toString() + " : " + e.getMessage());
+            throw new RegisterFailedException("Unable to register with this email, you should already been registered.");
         }
     }
 
-    private void notifCitizen(Citizen c) {
+    private void notifCitizen(Citizen c, String destination) {
+        String targetLink = destination + "/ak/" + c.getCitizenStateData();
+        sendMail(c.getEmail(),
+                 c.getPseudo(),
+                "Welcome on MaDemocratie.net",
+                "To complete your registration, please follow this link : " + targetLink);
+    }
+
+    private void sendMail(String toEmail, String toString, String title, String body) {
         Properties props = new Properties();
         // props.put("mail.smtp.host", "smtp");
         // props.put("mail.smtp.port", 25);
-
         Session session = Session.getDefaultInstance(props);
         Message msg = new MimeMessage(session);
         try {
             msg.setFrom(new InternetAddress(MADEM_FROM_EMAIL, MADEM_FROM_NAME));
             msg.addRecipient(Message.RecipientType.TO,
-                             new InternetAddress(c.getEmail(), c.getPseudo()));
-            msg.setSubject("Welcome on MaDemocratie.net");
-            msg.setText("pouet");
+                    new InternetAddress(toEmail, toString));
+            msg.setSubject(title);
+            msg.setText(body);
             Transport.send(msg);
+            LOGGER.info("sendMail to " + toEmail + " title=" + title + " body=" + body);
         } catch (MessagingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (UnsupportedEncodingException e) {
@@ -141,26 +160,14 @@ public class ManageCitizenImpl implements IManageCitizen {
         }
     }
 
-
-    public String generateRandomPassword(int size) {
-        SecureRandom random = new SecureRandom();
-        String str = "pw-" + new BigInteger(130, random).toString(32);
-        if (str != null && str.length()>size) {
-            return str.substring(0,size);
-        }
-        return str;
+    @Override
+    public void register(String destination, String pseudo, User googleUser) throws RegisterFailedException {
+        registerCitizen(destination, pseudo, googleUser.getEmail(), googleUser);
     }
 
     @Override
-    public void register(String pseudo, User googleUser) throws RegisterFailedException {
-        Citizen newCitizen = new Citizen(googleUser, pseudo, generateRandomPassword(10), googleUser.getEmail(), null);
-        registerCitizen(newCitizen);
-    }
-
-    @Override
-    public void register(String pseudo, String email) throws RegisterFailedException {
-        Citizen newCitizen = new Citizen(null, pseudo, generateRandomPassword(10), email, null);
-        registerCitizen(newCitizen);
+    public void register(String destination, String pseudo, String email) throws RegisterFailedException {
+        registerCitizen(destination, pseudo, email, null);
     }
 
     //~ getters && setters

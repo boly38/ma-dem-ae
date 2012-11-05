@@ -69,7 +69,7 @@ public class ManageCitizenImplTest {
 
     @Test
     public void testAddCitizen() throws CitizenAlreadyExistsException {
-        Citizen inputCitizen = new Citizen(null, USER_PSEUDO, "toto", USER_EMAIL, "location");
+        Citizen inputCitizen = new Citizen(USER_PSEUDO, null, "toto", USER_EMAIL, "location");
         manageCitizen.addCitizen(inputCitizen);
         verify(citizenIRepository).persist(inputCitizen);
     }
@@ -78,7 +78,7 @@ public class ManageCitizenImplTest {
     public void testAddCitizenThatAlReadyExists() throws CitizenAlreadyExistsException {
         when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(null);
 
-        Citizen inputCitizen = new Citizen(null, USER_PSEUDO, "toto", USER_EMAIL, "location");
+        Citizen inputCitizen = new Citizen(USER_PSEUDO, null, "toto", USER_EMAIL, "location");
         manageCitizen.addCitizen(inputCitizen);
         verify(citizenIRepository).persist(inputCitizen);
         when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(inputCitizen);

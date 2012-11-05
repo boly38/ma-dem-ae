@@ -36,23 +36,33 @@ public class Citizen implements Serializable {
     private String email;
 
     @Persistent
-    private CitizenState citizenState = CitizenState.CREATED;
+    private CitizenState citizenState;
+
+    /**
+     * depend on citizenState value :
+     * case CREATED : citizenStateData = registrationUniqueKey
+     * case ACTIVE  : citizenStateData = null
+     * case SUSPENDED : citizenStateData = (admin) reason
+     * case REMOVED : citizenStateData = date removed, old pseudo used, reason why removed.
+     */
+    @Persistent
+    private String citizenStateData;
 
     @Persistent
     private String location;
 
     public Citizen() {
         super();
-        date = new Date();
     }
 
-    public Citizen(User googleUser, String pseudo, String password, String email, String location) {
-        date = new Date();
-        this.googleUser = googleUser;
+    public Citizen(String pseudo, User googleUser, String password, String email, String accessKey) {
         this.pseudo = pseudo;
+        this.googleUser = googleUser;
         this.password = password;
         this.email = email;
-        this.location = location;
+        date = new Date();
+        citizenState = CitizenState.CREATED;
+        citizenStateData = accessKey;
     }
 
     public Long getId() {
@@ -113,6 +123,14 @@ public class Citizen implements Serializable {
 
     public void setCitizenState(CitizenState citizenState) {
         this.citizenState = citizenState;
+    }
+
+    public String getCitizenStateData() {
+        return citizenStateData;
+    }
+
+    public void setCitizenStateData(String citizenStateData) {
+        this.citizenStateData = citizenStateData;
     }
 
     public String toString() {
