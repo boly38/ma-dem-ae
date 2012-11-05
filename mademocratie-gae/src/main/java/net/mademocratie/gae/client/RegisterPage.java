@@ -76,7 +76,7 @@ public class RegisterPage extends PageTemplate {
         public final void onSubmit() {
             LOGGER.info("register email=" + getEmail() + " pseudo=" + getPseudo());
             try {
-                manageCitizen.register(getPseudo(), getEmail());
+                manageCitizen.register(getRequestUrl(), getPseudo(), getEmail());
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
@@ -169,7 +169,7 @@ public class RegisterPage extends PageTemplate {
             if (googleUser == null) return;
             LOGGER.info("register " + getPseudo() + " using google " + googleUser.getEmail());
             try {
-                manageCitizen.register(getPseudo(), googleUser);
+                manageCitizen.register(getRequestUrl(), getPseudo(), googleUser);
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
