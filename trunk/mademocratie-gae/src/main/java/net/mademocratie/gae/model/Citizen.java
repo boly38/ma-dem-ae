@@ -35,7 +35,8 @@ public class Citizen implements Serializable {
     @Unique
     private String email;
 
-    private boolean emailValidated = false;
+    @Persistent
+    private CitizenState citizenState = CitizenState.CREATED;
 
     @Persistent
     private String location;
@@ -106,12 +107,12 @@ public class Citizen implements Serializable {
         this.date = date;
     }
 
-    public boolean isEmailValidated() {
-        return emailValidated;
+    public CitizenState getCitizenState() {
+        return citizenState;
     }
 
-    public void setEmailValidated(boolean emailValidated) {
-        this.emailValidated = emailValidated;
+    public void setCitizenState(CitizenState citizenState) {
+        this.citizenState = citizenState;
     }
 
     public String toString() {
@@ -120,9 +121,10 @@ public class Citizen implements Serializable {
         sb.append("id:").append(id);
         sb.append(", pseudo:").append(pseudo);
         sb.append(", email:").append(email);
-        if (!emailValidated) {
+        if (citizenState.equals(CitizenState.CREATED)) {
             sb.append(" *non validated*");
         }
+        sb.append(", state:").append(citizenState.toString());
         sb.append(", location:").append(location);
         sb.append("]");
         return sb.toString();
