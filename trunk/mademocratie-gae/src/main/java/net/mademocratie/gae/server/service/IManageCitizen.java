@@ -4,6 +4,7 @@ import com.google.appengine.api.users.User;
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.CitizenSession;
+import net.mademocratie.gae.server.exception.MaDemocratieException;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 
@@ -52,7 +53,7 @@ public interface IManageCitizen {
     String getGoogleLoginURL(String destination);
     String getGoogleLogoutURL(String destination);
 
-    void register(String destination, String pseudo, User googleUser) throws RegisterFailedException;
-
-    void register(String destination, String pseudo, String email) throws RegisterFailedException;
+    Citizen register(String pseudo, User googleUser) throws RegisterFailedException;
+    Citizen register(String pseudo, String email) throws RegisterFailedException;
+    void registerNotifyCitizen(Citizen justRegisteredCitizen, String activateDestination) throws MaDemocratieException;
 }

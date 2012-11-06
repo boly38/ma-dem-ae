@@ -90,6 +90,7 @@ public class MaDemocratieApp extends WebApplication {
         mountPage("signin", SignInPage.class);
         mountPage("signout", SignOutPage.class);
         mountPage("register", RegisterPage.class);
+        mountPage("activate", ActivatePage.class);
         mountPage("addproposal", AddProposalPage.class);
     	mountPage("proposals", ProposalsPage.class);
     	mountPage("proposal/${id}", ProposalPage.class);
