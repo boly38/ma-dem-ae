@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.exception.CitizenAlreadyExistsException;
+import net.mademocratie.gae.server.exception.MaDemocratieException;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
@@ -56,11 +57,12 @@ public class ManageCitizenImpl implements IManageCitizen {
      * add a new citizen to the database
      * @param inputCitizen citizen to add
      */
-    void addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
+    Citizen addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
         if (citizensQueries.findByEmail(inputCitizen.getEmail()) != null) {
             throw new CitizenAlreadyExistsException();
         }
         citizenRepo.persist(inputCitizen);
+        return inputCitizen;
     }
 
     @Override
@@ -120,31 +122,31 @@ public class ManageCitizenImpl implements IManageCitizen {
         return str;
     }
 
-    private void registerCitizen(String destination, String pseudo, String email, User googleUser) throws RegisterFailedException {
+    private Citizen registerCitizen(String pseudo, String email, User googleUser) throws RegisterFailedException {
         Citizen newCitizen = new Citizen(pseudo, googleUser, generateRandomString(10), email, generateRandomString(32));
         try {
             addCitizen(newCitizen);
-            notifCitizen(newCitizen, destination);
         } catch (CitizenAlreadyExistsException e) {
             LOGGER.warning("CitizenAlreadyExistsException while register citizen " + newCitizen.toString() + " : " + e.getMessage());
             throw new RegisterFailedException("Unable to register with this email, you should already been registered.");
         }
+        return newCitizen;
     }
 
-    private void notifCitizen(Citizen c, String destination) {
-        String targetLink = destination + "/ak/" + c.getCitizenStateData();
-        sendMail(c.getEmail(),
-                 c.getPseudo(),
+    public void registerNotifyCitizen(Citizen justRegisteredCitizen, String activateDestination) throws MaDemocratieException {
+        sendMail(justRegisteredCitizen.getEmail(),
+                 justRegisteredCitizen.getPseudo(),
                 "Welcome on MaDemocratie.net",
-                "To complete your registration, please follow this link : " + targetLink);
+                "To complete your registration, please follow this link : " + activateDestination);
     }
 
-    private void sendMail(String toEmail, String toString, String title, String body) {
+    private void sendMail(String toEmail, String toString, String title, String body) throws MaDemocratieException {
         Properties props = new Properties();
         // props.put("mail.smtp.host", "smtp");
         // props.put("mail.smtp.port", 25);
         Session session = Session.getDefaultInstance(props);
         Message msg = new MimeMessage(session);
+        String sendMailLogStr = "sendMail to " + toEmail + " title=" + title + " body=" + body;
         try {
             msg.setFrom(new InternetAddress(MADEM_FROM_EMAIL, MADEM_FROM_NAME));
             msg.addRecipient(Message.RecipientType.TO,
@@ -152,22 +154,26 @@ public class ManageCitizenImpl implements IManageCitizen {
             msg.setSubject(title);
             msg.setText(body);
             Transport.send(msg);
-            LOGGER.info("sendMail to " + toEmail + " title=" + title + " body=" + body);
+            LOGGER.info(sendMailLogStr);
         } catch (MessagingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOGGER.severe("Exception while " + sendMailLogStr + ": " + e.getMessage());
+            e.printStackTrace();
+            throw new MaDemocratieException("Unable to send mail ; registration process is broken, please report this error to the support.");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOGGER.severe("Exception while " + sendMailLogStr + ": " + e.getMessage());
+            e.printStackTrace();
+            throw new MaDemocratieException("Unable to send mail ; registration process is broken, please report this error to the support.");
         }
     }
 
     @Override
-    public void register(String destination, String pseudo, User googleUser) throws RegisterFailedException {
-        registerCitizen(destination, pseudo, googleUser.getEmail(), googleUser);
+    public Citizen register(String pseudo, User googleUser) throws RegisterFailedException {
+        return registerCitizen(pseudo, googleUser.getEmail(), googleUser);
     }
 
     @Override
-    public void register(String destination, String pseudo, String email) throws RegisterFailedException {
-        registerCitizen(destination, pseudo, email, null);
+    public Citizen register(String pseudo, String email) throws RegisterFailedException {
+        return registerCitizen(pseudo, email, null);
     }
 
     //~ getters && setters

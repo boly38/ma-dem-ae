@@ -3,6 +3,8 @@ package net.mademocratie.gae.client;
 import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.exception.MaDemocratieException;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -13,6 +15,9 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.value.ValueMap;
 
 import java.util.logging.Logger;
@@ -42,6 +47,30 @@ public class RegisterPage extends PageTemplate {
 
         // Add register form to page
         add(new RegisterUsingGoogleForm("registerUsingGoogleForm"));
+    }
+
+
+    private String getNextStepUrl(Citizen jrc) {
+        PageParameters activateParameters = new PageParameters();
+        activateParameters.add(ActivatePage.PARAM_AK, jrc.getCitizenStateData());
+        activateParameters.add(ActivatePage.PARAM_CID, jrc.getId());
+        String absoluteUrl = RequestCycle.get().getUrlRenderer().renderFullUrl(
+                Url.parse(urlFor(ActivatePage.class, activateParameters).toString()));
+        return absoluteUrl;
+    }
+
+    private void registerCitizen(String pseudo, String email, User googleUser) throws RegisterFailedException {
+        Citizen justRegisteredCitizen = null;
+        if (googleUser != null) {
+            justRegisteredCitizen = manageCitizen.register(pseudo, googleUser);
+        } else {
+            justRegisteredCitizen = manageCitizen.register(pseudo, email);
+        }
+        try {
+            manageCitizen.registerNotifyCitizen(justRegisteredCitizen, getNextStepUrl(justRegisteredCitizen));
+        } catch (MaDemocratieException e) {
+            error(e.getMessage());
+        }
     }
 
     /**
@@ -76,7 +105,7 @@ public class RegisterPage extends PageTemplate {
         public final void onSubmit() {
             LOGGER.info("register email=" + getEmail() + " pseudo=" + getPseudo());
             try {
-                manageCitizen.register(getRequestUrl(), getPseudo(), getEmail());
+                registerCitizen(getPseudo(), getEmail(), null);
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
@@ -169,7 +198,7 @@ public class RegisterPage extends PageTemplate {
             if (googleUser == null) return;
             LOGGER.info("register " + getPseudo() + " using google " + googleUser.getEmail());
             try {
-                manageCitizen.register(getRequestUrl(), getPseudo(), googleUser);
+                registerCitizen(getPseudo(), googleUser.getEmail(), googleUser);
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
