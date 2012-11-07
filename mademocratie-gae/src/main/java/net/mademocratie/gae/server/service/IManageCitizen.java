@@ -56,4 +56,6 @@ public interface IManageCitizen {
     Citizen register(String pseudo, User googleUser) throws RegisterFailedException;
     Citizen register(String pseudo, String email) throws RegisterFailedException;
     void registerNotifyCitizen(Citizen justRegisteredCitizen, String activateDestination) throws MaDemocratieException;
+
+    Citizen getById(Long cId);
 }
