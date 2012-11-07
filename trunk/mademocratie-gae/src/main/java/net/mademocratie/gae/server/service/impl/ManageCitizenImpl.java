@@ -176,6 +176,11 @@ public class ManageCitizenImpl implements IManageCitizen {
         return registerCitizen(pseudo, email, null);
     }
 
+    @Override
+    public Citizen getById(Long cId) {
+        return citizenRepo.get(cId);
+    }
+
     //~ getters && setters
 
     public void setCitizensQueries(ICitizen citizensQueries) {

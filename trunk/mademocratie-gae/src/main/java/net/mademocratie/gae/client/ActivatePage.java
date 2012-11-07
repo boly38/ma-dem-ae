@@ -2,7 +2,9 @@ package net.mademocratie.gae.client;
 
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.util.logging.Logger;
@@ -33,12 +35,24 @@ public class ActivatePage extends PageTemplate {
         this.params = params;
         initComponents();
         setOutputMarkupId(true);
+        activationChecks();
     }
 
     private void initComponents() {
-        /**
-        Citizen justRegisteredCitizen = manageCitizen.find(params.get(PARAM_CID).toString());
-         */
+        // Create feedback panel and add to page
+        add(new FeedbackPanel("feedback"));
+
+    }
+    private void activationChecks() {
+        Long cId = params.get(PARAM_CID).toLong();
+        String activationKey = params.get(PARAM_AK).toString();
+        Citizen justRegisteredCitizen = manageCitizen.getById(cId);
+        if (justRegisteredCitizen == null
+         || !activationKey.equals(justRegisteredCitizen.getCitizenStateData())) {
+            error("Your activation link is deprecated, please login or register.");
+        } else {
+            success("Your the winner");
+        }
     }
 }
 
