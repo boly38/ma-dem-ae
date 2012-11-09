@@ -4,8 +4,10 @@ import com.google.appengine.api.users.User;
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.CitizenSession;
+import net.mademocratie.gae.server.exception.DeprecatedActivationLinkException;
 import net.mademocratie.gae.server.exception.MaDemocratieException;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
+import net.mademocratie.gae.server.exception.WrongActivationLinkException;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 
 import java.util.List;
@@ -58,4 +60,6 @@ public interface IManageCitizen {
     void registerNotifyCitizen(Citizen justRegisteredCitizen, String activateDestination) throws MaDemocratieException;
 
     Citizen getById(Long cId);
+
+    void activateCitizen(Long cId, String activationKey) throws DeprecatedActivationLinkException, WrongActivationLinkException;
 }
