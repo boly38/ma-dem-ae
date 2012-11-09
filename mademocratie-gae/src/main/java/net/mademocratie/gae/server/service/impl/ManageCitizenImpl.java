@@ -5,10 +5,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.model.CitizenState;
 import net.mademocratie.gae.server.CitizenSession;
-import net.mademocratie.gae.server.exception.CitizenAlreadyExistsException;
-import net.mademocratie.gae.server.exception.MaDemocratieException;
-import net.mademocratie.gae.server.exception.RegisterFailedException;
+import net.mademocratie.gae.server.exception.*;
 import net.mademocratie.gae.server.service.ICitizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IRepository;
@@ -22,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -179,6 +179,47 @@ public class ManageCitizenImpl implements IManageCitizen {
     @Override
     public Citizen getById(Long cId) {
         return citizenRepo.get(cId);
+    }
+
+    @Override
+    public void activateCitizen(Long cId, String activationKey) throws DeprecatedActivationLinkException, WrongActivationLinkException {
+        Citizen citizenToActivate = getById(cId);
+        activationCheckCitizenState(citizenToActivate);
+        if (activationKey != null && citizenToActivate.getCitizenStateData().equals(activationKey)) {
+            activateCitizen(citizenToActivate);
+        } else {
+            throw new WrongActivationLinkException();
+        }
+    }
+
+    private void activateCitizen(Citizen citizenToActivate) {
+        citizenToActivate.setCitizenState(CitizenState.ACTIVE);
+        citizenToActivate.setCitizenStateData((new Date()).toString());
+        citizenRepo.persist(citizenToActivate);
+    }
+
+    private void activationCheckCitizenState(Citizen justRegisteredCitizen) throws DeprecatedActivationLinkException {
+        if (justRegisteredCitizen == null) {
+            LOGGER.warning("deprecated activation link (citizen null)");
+            throw new DeprecatedActivationLinkException();
+        }
+        CitizenState citizenState = justRegisteredCitizen.getCitizenState();
+        if (citizenState == null) {
+            LOGGER.warning("activation link of a wrong state citizen " + justRegisteredCitizen);
+            throw new DeprecatedActivationLinkException();
+        }
+        if (CitizenState.SUSPENDED.equals(citizenState)) {
+            LOGGER.warning("activation link of a suspended citizen " + justRegisteredCitizen);
+            throw new DeprecatedActivationLinkException();
+        }
+        if (CitizenState.REMOVED.equals(citizenState)) {
+            LOGGER.warning("activation link of a removed citizen " + justRegisteredCitizen);
+            throw new DeprecatedActivationLinkException();
+        }
+        if (CitizenState.ACTIVE.equals(citizenState)) {
+            LOGGER.warning("activation link of an active citizen " + justRegisteredCitizen);
+            throw new DeprecatedActivationLinkException();
+        }
     }
 
     //~ getters && setters
