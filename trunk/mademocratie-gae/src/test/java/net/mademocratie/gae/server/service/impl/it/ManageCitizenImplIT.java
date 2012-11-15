@@ -28,8 +28,6 @@ public class ManageCitizenImplIT extends BaseIT {
     private static final Logger logger = Logger.getLogger(ManageCitizenImplIT.class.getName());
     private ManageCitizenImpl manageCitizen;
 
-    private static final String USERNAME = "test_charly";
-
     @Before
     public void setUp() {
         super.setUp();
@@ -44,7 +42,6 @@ public class ManageCitizenImplIT extends BaseIT {
     @After
     public void tearDown() {
         super.tearDown();
-        manageCitizen.removeAll();
     }
 
 

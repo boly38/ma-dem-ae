@@ -23,5 +23,6 @@ public class SignOutPage extends PageTemplate {
     public SignOutPage() {
         super(null);
         getSession().invalidate();
+        setResponsePage(getApplication().getHomePage());
     }
 }

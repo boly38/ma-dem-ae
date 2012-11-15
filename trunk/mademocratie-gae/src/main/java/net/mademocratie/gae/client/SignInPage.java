@@ -81,17 +81,9 @@ public class SignInPage extends PageTemplate {
             CitizenSession session = getMySession();
 
             // Sign the user in
-            if (manageCitizen.signInCitizen(session, getUsername(), getPassword()))
-            {
-                /*
-                if (!continueToOriginalDestination())
-                {
-                    setResponsePage(getApplication().getHomePage());
-                }
-                 */
-            }
-            else
-            {
+            if (manageCitizen.signInCitizen(session, getUsername(), getPassword())) {
+                setResponsePage(getApplication().getHomePage());
+            } else {
                 // Get the error message from the properties file associated with the Component
                 String errmsg = getString("loginError", null, "Unable to sign you in");
 
@@ -119,9 +111,9 @@ public class SignInPage extends PageTemplate {
         /**
          * @return
          */
-        private CitizenSession getMySession()
-        {
-            return (CitizenSession)getSession();
+        private CitizenSession getMySession() {
+            CitizenSession session = (CitizenSession)getSession();
+            return session;
         }
     }
 }

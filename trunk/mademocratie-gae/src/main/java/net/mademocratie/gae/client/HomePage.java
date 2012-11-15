@@ -1,8 +1,11 @@
 package net.mademocratie.gae.client;
 
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.inject.Inject;
+import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IManageProposal;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -13,13 +16,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.mademocratie.gae.client.common.PageTemplate;
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IManageProposal;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.inject.Inject;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class HomePage extends PageTemplate {
     /**
@@ -43,8 +41,17 @@ public class HomePage extends PageTemplate {
     }
     public HomePage(PageParameters params) {
         super(params);
-        initComponents();
         this.page = this;
+        initComponents();
+        initFeedback();
+    }
+
+    private void initFeedback() {
+        if (getFeedbackSuccess() != null) {
+            LOGGER.info("success:" + getFeedbackSuccess());
+            success(getFeedbackSuccess());
+            removeFeedbackSuccess();
+        }
     }
 
     private void initComponents() {
