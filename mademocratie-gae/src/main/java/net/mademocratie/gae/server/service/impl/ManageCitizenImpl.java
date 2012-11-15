@@ -71,11 +71,6 @@ public class ManageCitizenImpl implements IManageCitizen {
     }
 
     @Override
-    public void removeAll() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public Citizen authenticateCitizen(String email, String password) {
         Citizen citizen = citizensQueries.findByEmail(email);
         if (citizen != null
@@ -87,10 +82,14 @@ public class ManageCitizenImpl implements IManageCitizen {
 
     @Override
     public boolean signInCitizen(CitizenSession session, String email, String password) {
-        Citizen authCitizen =  authenticateCitizen(email, password);
-        if (authCitizen != null) {
-            LOGGER.info(authCitizen.getEmail() + " sign in");
-            session.setCitizen(authCitizen);
+        if (session.getManageCitizen() == null) {
+            // TODO : find a better way to inject manager
+            LOGGER.warning("setManageCitizen");
+            session.setManageCitizen(this);
+        }
+        boolean authenticated = session.signIn(email, password);
+        if (authenticated) {
+            LOGGER.info(email + " sign in");
             return true;
         }
         LOGGER.info("unable to sign in with the following email : " + email);
@@ -182,11 +181,12 @@ public class ManageCitizenImpl implements IManageCitizen {
     }
 
     @Override
-    public void activateCitizen(Long cId, String activationKey) throws DeprecatedActivationLinkException, WrongActivationLinkException {
-        Citizen citizenToActivate = getById(cId);
-        activationCheckCitizenState(citizenToActivate);
-        if (activationKey != null && citizenToActivate.getCitizenStateData().equals(activationKey)) {
-            activateCitizen(citizenToActivate);
+    public Citizen activateCitizenByKey(Long cId, String activationKey) throws DeprecatedActivationLinkException, WrongActivationLinkException {
+        Citizen citizen = getById(cId);
+        activationCheckCitizenState(citizen);
+        if (activationKey != null && citizen.getCitizenStateData().equals(activationKey)) {
+            activateCitizen(citizen);
+            return citizen;
         } else {
             throw new WrongActivationLinkException();
         }
@@ -220,6 +220,35 @@ public class ManageCitizenImpl implements IManageCitizen {
             LOGGER.warning("activation link of an active citizen " + justRegisteredCitizen);
             throw new DeprecatedActivationLinkException();
         }
+    }
+
+    private void changePasswordCheckCitizenState(Citizen citizen) throws ChangePasswordException {
+        if (citizen == null) {
+            LOGGER.warning("unable to change password of a null citizen");
+            throw new ChangePasswordException();
+        }
+        CitizenState citizenState = citizen.getCitizenState();
+        if (citizenState == null) {
+            LOGGER.warning("unable to change password of a wrong state citizen " + citizen);
+            throw new ChangePasswordException();
+        }
+        if (CitizenState.SUSPENDED.equals(citizenState)) {
+            LOGGER.warning("unable to change password of a suspended citizen " + citizen);
+            throw new ChangePasswordException("your account has been suspended, please contact administrator.");
+        }
+        if (CitizenState.REMOVED.equals(citizenState)) {
+            LOGGER.warning("\"unable to change password of a removed citizen " + citizen);
+            throw new ChangePasswordException("your account doesn't no more exist");
+        }
+    }
+
+
+    @Override
+    public void changeCitizenPassword(Long cId, String newPassword) throws ChangePasswordException {
+        Citizen citizen = getById(cId);
+        changePasswordCheckCitizenState(citizen);
+        citizen.setPassword(newPassword);
+        citizenRepo.persist(citizen);
     }
 
     //~ getters && setters

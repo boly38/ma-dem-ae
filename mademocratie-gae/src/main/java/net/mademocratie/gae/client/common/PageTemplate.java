@@ -1,5 +1,6 @@
 package net.mademocratie.gae.client.common;
 
+import net.mademocratie.gae.server.CitizenSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.Url;
@@ -8,7 +9,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.mademocratie.gae.server.MaDemocratieApp;
 
+import java.util.logging.Logger;
+
 public abstract class PageTemplate extends WebPage {
+    protected static Logger LOGGER = Logger.getLogger(PageTemplate.class.getName());
     /**
 	 * serialVersionUID
 	 */
@@ -51,5 +55,17 @@ public abstract class PageTemplate extends WebPage {
     	return RequestCycle.get().getUrlRenderer().renderFullUrl(
     			   Url.parse(urlFor(getClass(),null).toString()));
 
-    }    
+    }
+
+    public void addFeedbackSuccess(String msg) {
+        LOGGER.info("addFeedbackSuccess:"+msg);
+        ((CitizenSession) getSession()).setFeedbackSuccess(msg);
+    }
+    protected String getFeedbackSuccess() {
+        return ((CitizenSession) getSession()).getFeedbackSuccess();
+    }
+    protected void removeFeedbackSuccess() {
+        ((CitizenSession) getSession()).setFeedbackSuccess(null);
+    }
+
 }

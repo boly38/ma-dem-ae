@@ -106,6 +106,8 @@ public class RegisterPage extends PageTemplate {
             LOGGER.info("register email=" + getEmail() + " pseudo=" + getPseudo());
             try {
                 registerCitizen(getPseudo(), getEmail(), null);
+                addFeedbackSuccess("register succeeded, check your email.");
+                setResponsePage(getApplication().getHomePage());
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
@@ -199,6 +201,8 @@ public class RegisterPage extends PageTemplate {
             LOGGER.info("register " + getPseudo() + " using google " + googleUser.getEmail());
             try {
                 registerCitizen(getPseudo(), googleUser.getEmail(), googleUser);
+                addFeedbackSuccess("register succeeded, check your email.");
+                setResponsePage(getApplication().getHomePage());
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
             }
