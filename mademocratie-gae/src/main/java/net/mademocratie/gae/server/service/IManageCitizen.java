@@ -40,7 +40,7 @@ public interface IManageCitizen {
      * @param password
      * @return
      */
-    boolean signInCitizen(CitizenSession session, String email, String password);
+    boolean signInCitizen(String email, String password);
 
     User getGoogleUser();
 
@@ -56,4 +56,6 @@ public interface IManageCitizen {
     Citizen activateCitizenByKey(Long cId, String activationKey) throws DeprecatedActivationLinkException, WrongActivationLinkException;
 
     void changeCitizenPassword(Long cId, String newPassword) throws ChangePasswordException;
+
+    boolean signInGoogleCitizen();
 }

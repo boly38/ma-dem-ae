@@ -53,7 +53,7 @@ public class ManageProposalImplIT extends BaseIT {
     public void testAddProposal() throws Exception {
         Proposal testProposal = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
         logger.info("addProposal input " + testProposal.toString());
-        manageProposal.addProposal(testProposal);
+        manageProposal.addProposal(testProposal, null);
         logger.info("addProposal result " + testProposal.toString());
         Assert.assertNotNull("just created proposal is null", testProposal);
         Assert.assertNotNull("just created proposal don't have id", testProposal.getId());
@@ -67,7 +67,7 @@ public class ManageProposalImplIT extends BaseIT {
     @Test
     public void testLatest() throws Exception {
         Proposal testProposal = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
-        manageProposal.addProposal(testProposal);
+        manageProposal.addProposal(testProposal, null);
         List<Proposal> latestProposals = manageProposal.latest(10);
         Assert.assertNotNull("latest proposals List is null", latestProposals);
         int latestProposalsSize = latestProposals.size();

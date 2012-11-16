@@ -40,7 +40,7 @@ public class ManageCitizenImpl implements IManageCitizen {
 
     private UserService userService = UserServiceFactory.getUserService();
     private static final String MADEM_FROM_EMAIL = "info@mademocratie.net";
-    private static final String MADEM_FROM_NAME = "MaDémocratie";
+    private static final String MADEM_FROM_NAME = "MaDemocratie";
 
 
     @Override
@@ -48,7 +48,7 @@ public class ManageCitizenImpl implements IManageCitizen {
         User user = userService.getCurrentUser();
         Citizen suggestCitizen = new Citizen();
         if (user != null) {
-            suggestCitizen = new Citizen(user.getNickname(), user, "", user.getEmail(), "");
+            suggestCitizen = new Citizen(user.getNickname(), user);
         }
         return suggestCitizen;
     }
@@ -73,15 +73,23 @@ public class ManageCitizenImpl implements IManageCitizen {
     @Override
     public Citizen authenticateCitizen(String email, String password) {
         Citizen citizen = citizensQueries.findByEmail(email);
-        if (citizen != null
-         && citizen.isPasswordEqualsTo(password)) {
+        if (citizen == null) {
+            LOGGER.warning("authenticateCitizen unable to find user with this email : " + email);
+            return null;
+        }
+        if (citizen.getGoogleUser() != null || citizen.isPasswordEqualsTo(password)) {
+            LOGGER.warning("authenticateCitizen with this email : " + email);
             return citizen;
         }
+        LOGGER.warning("authenticateCitizen unable to match password for this email : " + email);
         return null;
     }
 
     @Override
-    public boolean signInCitizen(CitizenSession session, String email, String password) {
+    public boolean signInCitizen(String email, String password) {
+        // Get session info
+        CitizenSession session = CitizenSession.get();
+
         if (session.getManageCitizen() == null) {
             // TODO : find a better way to inject manager
             LOGGER.warning("setManageCitizen");
@@ -94,6 +102,12 @@ public class ManageCitizenImpl implements IManageCitizen {
         }
         LOGGER.info("unable to sign in with the following email : " + email);
         return false;
+    }
+
+    @Override
+    public boolean signInGoogleCitizen() {
+        User user = userService.getCurrentUser();
+        return (user != null) && signInCitizen(user.getEmail(), null);
     }
 
     @Override
@@ -119,17 +133,6 @@ public class ManageCitizenImpl implements IManageCitizen {
             return str.substring(0,size);
         }
         return str;
-    }
-
-    private Citizen registerCitizen(String pseudo, String email, User googleUser) throws RegisterFailedException {
-        Citizen newCitizen = new Citizen(pseudo, googleUser, generateRandomString(10), email, generateRandomString(32));
-        try {
-            addCitizen(newCitizen);
-        } catch (CitizenAlreadyExistsException e) {
-            LOGGER.warning("CitizenAlreadyExistsException while register citizen " + newCitizen.toString() + " : " + e.getMessage());
-            throw new RegisterFailedException("Unable to register with this email, you should already been registered.");
-        }
-        return newCitizen;
     }
 
     public void registerNotifyCitizen(Citizen justRegisteredCitizen, String activateDestination) throws MaDemocratieException {
@@ -165,14 +168,32 @@ public class ManageCitizenImpl implements IManageCitizen {
         }
     }
 
+    private void handleCitizenAlreadyExistWhenRegister(CitizenAlreadyExistsException e, String citizenDescription) throws RegisterFailedException {
+        LOGGER.warning("CitizenAlreadyExistsException while register citizen " + citizenDescription + " : " + e.getMessage());
+        throw new RegisterFailedException("Unable to register with this email, you should already been registered.");
+    }
+
     @Override
     public Citizen register(String pseudo, User googleUser) throws RegisterFailedException {
-        return registerCitizen(pseudo, googleUser.getEmail(), googleUser);
+        Citizen newCitizen = new Citizen(pseudo, googleUser);
+        try {
+            addCitizen(newCitizen);
+        } catch (CitizenAlreadyExistsException e) {
+            handleCitizenAlreadyExistWhenRegister(e, newCitizen.toString());
+        }
+        return newCitizen;
     }
 
     @Override
     public Citizen register(String pseudo, String email) throws RegisterFailedException {
-        return registerCitizen(pseudo, email, null);
+        Citizen newCitizen = new Citizen(pseudo, generateRandomString(10), email, generateRandomString(32));
+        try {
+            addCitizen(newCitizen);
+        } catch (CitizenAlreadyExistsException e) {
+            handleCitizenAlreadyExistWhenRegister(e, newCitizen.toString());
+        }
+        return newCitizen;
+
     }
 
     @Override

@@ -1,7 +1,5 @@
 package net.mademocratie.gae.model;
 
-import com.google.appengine.api.users.User;
-
 import javax.jdo.annotations.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,7 +19,7 @@ public class Proposal implements Serializable {
     private Long id;
 
     @Persistent
-    private User author;
+    private Citizen author;
     
     @Persistent(nullValue = NullValue.EXCEPTION)
     private String title;
@@ -46,10 +44,10 @@ public class Proposal implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public User getAuthor() {
+	public Citizen getAuthor() {
 		return author;
 	}
-	public void setAuthor(User author) {
+	public void setAuthor(Citizen author) {
 		this.author = author;
 	}
 	public String getContent() {

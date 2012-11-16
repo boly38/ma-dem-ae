@@ -1,9 +1,8 @@
 package net.mademocratie.gae.client.common.menu;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import net.mademocratie.gae.client.SignOutPage;
+import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.server.CitizenSession;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
@@ -15,9 +14,8 @@ public class UserMenu extends Panel {
 
 	public UserMenu(String id) {
 		super(id);
-        UserService userService = UserServiceFactory.getUserService();
-        User user = userService.getCurrentUser();		
-		add(new Label("user-label", user.getNickname()));
+        Citizen currentUser = CitizenSession.get().getCitizen();
+		add(new Label("user-label", currentUser.getPseudo()));
 		// ExternalLink userLogout = new ExternalLink("user-logout", userService.createLogoutURL("/"));
         BookmarkablePageLink<SignOutPage> userLogout
                 = new BookmarkablePageLink<SignOutPage>("user-logout", SignOutPage.class, new PageParameters());

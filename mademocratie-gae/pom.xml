@@ -174,7 +174,8 @@
             <artifactId>maven-datanucleus-plugin</artifactId>
             <version>3.0.2</version>
             <configuration>
-                <!-- <mappingIncludes>**/jdo/*.class</mappingIncludes> -->
+                <fork>false</fork>
+                <!-- <mappingIncludes>net/mademocratie/gae/model/*.class</mappingIncludes> -->
                 <verbose>true</verbose>
                 <enhancerName>ASM</enhancerName>
                 <api>JDO</api>

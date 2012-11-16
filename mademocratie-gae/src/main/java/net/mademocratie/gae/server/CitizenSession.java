@@ -3,6 +3,7 @@ package net.mademocratie.gae.server;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.service.IManageCitizen;
+import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
 import org.apache.wicket.request.Request;
@@ -10,12 +11,12 @@ import org.apache.wicket.request.Request;
 import java.util.logging.Logger;
 
 public class CitizenSession extends AuthenticatedWebSession {
-    private final static Logger LOGGER = Logger.getLogger(CitizenSession.class.getName());
+    private static final transient Logger LOGGER = Logger.getLogger(CitizenSession.class.getName());
 
     private Citizen citizen;
 
     @Inject
-    private IManageCitizen manageCitizen;
+    private transient IManageCitizen manageCitizen;
 
     private String feedbackSuccess;
 
@@ -35,6 +36,14 @@ public class CitizenSession extends AuthenticatedWebSession {
     @Override
     public Roles getRoles() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * static method to get the session from everywhere without cast
+     * @return CitizenSession
+     */
+    public static CitizenSession get() {
+        return (CitizenSession) Session.get();
     }
 
     public Citizen getCitizen() {

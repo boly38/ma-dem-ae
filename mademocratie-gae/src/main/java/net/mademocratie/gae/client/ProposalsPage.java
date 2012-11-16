@@ -1,8 +1,9 @@
 package net.mademocratie.gae.client;
 
-import java.util.List;
-import java.util.logging.Logger;
-
+import com.google.inject.Inject;
+import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IManageProposal;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -11,10 +12,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import net.mademocratie.gae.client.common.PageTemplate;
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IManageProposal;
-import com.google.inject.Inject;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class ProposalsPage extends PageTemplate {
     /**
@@ -79,7 +78,7 @@ public class ProposalsPage extends PageTemplate {
             protected void populateItem(ListItem<Proposal> item)
             {
                 Proposal Proposal = item.getModel().getObject();
-                String email = Proposal.getAuthor() != null ? Proposal.getAuthor().getNickname() : "An anonymous person ";
+                String email = Proposal.getAuthor() != null ? Proposal.getAuthor().getPseudo() : "An anonymous person ";
                 item.add(new Label("author", email));
                 String proposalTitle = Proposal.getTitle();
                 if (proposalTitle != null && proposalTitle.length() > 300) {

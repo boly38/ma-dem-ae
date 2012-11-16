@@ -38,9 +38,9 @@ public class ManageCitizenImplTest {
 
     @InjectMocks ManageCitizenImpl manageCitizen = new ManageCitizenImpl();
 
-    private final String USER_EMAIL = "toto@yoyo.fr";
-    private final String USER_DOMAIN = "yoyo.fr";
-    private final String USER_PSEUDO = "toto";
+    private static final String USER_EMAIL = "toto@yoyo.fr";
+    private static final String USER_DOMAIN = "yoyo.fr";
+    private static final String USER_PSEUDO = "toto";
 
     @Before
     public void setUp() {
@@ -69,7 +69,7 @@ public class ManageCitizenImplTest {
 
     @Test
     public void testAddCitizen() throws CitizenAlreadyExistsException {
-        Citizen inputCitizen = new Citizen(USER_PSEUDO, null, "toto", USER_EMAIL, "location");
+        Citizen inputCitizen = new Citizen(USER_PSEUDO,"toto", USER_EMAIL, "bidon");
         manageCitizen.addCitizen(inputCitizen);
         verify(citizenIRepository).persist(inputCitizen);
     }
@@ -78,7 +78,7 @@ public class ManageCitizenImplTest {
     public void testAddCitizenThatAlReadyExists() throws CitizenAlreadyExistsException {
         when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(null);
 
-        Citizen inputCitizen = new Citizen(USER_PSEUDO, null, "toto", USER_EMAIL, "location");
+        Citizen inputCitizen = new Citizen(USER_PSEUDO, "toto", USER_EMAIL, "bidon already here");
         manageCitizen.addCitizen(inputCitizen);
         verify(citizenIRepository).persist(inputCitizen);
         when(citizensQueries.findByEmail(USER_EMAIL)).thenReturn(inputCitizen);
