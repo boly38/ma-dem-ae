@@ -1,6 +1,7 @@
 package net.mademocratie.gae.server.service;
 
 import com.google.inject.ImplementedBy;
+import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
 
@@ -13,7 +14,7 @@ public interface IManageProposal {
      * add a new proposal to the database
      * @param inputProposal
      */
-	public void addProposal(Proposal inputProposal);
+	public void addProposal(Proposal inputProposal, Citizen author);
 
     /**
      * Return the latest proposals, ordered by descending date.

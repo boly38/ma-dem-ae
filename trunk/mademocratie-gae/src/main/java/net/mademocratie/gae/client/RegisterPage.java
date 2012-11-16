@@ -62,10 +62,11 @@ public class RegisterPage extends PageTemplate {
     private void registerCitizen(String pseudo, String email, User googleUser) throws RegisterFailedException {
         Citizen justRegisteredCitizen = null;
         if (googleUser != null) {
-            justRegisteredCitizen = manageCitizen.register(pseudo, googleUser);
-        } else {
-            justRegisteredCitizen = manageCitizen.register(pseudo, email);
+            manageCitizen.register(pseudo, googleUser);
+            return;
         }
+        // not google user : need to activate the account
+        justRegisteredCitizen = manageCitizen.register(pseudo, email);
         try {
             manageCitizen.registerNotifyCitizen(justRegisteredCitizen, getNextStepUrl(justRegisteredCitizen));
         } catch (MaDemocratieException e) {
@@ -130,7 +131,6 @@ public class RegisterPage extends PageTemplate {
         private User googleUser = null;
         private boolean pseudoUpdated = false;
         private static final String PSEUDO = "pseudo";
-        private static final String EMAIL = "email";
         private final ValueMap properties = new ValueMap();
         /**
          * Constructor
@@ -143,14 +143,9 @@ public class RegisterPage extends PageTemplate {
 
             // Attach textfield components that edit properties map model
             add(new TextField<String>(PSEUDO, new PropertyModel<String>(properties, PSEUDO)));
-            TextField<String> googleMail
-              = new TextField<String>(EMAIL, new PropertyModel<String>(properties, EMAIL));
-            googleMail.setEnabled(false);
-            add(googleMail);
 
             googleUser = manageCitizen.getGoogleUser();
             if (googleUser != null) {
-                properties.put(EMAIL, googleUser.getEmail());
                 if (!pseudoUpdated) {
                     properties.put(PSEUDO, googleUser.getNickname());
                     pseudoUpdated = true;

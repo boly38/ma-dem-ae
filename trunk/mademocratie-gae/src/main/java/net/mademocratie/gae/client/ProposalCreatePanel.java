@@ -1,7 +1,10 @@
 package net.mademocratie.gae.client;
 
-import java.util.logging.Logger;
-
+import com.google.inject.Inject;
+import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.CitizenSession;
+import net.mademocratie.gae.server.service.IManageProposal;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -14,9 +17,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.StringValidator;
 
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IManageProposal;
-import com.google.inject.Inject;
+import java.util.logging.Logger;
 
 public class ProposalCreatePanel extends Panel{
 
@@ -85,7 +86,8 @@ public class ProposalCreatePanel extends Panel{
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 LOGGER.info("submit Add");
                 try {
-                	manageProposal.addProposal((Proposal) form.getModelObject());
+                    Citizen citizen = CitizenSession.get().getCitizen();
+                    manageProposal.addProposal((Proposal) form.getModelObject(), citizen);
                 	form.clearInput();
                 } catch (Exception ee) {
                 	String errMsg = "Unable to add proposal : " + ee.getMessage();

@@ -28,7 +28,10 @@ public class Citizen implements Serializable {
     @Persistent(nullValue = NullValue.EXCEPTION)
     private String pseudo;
 
-    @Persistent(nullValue = NullValue.EXCEPTION)
+    /**
+     * citizen password: null if googleuser is set
+     */
+    @Persistent
     private String password;
 
     @Persistent
@@ -55,9 +58,18 @@ public class Citizen implements Serializable {
         super();
     }
 
-    public Citizen(String pseudo, User googleUser, String password, String email, String accessKey) {
+    public Citizen(String pseudo, User googleUser) {
         this.pseudo = pseudo;
         this.googleUser = googleUser;
+        this.email = googleUser.getEmail();
+        date = new Date();
+        citizenState = CitizenState.ACTIVE;
+        citizenStateData = (new Date()).toString();
+    }
+
+    public Citizen(String pseudo, String password, String email, String accessKey) {
+        this.pseudo = pseudo;
+        this.googleUser = null;
         this.password = password;
         this.email = email;
         date = new Date();

@@ -117,7 +117,7 @@ public class HomePage extends PageTemplate {
             protected void populateItem(ListItem<Proposal> item)
             {
                 Proposal Proposal = item.getModel().getObject();
-                String email = Proposal.getAuthor() != null ? Proposal.getAuthor().getNickname() : "An anonymous person ";
+                String email = Proposal.getAuthor() != null ? Proposal.getAuthor().getPseudo() : "An anonymous person ";
                 item.add(new Label("author", email));
                 String proposalTitle = Proposal.getTitle();
                 if (proposalTitle != null && proposalTitle.length() > 30) {

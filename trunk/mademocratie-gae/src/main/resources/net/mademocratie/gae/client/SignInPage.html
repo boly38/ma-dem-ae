@@ -37,6 +37,34 @@
                 </table>
             </form>
         </div>
+        <div class="span12 well">
+          <div class="page-header">
+              <h3>Sign in using google account</h3>
+          </div>
+          <form wicket:id="signInFormUsingGoogleForm">
+              <table>
+                  <tr>
+                      <td align="right">Google account:</td>
+                      <td>
+                          <div wicket:id="googleOut">
+                              <a wicket:id="signIn-google" href="#">sign in</a>.
+                          </div>
+                          <div wicket:id="googleIn">
+                              <i class="icon-user icon-white"></i> user <span wicket:id="gguser">google</span>
+                              &#160;&#160;
+                              <a wicket:id="signOut-google" href="#">signOut</a>.
+                          </div>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>
+                          <input type="submit" value="Sign in with google account"/>
+                      </td>
+                  </tr>
+              </table>
+          </form>
+        </div>
       </div>
     </div><!-- container -->
     </wicket:extend>

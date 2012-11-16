@@ -53,7 +53,7 @@ public class ProposalPage extends PageTemplate {
     		getSession().error("Unable to retrieve the proposal");
         	throw new RestartResponseException(HomePage.class, null);    		
     	}
-    	String author = p.getAuthor() != null ? p.getAuthor().getNickname() : "An anonymous person ";
+    	String author = p.getAuthor() != null ? p.getAuthor().getPseudo() : "An anonymous person ";
     	String pDescString = p.getContent();
 
         WebMarkupContainer pDescContainer = new WebMarkupContainer("pdesc-container");
