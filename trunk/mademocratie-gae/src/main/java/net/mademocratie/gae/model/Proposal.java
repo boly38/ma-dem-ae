@@ -1,6 +1,10 @@
 package net.mademocratie.gae.model;
 
+import com.google.appengine.datanucleus.annotations.Unowned;
+
 import javax.jdo.annotations.*;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,6 +23,7 @@ public class Proposal implements Serializable {
     private Long id;
 
     @Persistent
+    @ManyToOne(fetch = FetchType.LAZY)
     private Citizen author;
     
     @Persistent(nullValue = NullValue.EXCEPTION)
@@ -37,6 +42,7 @@ public class Proposal implements Serializable {
 		super();
 		this.title = title;
 		this.content = content;
+        this.author = null;
 	}
 	public String getTitle() {
 		return title;

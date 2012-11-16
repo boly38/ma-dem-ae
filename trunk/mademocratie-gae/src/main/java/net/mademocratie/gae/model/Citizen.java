@@ -2,6 +2,7 @@ package net.mademocratie.gae.model;
 
 import com.google.appengine.api.users.User;
 
+import com.google.appengine.api.datastore.Key;
 import javax.jdo.annotations.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +15,7 @@ public class Citizen implements Serializable {
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Long id;
+    private Key id;
 
     @Persistent
     private User googleUser;
@@ -77,11 +78,11 @@ public class Citizen implements Serializable {
         citizenStateData = accessKey;
     }
 
-    public Long getId() {
+    public Key getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Key id) {
         this.id = id;
     }
 
