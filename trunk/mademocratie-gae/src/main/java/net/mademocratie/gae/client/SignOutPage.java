@@ -7,6 +7,7 @@ package net.mademocratie.gae.client;/**
  */
 
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.server.CitizenSession;
 
 /**
  * SignOutPage
@@ -22,7 +23,7 @@ public class SignOutPage extends PageTemplate {
      */
     public SignOutPage() {
         super(null);
-        getSession().invalidate();
+        CitizenSession.get().invalidateNow();
         setResponsePage(getApplication().getHomePage());
     }
 }

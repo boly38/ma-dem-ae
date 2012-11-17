@@ -30,8 +30,8 @@ public class HeaderPanel extends Panel {
     
     private void initUserMenu() {
         // User user = userService.getCurrentUser();
-        CitizenSession session = (CitizenSession)getSession();
-        if (session.isSignedIn()) {
+        CitizenSession session = CitizenSession.get();
+        if (!session.isSessionInvalidated() && session.isSignedIn()) {
         	add(new UserMenu("user-menu"));
         } else {
         	add(new LinkMenu("user-menu", "sign-in !"));
