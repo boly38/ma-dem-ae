@@ -31,7 +31,7 @@ import org.apache.wicket.util.value.ValueMap;
 public class SignInPage extends PageTemplate {
     // ~services
     @Inject
-    private transient IManageCitizen manageCitizen;
+    private IManageCitizen manageCitizen;
     /**
      * Constructor
      */
@@ -153,9 +153,12 @@ public class SignInPage extends PageTemplate {
         @Override
         public final void onSubmit() {
             // Sign the user in
-            if (manageCitizen.signInGoogleCitizen()) {
+            if (manageCitizen != null && manageCitizen.signInGoogleCitizen()) {
                 setResponsePage(getApplication().getHomePage());
             } else {
+                if (manageCitizen == null) {
+                    LOGGER.severe("manageCitizen of SignInPage is null");
+                }
                 // Get the error message from the properties file associated with the Component
                 String errmsg = getString("loginError", null, "Unable to sign you in");
 
