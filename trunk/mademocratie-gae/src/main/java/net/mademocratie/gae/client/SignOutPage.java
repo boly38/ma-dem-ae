@@ -1,10 +1,4 @@
-package net.mademocratie.gae.client;/**
- * Created with IntelliJ IDEA.
- * User: bricesteph
- * Date: 14/10/12
- * Time: 14:45
- * To change this template use File | Settings | File Templates.
- */
+package net.mademocratie.gae.client;
 
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.server.CitizenSession;
@@ -25,5 +19,6 @@ public class SignOutPage extends PageTemplate {
         super(null);
         CitizenSession.get().invalidateNow();
         setResponsePage(getApplication().getHomePage());
+        setResponseNoCache();
     }
 }

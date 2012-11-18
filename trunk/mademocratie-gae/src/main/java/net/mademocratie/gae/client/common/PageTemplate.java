@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import net.mademocratie.gae.server.MaDemocratieApp;
@@ -66,6 +67,15 @@ public abstract class PageTemplate extends WebPage {
     }
     protected void removeFeedbackSuccess() {
         ((CitizenSession) getSession()).setFeedbackSuccess(null);
+    }
+
+
+    protected void setResponseNoCache() {
+        final WebResponse response = (WebResponse)getResponse();
+        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate"); // no-store
+        response.setHeader("Cache-Control", "no-store");
+        // response.setDateHeader("Expires", 0);
+        response.setHeader("Pragma", "no-cache");
     }
 
 }
