@@ -74,14 +74,21 @@ public class ManageCitizenImpl implements IManageCitizen {
     public Citizen authenticateCitizen(String email, String password) {
         Citizen citizen = citizensQueries.findByEmail(email);
         if (citizen == null) {
-            LOGGER.warning("authenticateCitizen unable to find user with this email : " + email);
+            LOGGER.warning("authenticate failed : unable to find user with this email : " + email);
             return null;
         }
-        if (citizen.getGoogleUser() != null || citizen.isPasswordEqualsTo(password)) {
-            LOGGER.warning("authenticateCitizen with this email : " + email);
+        User googleUser = userService.getCurrentUser();
+        if (googleUser != null
+         && citizen.getGoogleUser() != null
+         && googleUser.getEmail().equals(citizen.getEmail())) {
+            LOGGER.info("authenticate google user " + email);
             return citizen;
         }
-        LOGGER.warning("authenticateCitizen unable to match password for this email : " + email);
+        if (citizen.isPasswordEqualsTo(password)) {
+            LOGGER.info("authenticate citizen with this email : " + email);
+            return citizen;
+        }
+        LOGGER.warning("authenticate failed : unable to match password for this email : " + email);
         return null;
     }
 
