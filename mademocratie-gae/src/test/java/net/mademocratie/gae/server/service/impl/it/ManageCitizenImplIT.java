@@ -5,13 +5,11 @@ import junit.framework.Assert;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.GuiceModule;
-import net.mademocratie.gae.server.MaDemocratieApp;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.jdo.JdoCitizenQueries;
 import net.mademocratie.gae.server.jdo.JdoCitizenRepository;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 import net.mademocratie.gae.test.GuiceJUnitRunner;
-import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,9 +78,9 @@ public class ManageCitizenImplIT extends BaseIT {
     @Test
     public void testAuthenticateAndSignInGoogleCitizen() throws RegisterFailedException {
         manageCitizen.register("boly38", testGoogleUser);
-        assertNotNull("could not authenticate a true user ?", manageCitizen.authenticateCitizen(testUserMail, null));
         this.helper.setEnvEmail(testUserMail);
         this.helper.setEnvIsAdmin(true);
+        assertNotNull("could not authenticate a true user ?", manageCitizen.authenticateCitizen(testUserMail, null));
         assertTrue("unable to sign in google user", manageCitizen.signInGoogleCitizen());
 
         // TODO : implement wicket test pre-requisites
