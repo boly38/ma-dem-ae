@@ -81,7 +81,6 @@ public class MaDemocratieApp extends WebApplication {
     protected void mountBookmarks() {
         mountPage("about", AboutPage.class);
         mountPage("signin", SignInPage.class);
-        mountPage("signout", SignOutPage.class);
         mountPage("register", RegisterPage.class);
         mountPage("activate", ActivatePage.class);
         mountPage("addproposal", AddProposalPage.class);
