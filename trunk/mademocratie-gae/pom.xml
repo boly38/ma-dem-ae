@@ -5,12 +5,16 @@
   <!-- The Basics -->
   <groupId>net.mademocratie.gae</groupId>
   <artifactId>mademocratie-gae</artifactId>
-  <version>0-4-2-alpha</version>
+  <version>0-4-3-alpha</version>
   <packaging>war</packaging>
 
   <name>ma-dem-ae</name>
 
   <properties>
+    <mademocratie.version>${project.version}</mademocratie.version>
+    <!-- deployment or development (wicket)-->
+    <mademocratie.configuration>development</mademocratie.configuration>
+
     <!-- Sets the project's default encoding.
          http://docs.codehaus.org/display/MAVENUSER/POM+Element+for+Source+File+Encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -227,6 +231,23 @@
           <goals>gae:deploy</goals>
         </configuration>
       </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <webResources>
+                    <resource>
+                        <directory>src/main/webapp</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>**/appengine-web.xml</include>
+                            <include>**/web.xml</include>
+                        </includes>
+                    </resource>
+                </webResources>
+            </configuration>
+        </plugin>
 
       <!-- Java compiler version -->
       <plugin>
