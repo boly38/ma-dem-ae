@@ -48,7 +48,7 @@ public abstract class PageTemplate extends WebPage {
 
     protected void setPagetitle() {
         /* set head page title to display in browser title bar */
-        add(new Label("head_page_title", "MaDémocratie"));
+        add(new Label("head_page_title", "MaDemocratie"));
     }
 
     public String getRequestUrl(){
