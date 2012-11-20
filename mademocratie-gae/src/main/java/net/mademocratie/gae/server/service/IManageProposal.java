@@ -1,5 +1,6 @@
 package net.mademocratie.gae.server.service;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
@@ -28,4 +29,6 @@ public interface IManageProposal {
      * remove all proposals from the repository (test usage only)
      */
     void removeAll();
+
+    Proposal getById(Key proposalId);
 }

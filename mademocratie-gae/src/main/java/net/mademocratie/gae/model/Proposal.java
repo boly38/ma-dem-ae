@@ -1,14 +1,12 @@
 package net.mademocratie.gae.model;
 
-import com.google.appengine.datanucleus.annotations.Unowned;
+import com.google.appengine.api.datastore.Key;
 
 import javax.jdo.annotations.*;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Date;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 // @Query(name="latestProposals",
 //       value="select from net.mademocratie.gae.model.Proposal order by date desc range 0,5")
 public class Proposal implements Serializable {
@@ -20,10 +18,9 @@ public class Proposal implements Serializable {
 	
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Long id;
+    private Key id;
 
     @Persistent
-    @ManyToOne(fetch = FetchType.LAZY)
     private Citizen author;
     
     @Persistent(nullValue = NullValue.EXCEPTION)
@@ -68,10 +65,10 @@ public class Proposal implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Long getId() {
+	public Key getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Key id) {
 		this.id = id;
 	}
 
@@ -80,7 +77,8 @@ public class Proposal implements Serializable {
         sb.append("proposal[");
         sb.append("id:").append(id);
         sb.append(", title:").append(title);
-        sb.append(", author:").append(author);
+        if (author != null)
+            sb.append(", author:").append(author);
         sb.append(", content:").append(content);
         sb.append("]");
         return sb.toString();
