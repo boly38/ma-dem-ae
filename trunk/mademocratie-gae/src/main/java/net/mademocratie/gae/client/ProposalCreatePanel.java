@@ -84,7 +84,6 @@ public class ProposalCreatePanel extends Panel{
 
 			@Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                LOGGER.info("submit Add");
                 try {
                     Citizen citizen = CitizenSession.get().getCitizen();
                     manageProposal.addProposal((Proposal) form.getModelObject(), citizen);
