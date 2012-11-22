@@ -1,12 +1,10 @@
 package net.mademocratie.gae.model;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 
 import javax.jdo.annotations.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
@@ -16,7 +14,7 @@ public class Citizen implements Serializable {
 
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key id;
+    private Long id;
 
     @Persistent
     private User googleUser;
@@ -56,9 +54,6 @@ public class Citizen implements Serializable {
     @Persistent
     private String location;
 
-    @Persistent(mappedBy = "author")
-    private List<Proposal> proposals;
-
     public Citizen() {
         super();
     }
@@ -82,11 +77,11 @@ public class Citizen implements Serializable {
         citizenStateData = accessKey;
     }
 
-    public Key getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Key id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -148,14 +143,6 @@ public class Citizen implements Serializable {
 
     public void setCitizenStateData(String citizenStateData) {
         this.citizenStateData = citizenStateData;
-    }
-
-    public List<Proposal> getProposals() {
-        return proposals;
-    }
-
-    public void setProposals(List<Proposal> proposals) {
-        this.proposals = proposals;
     }
 
     public String toString() {
