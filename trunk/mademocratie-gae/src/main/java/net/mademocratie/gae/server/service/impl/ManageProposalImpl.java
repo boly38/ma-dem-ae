@@ -1,6 +1,5 @@
 package net.mademocratie.gae.server.service.impl;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
@@ -24,14 +23,14 @@ public class ManageProposalImpl implements IManageProposal {
     private IRepository<Proposal> proposalRepo;
 
     @Override
-    public Proposal getById(Key proposalId) {
+    public Proposal getById(Long proposalId) {
         return proposalRepo.get(proposalId);
     }
 
 	@Override
 	public void addProposal(Proposal inputProposal, Citizen author) {
         inputProposal.setAuthor(author);
-		inputProposal.setDate(new Date());
+        inputProposal.setDate(new Date());
         LOGGER.info("add proposal " + inputProposal);
        	proposalRepo.persist(inputProposal);
 		

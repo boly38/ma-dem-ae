@@ -88,18 +88,16 @@ public class ProposalCreatePanel extends Panel{
                     Citizen citizen = CitizenSession.get().getCitizen();
                     manageProposal.addProposal((Proposal) form.getModelObject(), citizen);
                 	form.clearInput();
+                    HomePage homePage = new HomePage();
+                    Session.get().info("Your proposal was added");
+                    setResponsePage(homePage);
                 } catch (Exception ee) {
                 	String errMsg = "Unable to add proposal : " + ee.getMessage();
                 	LOGGER.warning(errMsg);
-                	// TODO FIX the feedback in this case ! 
-                	feedback.error(errMsg);
+                	error(errMsg);
                     // repaint the feedback panel so that it is hidden
-                    target.add(feedback);                 	
+                    target.add(feedback);
                 }
-                String successMsg = "Your proposal was added";
-                HomePage homePage = new HomePage();
-                Session.get().info(successMsg);
-                setResponsePage(homePage);                
             }
 
             @Override

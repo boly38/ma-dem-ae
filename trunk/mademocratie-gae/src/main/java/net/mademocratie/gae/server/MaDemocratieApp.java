@@ -2,10 +2,7 @@ package net.mademocratie.gae.server;
 
 import net.mademocratie.gae.client.*;
 import net.mademocratie.gae.client.common.AuthenticatedWebPage;
-import org.apache.wicket.Component;
-import org.apache.wicket.Page;
-import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.Session;
+import org.apache.wicket.*;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authorization.IAuthorizationStrategy;
 import org.apache.wicket.guice.GuiceComponentInjector;
@@ -15,9 +12,12 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.session.HttpSessionStore;
 import org.apache.wicket.session.ISessionStore;
+import org.apache.wicket.settings.IApplicationSettings;
+
+import java.util.logging.Logger;
 
 public class MaDemocratieApp extends WebApplication {
-    // private static final Logger logger = Logger.getLogger(MaDemocratieApp.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(MaDemocratieApp.class.getName());
 
 	@Override
 	public Class<? extends Page> getHomePage() {
@@ -34,13 +34,24 @@ public class MaDemocratieApp extends WebApplication {
 
 	@Override
 	protected void init() {
-		super.init();
+        LOGGER.info("Wicket application init configurationType:" + getConfigurationType());
+        initSettings();
         initSecurity();
 		getResourceSettings().setResourcePollFrequency(null);
         GuiceModule guiceModule = new GuiceModule();
         getComponentInstantiationListeners().add(new GuiceComponentInjector(this, guiceModule));
         mountBookmarks();
-	}
+        super.init();
+    }
+
+    private void initSettings() {
+        if (!RuntimeConfigurationType.DEVELOPMENT.equals(getConfigurationType())) {
+            getMarkupSettings().setStripWicketTags(true);
+        }
+        IApplicationSettings settings = getApplicationSettings();
+        settings.setInternalErrorPage(ExceptionPage.class);
+        getRequestCycleListeners().add(new ExecutionHandlerRequestCycle(this));
+    }
 
     private void initSecurity() {
         // Register the authorization strategy

@@ -1,6 +1,6 @@
 package net.mademocratie.gae.model;
 
-import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 import javax.jdo.annotations.*;
 import java.io.Serializable;
@@ -18,16 +18,19 @@ public class Proposal implements Serializable {
 	
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Key id;
+    private Long id;
 
     @Persistent
-    private Citizen author;
-    
+    private String authorEmail = null;
+
+    @Persistent
+    private String authorPseudo = null;
+
     @Persistent(nullValue = NullValue.EXCEPTION)
     private String title;
     
     @Persistent
-    private String content;
+    private Text content;
 
     @Persistent(nullValue = NullValue.EXCEPTION)
     private Date date;
@@ -38,8 +41,7 @@ public class Proposal implements Serializable {
 	public Proposal(String title, String content) {
 		super();
 		this.title = title;
-		this.content = content;
-        this.author = null;
+		this.content = new Text(content);
 	}
 	public String getTitle() {
 		return title;
@@ -47,17 +49,11 @@ public class Proposal implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Citizen getAuthor() {
-		return author;
-	}
-	public void setAuthor(Citizen author) {
-		this.author = author;
-	}
 	public String getContent() {
-		return content;
+		return (content != null ? content.getValue():null);
 	}
 	public void setContent(String content) {
-		this.content = content;
+		this.content = new Text(content);
 	}
 	public Date getDate() {
 		return date;
@@ -65,22 +61,49 @@ public class Proposal implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Key getId() {
-		return id;
-	}
-	public void setId(Key id) {
-		this.id = id;
-	}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAuthorEmail() {
+        return authorEmail;
+    }
+
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
+    }
+
+    public String getAuthorPseudo() {
+        return authorPseudo;
+    }
+
+    public void setAuthorPseudo(String authorPseudo) {
+        this.authorPseudo = authorPseudo;
+    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("proposal[");
         sb.append("id:").append(id);
         sb.append(", title:").append(title);
-        if (author != null)
-            sb.append(", author:").append(author);
+        if (authorPseudo != null)
+            sb.append(", authorPseudo:").append(authorPseudo);
+        if (authorEmail != null)
+            sb.append(", authorEmail:").append(authorEmail);
         sb.append(", content:").append(content);
         sb.append("]");
         return sb.toString();
+    }
+
+    public void setAuthor(Citizen author) {
+        if (author != null) {
+            setAuthorPseudo(author.getPseudo());
+            setAuthorEmail(author.getEmail());
+        }
     }
 }

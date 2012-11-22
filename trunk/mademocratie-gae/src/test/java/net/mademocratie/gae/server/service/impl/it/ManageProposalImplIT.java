@@ -102,10 +102,10 @@ public class ManageProposalImplIT extends BaseIT {
         assertNotNull("last created proposal don't have id", testProposalA2.getId());
         assertEquals("last created proposal title has been updated", PROPOSAL_TITLE, testProposalA2.getTitle());
         assertEquals("last created proposal content has been updated", PROPOSAL_CONTENT, testProposalA2.getContent());
-        assertNull(manageProposal.getById(testProposalAnon.getId()).getAuthor());
-        assertEquals(myAuthorA, manageProposal.getById(testProposalA.getId()).getAuthor());
-        assertEquals(myAuthorB, manageProposal.getById(testProposalB.getId()).getAuthor());
-        assertEquals(myAuthorA, manageProposal.getById(testProposalA2.getId()).getAuthor());
+        assertNull(manageProposal.getById(testProposalAnon.getId()).getAuthorEmail());
+        assertEquals(myAuthorA.getEmail(), manageProposal.getById(testProposalA.getId()).getAuthorEmail());
+        assertEquals(myAuthorB.getEmail(), manageProposal.getById(testProposalB.getId()).getAuthorEmail());
+        assertEquals(myAuthorA.getEmail(), manageProposal.getById(testProposalA2.getId()).getAuthorEmail());
     }
 
     /**
