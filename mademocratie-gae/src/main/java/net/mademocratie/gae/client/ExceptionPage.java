@@ -36,10 +36,13 @@ public class ExceptionPage extends PageTemplate {
         init(pageParameters, e.getMessage());
     }
 
-    private void init(PageParameters pageParameters, String message) {
-        add(new Label("message", getString("portal.error.message")));
+    @Override
+    protected void setPagetitle() {
         add(new Label("head_page_title", getString("portal.error.title")));
-        add(new Label("description", message));
     }
 
+    private void init(PageParameters pageParameters, String message) {
+        add(new Label("message", getString("portal.error.message")));
+        add(new Label("description", message));
+    }
 }

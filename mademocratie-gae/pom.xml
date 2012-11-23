@@ -11,8 +11,9 @@
   <name>ma-dem-ae</name>
 
   <properties>
+    <maven.build.timestamp.format>dd/MM/yyyy-HH:mm</maven.build.timestamp.format>
+    <timestamp>${maven.build.timestamp}</timestamp>
     <mademocratie.version>${project.version}</mademocratie.version>
-    <!-- deployment or development (wicket)-->
     <mademocratie.configuration>deployment</mademocratie.configuration>
 
     <!-- Sets the project's default encoding.
@@ -81,6 +82,14 @@
       </repository>
   </repositories>
   <profiles>
+    <profile>
+        <id>developpement</id>
+        <properties>
+            <!-- development (wicket)-->
+            <mademocratie.configuration>development</mademocratie.configuration>
+        </properties>
+    </profile>
+
     <!--
       We can configure our integration server to activate this profile and
       perform gae:deploy, thus uploading latest snapshot to the
@@ -118,6 +127,26 @@
   </profiles>
 
   <build>
+      <resources>
+          <resource>
+              <directory>src/main/webapp/WEB-INF</directory>
+              <filtering>true</filtering>
+          </resource>
+          <resource>
+              <directory>src/main/resources</directory>
+              <filtering>true</filtering>
+          </resource>
+          <resource>
+              <filtering>true</filtering>
+              <directory>src/main/java</directory>
+              <includes>
+                  <include>**</include>
+              </includes>
+              <excludes>
+                  <exclude>**/*.java</exclude>
+              </excludes>
+          </resource>
+      </resources>
     <pluginManagement>
         <plugins>
         <plugin>
@@ -233,8 +262,8 @@
       </plugin>
 
         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
+            <version>2.3</version>
             <configuration>
                 <webResources>
                     <resource>
