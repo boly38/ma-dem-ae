@@ -4,7 +4,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IManageCitizen;
 import net.mademocratie.gae.server.service.IManageProposal;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -16,6 +18,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,24 +31,33 @@ public class HomePage extends PageTemplate {
     private final static Logger LOGGER = Logger.getLogger(HomePage.class.getName()); 
 	//~design
 	HomePage page;
-    
-    private FeedbackPanel feedback;    
+
     // ~services
     @Inject
     private IManageProposal manageProposals;
 
+    @Inject
+    private IManageCitizen manageCitizens;
+
+    /**
+     * Constructor
+     */
     public HomePage() {
         super(new PageParameters());
         initComponents();
         this.page = this;
     }
+
+    @SuppressWarnings("unused") // wicket use it
     public HomePage(PageParameters params) {
         super(params);
-        this.page = this;
         initComponents();
-        initFeedback();
+        this.page = this;
     }
 
+    /**
+     * Feedback panel
+     */
     private void initFeedback() {
         if (getFeedbackSuccess() != null) {
             LOGGER.info("success:" + getFeedbackSuccess());
@@ -58,10 +70,13 @@ public class HomePage extends PageTemplate {
 	    createFeedback();
     	createHelloUser();
         createProposalsList();
+        createCitizensList();
+
+        // initFeedback();
     }
-    
+
     private void createFeedback() {
-	    feedback = new FeedbackPanel("feedback");
+        FeedbackPanel feedback = new FeedbackPanel("feedback");
 	    feedback.setOutputMarkupId(true);
 	    add(feedback);    	
     }
@@ -98,7 +113,14 @@ public class HomePage extends PageTemplate {
             protected List<Proposal> load()
             {
             	LOGGER.info("load proposals");
-                return manageProposals.latest(5);
+                try {
+                    return manageProposals.latest(5);
+                } catch (Exception e) {
+                    String errMsg = "Unable to load proposals : " + e.getMessage();
+                    LOGGER.severe(errMsg);
+                    error(errMsg);
+                    return new ArrayList<Proposal>();
+                }
             }
         };
 
@@ -107,31 +129,85 @@ public class HomePage extends PageTemplate {
 //            noMessages.setVisible(false);
 //        }
 
-        ListView<Proposal> messages = new ListView<Proposal>("proposals", latestProposals) {
+        ListView<Proposal> proposals = new ListView<Proposal>("proposals", latestProposals) {
             /**
 			 * serialVersionUID
 			 */
 			private static final long serialVersionUID = 2961302430978521634L;
 
 			@Override
-            protected void populateItem(ListItem<Proposal> item)
-            {
-                Proposal Proposal = item.getModel().getObject();
-                String email = Proposal.getAuthorPseudo() != null ? Proposal.getAuthorPseudo() : "An anonymous person ";
-                item.add(new Label("author", email));
-                String proposalTitle = Proposal.getTitle();
-                if (proposalTitle != null && proposalTitle.length() > 30) {
-                	proposalTitle = proposalTitle.substring(0, 30).concat("...");
-                }
-                PageParameters params = new PageParameters();
-                params.set("id", Proposal.getId());
-                BookmarkablePageLink<ProposalPage> proposalDetailsLink
-                  = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
-                item.add(proposalDetailsLink);
-                Label proposalLabel = new Label("proposalLabel", proposalTitle);
-                proposalDetailsLink.add(proposalLabel);                
+            protected void populateItem(ListItem<Proposal> item) {
+                populateProposal(item);
             }
         };
-        add(messages);		
+        add(proposals);
 	}
+
+
+    private void createCitizensList() {
+        // BookmarkablePageLink<CitizensPage> citizensLink
+        //         = new BookmarkablePageLink<CitizensPage>("last-citizens", CitizensPage.class, new PageParameters());
+        // add(citizensLink);
+        LoadableDetachableModel<List<Citizen>> latestCitizen = new LoadableDetachableModel<List<Citizen>>() {
+            @Override
+            protected List<Citizen> load()
+            {
+                LOGGER.info("load citizen");
+                try {
+                    return manageCitizens.latest(5);
+                } catch (Exception e) {
+                    String errMsg = "Unable to load citizens: " + e.getMessage();
+                    LOGGER.severe(errMsg);
+                    error(errMsg);
+                    return new ArrayList<Citizen>();
+                }
+            }
+        };
+
+//        if (!latestCitizen.getObject().isEmpty())
+//        {
+//            noMessages.setVisible(false);
+//        }
+
+        ListView<Citizen> citizens = new ListView<Citizen>("citizens", latestCitizen) {
+            @Override
+            protected void populateItem(ListItem<Citizen> item) {
+                populateCitizen(item);
+            }
+        };
+        add(citizens);
+    }
+
+    private void populateCitizen(ListItem<Citizen> item) {
+        Citizen citizen = item.getModel().getObject();
+        String pseudo = citizen.getPseudo();
+        item.add(new Label("pseudo", pseudo));
+        /*
+        PageParameters params = new PageParameters();
+        params.set("id", proposal.getId());
+        BookmarkablePageLink<ProposalPage> proposalDetailsLink
+                = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
+        item.add(proposalDetailsLink);
+        Label proposalLabel = new Label("proposalLabel", proposalTitle);
+        proposalDetailsLink.add(proposalLabel);
+        */
+    }
+
+
+    private void populateProposal(ListItem<Proposal> item) {
+        Proposal proposal = item.getModel().getObject();
+        String email = proposal.getAuthorPseudo() != null ? proposal.getAuthorPseudo() : "An anonymous person ";
+        item.add(new Label("author", email));
+        String proposalTitle = proposal.getTitle();
+        if (proposalTitle != null && proposalTitle.length() > 30) {
+            proposalTitle = proposalTitle.substring(0, 30).concat("...");
+        }
+        PageParameters params = new PageParameters();
+        params.set("id", proposal.getId());
+        BookmarkablePageLink<ProposalPage> proposalDetailsLink
+                = new BookmarkablePageLink<ProposalPage>("proposal", ProposalPage.class, params);
+        item.add(proposalDetailsLink);
+        Label proposalLabel = new Label("proposalLabel", proposalTitle);
+        proposalDetailsLink.add(proposalLabel);
+    }
 }

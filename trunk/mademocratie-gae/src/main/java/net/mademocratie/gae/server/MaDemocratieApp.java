@@ -14,6 +14,7 @@ import org.apache.wicket.session.HttpSessionStore;
 import org.apache.wicket.session.ISessionStore;
 import org.apache.wicket.settings.IApplicationSettings;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public class MaDemocratieApp extends WebApplication {
@@ -29,7 +30,10 @@ public class MaDemocratieApp extends WebApplication {
      */
     @Override
     public Session newSession(Request request, Response response) {
-        return new CitizenSession(request);
+        CitizenSession session = new CitizenSession(request);
+        // english is default language
+        session.setLocale(Locale.US);
+        return session;
     }
 
 	@Override
@@ -50,7 +54,7 @@ public class MaDemocratieApp extends WebApplication {
         }
         IApplicationSettings settings = getApplicationSettings();
         settings.setInternalErrorPage(ExceptionPage.class);
-        getRequestCycleListeners().add(new ExecutionHandlerRequestCycle(this));
+        // getRequestCycleListeners().add(new ExecutionHandlerRequestCycle(this));
     }
 
     private void initSecurity() {

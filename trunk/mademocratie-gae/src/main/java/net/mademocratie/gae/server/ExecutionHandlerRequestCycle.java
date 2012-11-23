@@ -10,10 +10,14 @@ import org.apache.wicket.request.cycle.IRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import java.util.logging.Logger;
+
 /**
  * ExecutionHandlerRequestCycle
  */
 public class ExecutionHandlerRequestCycle implements IRequestCycleListener {
+    private final static Logger LOGGER = Logger.getLogger(ExecutionHandlerRequestCycle.class.getName());
+
     public ExecutionHandlerRequestCycle(MaDemocratieApp maDemocratieApp) {
 
     }
@@ -47,7 +51,12 @@ public class ExecutionHandlerRequestCycle implements IRequestCycleListener {
     public IRequestHandler onException(RequestCycle requestCycle, Exception e) {
         Page page =null;
         if(e instanceof RuntimeException) {
-            page = new ExceptionPage(new PageParameters(),(RuntimeException)e);
+            try {
+              page = new ExceptionPage(new PageParameters(),(RuntimeException)e);
+            } catch (Exception eee) {
+                LOGGER.severe("Exception while rendering ExceptionPage : " + eee.getMessage());
+                eee.printStackTrace();
+            }
         }
         return new RenderPageRequestHandler(new PageProvider(page));
     }

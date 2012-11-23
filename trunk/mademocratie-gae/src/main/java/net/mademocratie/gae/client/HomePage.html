@@ -1,5 +1,7 @@
-<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://wicket.apache.org/ ">
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="https://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      xml:lang="en" lang="en">
     <wicket:extend>    
     <div class="container">
       <div class="row">
@@ -33,22 +35,24 @@
         </div>
       </div>
       -->
-      <!-- **************** -->
+      <!-- ****************       -->
       <div class="row">
-        <div class="span6 compo">
-			<i>TO COME : invite a citizen</i>
+        <div class="span5 compo">
+			&#160;<!-- <i>TO COME : invite a citizen</i>-->
         </div>
-        <div class="span6 compo">
+        <div class="span5 compo">
         	<a class="btn btn-info" href="addproposal">Add a proposal</a>
         </div>
-      </div>      
+      </div>
       <!-- **************** -->
       <div class="row">
-        <div class="span6 compo">
-			<div class="page-header">
-  				<h3>New citizens</h3>
+        <div class="span5 well compo">
+          <div class="page-header">
+  				<h3><a href="#">New citizens</a></h3>
 			</div>
-			<i>TO COME</i>            	  
+            <div wicket:id="citizens">
+                <p><span style="font-weight: bold" wicket:id="pseudo">jo la frite</span></p>
+            </div>
         </div>
         <div class="span5 well compo">
 			<div class="page-header">
