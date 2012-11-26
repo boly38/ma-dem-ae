@@ -196,7 +196,8 @@ public class RegisterPage extends PageTemplate {
             LOGGER.info("register " + getPseudo() + " using google " + googleUser.getEmail());
             try {
                 registerCitizen(getPseudo(), googleUser.getEmail(), googleUser);
-                addFeedbackSuccess("register succeeded, check your email.");
+                addFeedbackSuccess("registration succeeded.");
+                manageCitizen.signInGoogleCitizen();
                 setResponsePage(getApplication().getHomePage());
             } catch (RegisterFailedException e) {
                 error(e.getMessage());
