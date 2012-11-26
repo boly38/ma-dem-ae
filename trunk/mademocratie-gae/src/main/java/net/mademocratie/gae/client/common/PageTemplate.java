@@ -25,8 +25,7 @@ public abstract class PageTemplate extends WebPage {
     /**
      * application
      */
-    @SuppressWarnings("unused")
-	private transient MaDemocratieApp app;
+	private transient MaDemocratieApp maDemocratieApp;
     /**
      * PageTemplate constructor
      * @param params - page parameters map
@@ -34,7 +33,7 @@ public abstract class PageTemplate extends WebPage {
     public PageTemplate(final PageParameters params) {
     	super(params);
         this.params = params;
-        app = (MaDemocratieApp)getApplication();
+        maDemocratieApp = (MaDemocratieApp)getApplication();
         createCommons();
         setPagetitle();
     }
@@ -60,15 +59,8 @@ public abstract class PageTemplate extends WebPage {
 
     public void addFeedbackSuccess(String msg) {
         LOGGER.info("addFeedbackSuccess:"+msg);
-        ((CitizenSession) getSession()).setFeedbackSuccess(msg);
+        CitizenSession.get().success(msg);
     }
-    protected String getFeedbackSuccess() {
-        return ((CitizenSession) getSession()).getFeedbackSuccess();
-    }
-    protected void removeFeedbackSuccess() {
-        ((CitizenSession) getSession()).setFeedbackSuccess(null);
-    }
-
 
     protected void setResponseNoCache() {
         final WebResponse response = (WebResponse)getResponse();
@@ -78,4 +70,7 @@ public abstract class PageTemplate extends WebPage {
         response.setHeader("Pragma", "no-cache");
     }
 
+    public MaDemocratieApp getMaDemocratieApp() {
+        return maDemocratieApp;
+    }
 }

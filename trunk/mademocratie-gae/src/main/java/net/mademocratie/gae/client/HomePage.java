@@ -55,24 +55,11 @@ public class HomePage extends PageTemplate {
         this.page = this;
     }
 
-    /**
-     * Feedback panel
-     */
-    private void initFeedback() {
-        if (getFeedbackSuccess() != null) {
-            LOGGER.info("success:" + getFeedbackSuccess());
-            success(getFeedbackSuccess());
-            removeFeedbackSuccess();
-        }
-    }
-
     private void initComponents() {
 	    createFeedback();
     	createHelloUser();
         createProposalsList();
         createCitizensList();
-
-        // initFeedback();
     }
 
     private void createFeedback() {

@@ -61,12 +61,4 @@ public class CitizenSession extends AuthenticatedWebSession {
     public void setManageCitizen(IManageCitizen manageCitizen) {
         this.manageCitizen = manageCitizen;
     }
-
-    public String getFeedbackSuccess() {
-        return feedbackSuccess;
-    }
-
-    public void setFeedbackSuccess(String feedbackSuccess) {
-        this.feedbackSuccess = feedbackSuccess;
-    }
 }

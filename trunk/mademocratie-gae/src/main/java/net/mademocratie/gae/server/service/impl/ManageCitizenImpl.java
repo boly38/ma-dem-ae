@@ -135,7 +135,8 @@ public class ManageCitizenImpl implements IManageCitizen {
 
     public String generateRandomString(int size) {
         SecureRandom random = new SecureRandom();
-        String str = new BigInteger(130, random).toString(32);
+        int base = 32;
+        String str = new BigInteger(size*base, random).toString(base);
         if (str != null && str.length()>size) {
             return str.substring(0,size);
         }

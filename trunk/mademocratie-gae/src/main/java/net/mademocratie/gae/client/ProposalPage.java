@@ -25,7 +25,9 @@ public class ProposalPage extends PageTemplate {
     
     @Inject
     private IRepository<Proposal> proposalRepo;
-    
+
+    private Proposal proposal;
+
     public ProposalPage(PageParameters params) {
         super(params);
         this.page = this;
@@ -34,34 +36,42 @@ public class ProposalPage extends PageTemplate {
     }
 
     private void initComponents() {
-        createBreadCrumbs();
+        handleParams();
         createProposalDescription();
-    }  
-    
+        createProposalVote();
+    }
+
+    private void handleParams() {
+        PageParameters params = this.getPageParameters();
+        StringValue propIdStr = (params != null ? params.get("id") : null);
+        Long propId = null;
+        try {
+            propId = (propIdStr != null ? propIdStr.toLong() : null);
+        } catch (StringValueConversionException nfe) {
+            // nothing
+        }
+        LOGGER.info("display proposal number " + propId);
+        proposal = (propId != null ? proposalRepo.get(propId) : null);
+        if (proposal == null) {
+            getSession().error("Unable to retrieve the proposal");
+            throw new RestartResponseException(HomePage.class, null);
+        }
+    }
+
+    private void createProposalVote() {
+        add(new ProposalVote("proposalVote"));
+    }
+
     private void createProposalDescription() {
-    	PageParameters params = this.getPageParameters();
-    	StringValue propIdStr = (params != null ? params.get("id") : null);
-    	Long propId = null;
-    	try {
-    		propId = (propIdStr != null ? propIdStr.toLong() : null);
-    	} catch (StringValueConversionException nfe) {
-    		// nothing
-    	}
-    	LOGGER.info("display proposal number " + propId);
-    	Proposal p = (propId != null ? proposalRepo.get(propId) : null);
-    	if (p == null) {
-    		getSession().error("Unable to retrieve the proposal");
-        	throw new RestartResponseException(HomePage.class, null);    		
-    	}
-    	String author = p.getAuthorPseudo() != null ? p.getAuthorPseudo() : "An anonymous person ";
-    	String pDescString = p.getContent();
+    	String author = proposal.getAuthorPseudo() != null ? proposal.getAuthorPseudo() : "An anonymous person ";
+    	String pDescString = proposal.getContent();
 
         WebMarkupContainer pDescContainer = new WebMarkupContainer("pdesc-container");
         add(pDescContainer);
     	
-    	Label proposalDate = new Label("proposalDate", p.getDate().toString());
+    	Label proposalDate = new Label("proposalDate", proposal.getDate().toString());
     	Label proposalAuthor = new Label("proposalAuthor", author);
-    	Label proposalTitle = new Label("proposalTitle", p.getTitle());
+    	Label proposalTitle = new Label("proposalTitle", proposal.getTitle());
     	Label proposalDesc = new Label("proposalDescription", pDescString);
     	
     	add(proposalDate);
@@ -71,8 +81,4 @@ public class ProposalPage extends PageTemplate {
     	
     	pDescContainer.setVisible(pDescString != null);
 	}
-    
-    private void createBreadCrumbs() {
-        // TODO breadcrumbs
-    }   
 }
