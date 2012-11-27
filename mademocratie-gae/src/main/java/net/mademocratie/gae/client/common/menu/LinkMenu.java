@@ -1,6 +1,6 @@
 package net.mademocratie.gae.client.common.menu;
 
-import net.mademocratie.gae.client.SignInPage;
+import net.mademocratie.gae.client.citizen.SignInPage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;

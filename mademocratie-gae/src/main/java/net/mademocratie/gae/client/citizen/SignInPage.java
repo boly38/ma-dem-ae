@@ -1,4 +1,4 @@
-package net.mademocratie.gae.client;/**
+package net.mademocratie.gae.client.citizen;/**
  * Created with IntelliJ IDEA.
  * User: bricesteph
  * Date: 14/10/12

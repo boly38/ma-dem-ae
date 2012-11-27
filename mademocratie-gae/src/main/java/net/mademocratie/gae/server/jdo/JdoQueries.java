@@ -1,14 +1,13 @@
 package net.mademocratie.gae.server.jdo;
 
+import com.google.inject.Provider;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
-import com.google.inject.Provider;
 
 /**
  * This base class supplies convenient methods for subclasses to implement JDO queries.
@@ -21,7 +20,7 @@ public abstract class JdoQueries<T> {
 
     protected JdoQueries(Class<T> clazz, Provider<PersistenceManager> pmProvider)
     {
-    	LOGGER.info("pmp=" + (pmProvider != null ? pmProvider.toString() : "null"));
+    	//LOGGER.info("pmp=" + (pmProvider != null ? pmProvider.toString() : "null"));
         this.clazz = clazz;
         this.pmProvider = pmProvider;
     }

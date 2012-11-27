@@ -1,8 +1,8 @@
 package net.mademocratie.gae.client.common;
 
-import net.mademocratie.gae.client.ProposalsPage;
 import net.mademocratie.gae.client.common.menu.LinkMenu;
 import net.mademocratie.gae.client.common.menu.UserMenu;
+import net.mademocratie.gae.client.proposal.ProposalsPage;
 import net.mademocratie.gae.server.CitizenSession;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
