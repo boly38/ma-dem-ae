@@ -1,7 +1,8 @@
-package net.mademocratie.gae.client;
+package net.mademocratie.gae.client.citizen;
 
 import com.google.appengine.api.users.User;
 import com.google.inject.Inject;
+import net.mademocratie.gae.client.ActivatePage;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.exception.MaDemocratieException;

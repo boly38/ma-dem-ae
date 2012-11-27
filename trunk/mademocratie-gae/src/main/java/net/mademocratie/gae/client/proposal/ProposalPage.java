@@ -1,5 +1,11 @@
-package net.mademocratie.gae.client;
+package net.mademocratie.gae.client.proposal;
 
+import com.google.inject.Inject;
+import net.mademocratie.gae.client.HomePage;
+import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.client.proposal.details.ProposalVote;
+import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.server.service.IRepository;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -7,10 +13,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 import org.apache.wicket.util.string.StringValueConversionException;
 
-import net.mademocratie.gae.client.common.PageTemplate;
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IRepository;
-import com.google.inject.Inject;
 import java.util.logging.Logger;
 
 public class ProposalPage extends PageTemplate {

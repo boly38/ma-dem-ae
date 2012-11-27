@@ -1,4 +1,4 @@
-package net.mademocratie.gae.client;
+package net.mademocratie.gae.client.proposal;
 
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 

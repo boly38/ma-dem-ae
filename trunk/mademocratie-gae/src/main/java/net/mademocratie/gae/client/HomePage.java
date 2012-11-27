@@ -4,6 +4,8 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.client.proposal.ProposalPage;
+import net.mademocratie.gae.client.proposal.ProposalsPage;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.IManageCitizen;
@@ -99,7 +101,6 @@ public class HomePage extends PageTemplate {
 			@Override
             protected List<Proposal> load()
             {
-            	LOGGER.info("load proposals");
                 try {
                     return manageProposals.latest(5);
                 } catch (Exception e) {
@@ -139,7 +140,6 @@ public class HomePage extends PageTemplate {
             @Override
             protected List<Citizen> load()
             {
-                LOGGER.info("load citizen");
                 try {
                     return manageCitizens.latest(5);
                 } catch (Exception e) {

@@ -1,4 +1,4 @@
-package net.mademocratie.gae.client;
+package net.mademocratie.gae.client.proposal;
 
 import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;

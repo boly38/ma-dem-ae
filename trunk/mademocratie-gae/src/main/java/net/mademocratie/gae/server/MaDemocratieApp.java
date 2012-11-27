@@ -1,7 +1,15 @@
 package net.mademocratie.gae.server;
 
-import net.mademocratie.gae.client.*;
+import net.mademocratie.gae.client.AboutPage;
+import net.mademocratie.gae.client.ActivatePage;
+import net.mademocratie.gae.client.ExceptionPage;
+import net.mademocratie.gae.client.HomePage;
+import net.mademocratie.gae.client.citizen.RegisterPage;
+import net.mademocratie.gae.client.citizen.SignInPage;
 import net.mademocratie.gae.client.common.AuthenticatedWebPage;
+import net.mademocratie.gae.client.proposal.AddProposalPage;
+import net.mademocratie.gae.client.proposal.ProposalPage;
+import net.mademocratie.gae.client.proposal.ProposalsPage;
 import org.apache.wicket.*;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authorization.IAuthorizationStrategy;

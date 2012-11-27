@@ -1,6 +1,7 @@
-package net.mademocratie.gae.client;
+package net.mademocratie.gae.client.proposal;
 
 import com.google.inject.Inject;
+import net.mademocratie.gae.client.HomePage;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.CitizenSession;
