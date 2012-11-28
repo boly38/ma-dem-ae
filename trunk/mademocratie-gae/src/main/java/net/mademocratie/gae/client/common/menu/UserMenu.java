@@ -16,8 +16,13 @@ public class UserMenu extends Panel {
 
 	public UserMenu(String id) {
 		super(id);
+        initComponents();
+	}
+
+    private void initComponents() {
         Citizen currentUser = CitizenSession.get().getCitizen();
-		add(new Label("user-label", currentUser.getPseudo()));
+
+        add(new Label("user-label", currentUser.getPseudo()));
         /*
 		// ExternalLink userLogout = new ExternalLink("user-logout", userService.createLogoutURL("/"));
         BookmarkablePageLink<SignOutPage> userLogout
@@ -28,9 +33,8 @@ public class UserMenu extends Panel {
         add(logout);
 
         ExternalLink userProfile = new ExternalLink("user-profile", "#");
-		add(userProfile);
-		
-	}
+        add(userProfile);
+    }
 
 
     /**

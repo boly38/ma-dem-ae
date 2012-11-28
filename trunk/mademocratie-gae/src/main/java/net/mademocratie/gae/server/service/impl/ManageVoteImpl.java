@@ -1,13 +1,12 @@
-package net.mademocratie.gae.client.proposal.details;
+package net.mademocratie.gae.server.service.impl;
 
 /**
- * VoteKind
+ * ManageVoteImpl
  * <p/>
  * Last update  : $LastChangedDate$
  * Last author  : $Author$
  *
  * @version : $Revision$
  */
-public enum VoteKind {
-    PRO, NEUTRAL, CON
+public class ManageVoteImpl {
 }

@@ -1,5 +1,6 @@
 package net.mademocratie.gae.client.proposal.details;
 
+import net.mademocratie.gae.model.VoteKind;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
 public class ProposalVote extends Panel {
     private final static Logger LOGGER = Logger.getLogger(ProposalVote.class.getName());
 
-    public ProposalVote(String id) {
+    public ProposalVote(String id, Long proposalId) {
         super(id);
         initComponents();
     }

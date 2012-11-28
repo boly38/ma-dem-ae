@@ -5,7 +5,7 @@ import net.mademocratie.gae.client.HomePage;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.client.proposal.details.ProposalVote;
 import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.service.IRepository;
+import net.mademocratie.gae.server.jdo.JdoProposalRepository;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,16 +23,15 @@ public class ProposalPage extends PageTemplate {
 
     private final static Logger LOGGER = Logger.getLogger(ProposalPage.class.getName()); 
 	//~design
-    ProposalPage page;
+    private Long propId;
     
     @Inject
-    private IRepository<Proposal> proposalRepo;
+    private JdoProposalRepository proposalRepo;
 
     private Proposal proposal;
 
     public ProposalPage(PageParameters params) {
         super(params);
-        this.page = this;
 //        initServices();
         initComponents();
     }
@@ -46,7 +45,6 @@ public class ProposalPage extends PageTemplate {
     private void handleParams() {
         PageParameters params = this.getPageParameters();
         StringValue propIdStr = (params != null ? params.get("id") : null);
-        Long propId = null;
         try {
             propId = (propIdStr != null ? propIdStr.toLong() : null);
         } catch (StringValueConversionException nfe) {
@@ -61,7 +59,7 @@ public class ProposalPage extends PageTemplate {
     }
 
     private void createProposalVote() {
-        add(new ProposalVote("proposalVote"));
+        add(new ProposalVote("proposalVote", propId));
     }
 
     private void createProposalDescription() {

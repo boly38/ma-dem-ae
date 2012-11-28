@@ -1,6 +1,7 @@
 package net.mademocratie.gae.client.proposal.details;
 
 import net.mademocratie.gae.client.common.WicketUtils;
+import net.mademocratie.gae.model.VoteKind;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.link.ExternalLink;
 
