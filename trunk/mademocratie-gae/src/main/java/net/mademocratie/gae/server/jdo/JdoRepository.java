@@ -1,11 +1,11 @@
 package net.mademocratie.gae.server.jdo;
 
+import com.google.inject.Provider;
+import net.mademocratie.gae.server.service.IRepository;
+
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
-
-import net.mademocratie.gae.server.service.IRepository;
-import com.google.inject.Provider;
 
 /**
  * This base class implements the full Repository interface for managing persistent JDO entities.

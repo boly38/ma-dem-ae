@@ -9,13 +9,13 @@ import net.mademocratie.gae.server.service.*;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
 
-public class GuiceModule extends AbstractModule {
+public class MaDemocratieGuiceModule extends AbstractModule {
 
     @Override
-    protected void configure()
-    {
+    protected void configure() {
+        System.out.println("My MaDemocratieGuiceModule configure");
         // Enable per-request-thread PersistenceManager injection.
-        install(new PersistenceManagerFilter.GuiceModule());
+        install(new DataStoreGuiceModule());
 
         // Business object bindings go here.
 
@@ -30,4 +30,5 @@ public class GuiceModule extends AbstractModule {
         bind(new TypeLiteral<IRepository<Citizen>>() { }).to(JdoCitizenRepository.class);
 
     }
+
 }
