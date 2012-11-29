@@ -1,10 +1,11 @@
 package net.mademocratie.gae.server.service.impl.it;
 
 import com.google.appengine.api.users.User;
+import com.google.inject.Inject;
 import junit.framework.Assert;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.server.CitizenSession;
-import net.mademocratie.gae.server.GuiceModule;
+import net.mademocratie.gae.server.MaDemocratieGuiceModule;
 import net.mademocratie.gae.server.exception.RegisterFailedException;
 import net.mademocratie.gae.server.jdo.JdoCitizenQueries;
 import net.mademocratie.gae.server.jdo.JdoCitizenRepository;
@@ -28,25 +29,24 @@ import static org.junit.Assert.*;
  * @version : $Revision$
  */
 @RunWith(GuiceJUnitRunner.class)
-@GuiceJUnitRunner.GuiceModules({ GuiceModule.class })
+@GuiceJUnitRunner.GuiceModules({ MaDemocratieGuiceModule.class })
 public class ManageCitizenImplIT extends BaseIT {
     private static final Logger logger = Logger.getLogger(ManageCitizenImplIT.class.getName());
+    @Inject
     private ManageCitizenImpl manageCitizen;
 
+    @Inject
     private JdoCitizenRepository citizenRepo;
+
+    @Inject
     private JdoCitizenQueries citizenQueries;
+
     private String testUserMail = "boly38@gmail.com";
     private User testGoogleUser = new User(testUserMail, "gmail.com");
 
     @Before
     public void setUp() {
         super.setUp();
-        citizenRepo = new JdoCitizenRepository(pmProvider);
-        citizenQueries= new JdoCitizenQueries(pmProvider);
-        // todo : find a way to auto-inject pm into repo & queries & remove this setters :'(
-        this.manageCitizen = new ManageCitizenImpl();
-        manageCitizen.setCitizenRepo(citizenRepo);
-        manageCitizen.setCitizensQueries(citizenQueries);
         cleanTestData();
     }
 

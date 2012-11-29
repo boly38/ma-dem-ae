@@ -50,8 +50,8 @@ public class MaDemocratieApp extends WebApplication {
         initSettings();
         initSecurity();
 		getResourceSettings().setResourcePollFrequency(null);
-        GuiceModule guiceModule = new GuiceModule();
-        getComponentInstantiationListeners().add(new GuiceComponentInjector(this, guiceModule));
+        MaDemocratieGuiceModule maDemocratieGuiceModule = new MaDemocratieGuiceModule();
+        getComponentInstantiationListeners().add(new GuiceComponentInjector(this, maDemocratieGuiceModule));
         mountBookmarks();
         super.init();
     }

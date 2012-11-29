@@ -1,11 +1,10 @@
 package net.mademocratie.gae.server.service.impl.it;
 
+import com.google.inject.Inject;
 import junit.framework.Assert;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.GuiceModule;
-import net.mademocratie.gae.server.jdo.JdoProposalQueries;
-import net.mademocratie.gae.server.jdo.JdoProposalRepository;
+import net.mademocratie.gae.server.MaDemocratieGuiceModule;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
 import net.mademocratie.gae.test.GuiceJUnitRunner;
 import org.junit.After;
@@ -17,18 +16,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * test sample : http://code.google.com/p/wicket-gae-template/source/browse/branches/experimental/scala/src/test/java/com/example/service/JdoGreetingPersistenceTest.java?r=29
  * @DevInProgress
  */
 @RunWith(GuiceJUnitRunner.class)
-@GuiceJUnitRunner.GuiceModules({ GuiceModule.class })
+@GuiceJUnitRunner.GuiceModules({ MaDemocratieGuiceModule.class })
 public class ManageProposalImplIT extends BaseIT {
     private static final Logger logger = Logger.getLogger(ManageProposalImplIT.class.getName());
+
+    @Inject
     private ManageProposalImpl manageProposal;
 
     private static final String PROPOSAL_TITLE = "test_proposal";
@@ -37,12 +36,6 @@ public class ManageProposalImplIT extends BaseIT {
     @Before
     public void setUp() {
         super.setUp();
-        JdoProposalRepository proposalRepo = new JdoProposalRepository(pmProvider);
-        JdoProposalQueries proposalQueries= new JdoProposalQueries(pmProvider);
-        // todo : find a way to auto-inject pm into repo & queries & remove this setters :'(
-        this.manageProposal = new ManageProposalImpl();
-        manageProposal.setProposalRepo(proposalRepo);
-        manageProposal.setProposalsQueries(proposalQueries);
     }
 
     @After

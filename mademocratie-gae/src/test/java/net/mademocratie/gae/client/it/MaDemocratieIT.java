@@ -4,9 +4,8 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.inject.Provider;
 import net.mademocratie.gae.client.HomePage;
-import net.mademocratie.gae.server.GuiceModule;
+import net.mademocratie.gae.server.MaDemocratieGuiceModule;
 import net.mademocratie.gae.server.MaDemocratieApp;
-import net.mademocratie.gae.server.jdo.PersistenceManagerFilter;
 import net.mademocratie.gae.test.GuiceJUnitRunner;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
@@ -21,7 +20,7 @@ import javax.jdo.PersistenceManagerFactory;
 
 @Ignore("dev in progress")
 @RunWith(GuiceJUnitRunner.class)
-@GuiceJUnitRunner.GuiceModules({ GuiceModule.class })
+@GuiceJUnitRunner.GuiceModules({ MaDemocratieGuiceModule.class })
 public class MaDemocratieIT {
     protected PersistenceManager pm;
     protected PersistenceManagerFactory pmf;
