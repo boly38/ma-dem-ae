@@ -38,6 +38,7 @@
     <skipUTs>false</skipUTs>
     <maven-failsafe-plugin.version>2.12.4</maven-failsafe-plugin.version>
     <maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
+    <festassert.version>1.4</festassert.version>
   </properties>
 
   <pluginRepositories>
@@ -207,6 +208,7 @@
             <artifactId>maven-datanucleus-plugin</artifactId>
             <version>3.0.2</version>
             <configuration>
+                <verbose>false</verbose>
                 <fork>false</fork>
                 <!-- <mappingIncludes>net/mademocratie/gae/model/*.class</mappingIncludes> -->
                 <verbose>true</verbose>
@@ -314,7 +316,6 @@
       <version>0.9.24</version>
     </dependency>
     -->
-
       <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>servlet-api</artifactId>
@@ -366,42 +367,13 @@
           <version>2.3-eb</version>
       </dependency>
 
-    <!--
-      GAE libraries for local testing as described here:
-      http://code.google.com/appengine/docs/java/howto/unittesting.html
-    -->
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-api-labs</artifactId>
-      <version>${gae.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-api-stubs</artifactId>
-      <version>${gae.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.appengine</groupId>
-      <artifactId>appengine-local-runtime</artifactId>
-      <version>${gae.version}</version>
-      <scope>test</scope>
-    </dependency>
 
       <dependency>
           <groupId>com.google.appengine</groupId>
           <artifactId>appengine-api-1.0-sdk</artifactId>
           <version>${gae.version}</version>
       </dependency>
-      <dependency>
-          <groupId>com.google.appengine</groupId>
-          <artifactId>appengine-testing</artifactId>
-          <version>${gae.version}</version>
-          <scope>test</scope>
-      </dependency>
+
       <dependency>
           <groupId>com.google.appengine.orm</groupId>
           <artifactId>datanucleus-appengine</artifactId>
@@ -423,7 +395,49 @@
           <artifactId>jdo-api</artifactId>
           <version>3.0.1</version>
       </dependency>
+      <dependency>
+          <groupId>javax.persistence</groupId>
+          <artifactId>persistence-api</artifactId>
+          <version>1.0</version>
+      </dependency>
 
+      <!-- TESTS deps -->
+
+      <!--
+        GAE libraries for local testing as described here:
+        http://code.google.com/appengine/docs/java/howto/unittesting.html
+      -->
+      <dependency>
+          <groupId>com.google.appengine</groupId>
+          <artifactId>appengine-api-labs</artifactId>
+          <version>${gae.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.google.appengine</groupId>
+          <artifactId>appengine-api-stubs</artifactId>
+          <version>${gae.version}</version>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>com.google.appengine</groupId>
+          <artifactId>appengine-local-runtime</artifactId>
+          <version>${gae.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.google.appengine</groupId>
+          <artifactId>appengine-testing</artifactId>
+          <version>${gae.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.easytesting</groupId>
+          <artifactId>fest-assert</artifactId>
+          <version>${festassert.version}</version>
+          <scope>test</scope>
+      </dependency>
       <!-- test dependencies are always included -->
       <dependency>
           <groupId>junit</groupId>
@@ -443,11 +457,6 @@
           <artifactId>mockito-core</artifactId>
           <version>${mockito.version}</version>
           <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>javax.persistence</groupId>
-          <artifactId>persistence-api</artifactId>
-          <version>1.0</version>
       </dependency>
   </dependencies>
 

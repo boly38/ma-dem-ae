@@ -11,9 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * @DevInProgress
- */
 public class ManageProposalImpl implements IManageProposal {
     private final static Logger LOGGER = Logger.getLogger(ManageProposalImpl.class.getName());
     // ~services
@@ -33,7 +30,6 @@ public class ManageProposalImpl implements IManageProposal {
         inputProposal.setDate(new Date());
         LOGGER.info("add proposal " + inputProposal);
        	proposalRepo.persist(inputProposal);
-		
 	}
 
 	@Override
