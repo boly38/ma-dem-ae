@@ -1,19 +1,14 @@
 package net.mademocratie.gae.server.service;
 
+import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.model.VoteKind;
+import net.mademocratie.gae.server.service.impl.ManageVoteImpl;
 
-/**
- * IManageVote
- * <p/>
- * Last update  : $LastChangedDate$
- * Last author  : $Author$
- *
- * @version : $Revision$
- */
+@ImplementedBy(ManageVoteImpl.class)
 public interface IManageVote {
 
     Vote getMyProposalVote(Long proposalId);
 
-    void vote(Long proposalId, VoteKind kind);
+    Vote vote(String citizenEmail, Long proposalId, VoteKind kind);
 }

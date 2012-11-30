@@ -3,14 +3,6 @@ package net.mademocratie.gae.model;
 import javax.jdo.annotations.*;
 import java.util.Date;
 
-/**
- * Vote
- * <p/>
- * Last update  : $LastChangedDate$
- * Last author  : $Author$
- *
- * @version : $Revision$
- */
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vote {
     @PrimaryKey
@@ -28,6 +20,13 @@ public class Vote {
 
     @Persistent()
     private VoteKind kind;
+
+    public Vote(String citizenEmail, VoteKind kind, Long proposalId) {
+        this.citizenEmail = citizenEmail;
+        this.kind = kind;
+        this.proposalId = proposalId;
+        this.when = new Date();
+    }
 
     public String getCitizenEmail() {
         return citizenEmail;
