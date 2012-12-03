@@ -8,7 +8,7 @@ import net.mademocratie.gae.server.service.impl.ManageVoteImpl;
 @ImplementedBy(ManageVoteImpl.class)
 public interface IManageVote {
 
-    Vote getMyProposalVote(Long proposalId);
+    Vote getProposalVoteOfACitizen(String citizenMail, Long proposalId);
 
     Vote vote(String citizenEmail, Long proposalId, VoteKind kind);
 }

@@ -23,9 +23,10 @@ public class ManageVoteImpl implements IManageVote {
     @Inject
     private IRepository<Vote> voteRepo;
 
+
     @Override
-    public Vote getMyProposalVote(Long proposalId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Vote getProposalVoteOfACitizen(String citizenMail, Long proposalId) {
+        return votesQueries.findProposalVoteByUserEmail(citizenMail, proposalId);
     }
 
     @Override
