@@ -37,7 +37,7 @@ public class ExceptionPage extends PageTemplate {
     }
 
     @Override
-    protected void setPagetitle() {
+    protected void setPageTitle() {
         add(new Label("head_page_title", getString("portal.error.title")));
     }
 

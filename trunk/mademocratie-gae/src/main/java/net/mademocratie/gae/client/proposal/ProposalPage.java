@@ -1,11 +1,11 @@
 package net.mademocratie.gae.client.proposal;
 
-import com.google.inject.Inject;
 import net.mademocratie.gae.client.HomePage;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.client.proposal.details.ProposalVote;
 import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.server.jdo.JdoProposalRepository;
+import net.mademocratie.gae.server.service.IManageProposal;
+import net.mademocratie.gae.server.service.IManageVote;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -13,6 +13,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 import org.apache.wicket.util.string.StringValueConversionException;
 
+import javax.inject.Inject;
 import java.util.logging.Logger;
 
 public class ProposalPage extends PageTemplate {
@@ -21,23 +22,36 @@ public class ProposalPage extends PageTemplate {
 	 */
 	private static final long serialVersionUID = -8997275197440920875L;
 
-    private final static Logger LOGGER = Logger.getLogger(ProposalPage.class.getName()); 
-	//~design
+    private final static Logger LOGGER = Logger.getLogger(ProposalPage.class.getName());
+
+    //~services
+    @Inject
+    private IManageVote manageVote;
+
+    @Inject
+    private IManageProposal manageProposal;
+
+    //~design
     private Long propId;
     
-    @Inject
-    private JdoProposalRepository proposalRepo;
-
     private Proposal proposal;
+
+
+    public ProposalPage() {
+        super(null);
+        handleParams();
+        initComponents();
+    }
+
 
     public ProposalPage(PageParameters params) {
         super(params);
-//        initServices();
+        LOGGER.info("proposalPage");
+        handleParams();
         initComponents();
     }
 
     private void initComponents() {
-        handleParams();
         createProposalDescription();
         createProposalVote();
     }
@@ -51,7 +65,7 @@ public class ProposalPage extends PageTemplate {
             // nothing
         }
         LOGGER.info("display proposal number " + propId);
-        proposal = (propId != null ? proposalRepo.get(propId) : null);
+        proposal = (propId != null ? manageProposal.getById(propId) : null);
         if (proposal == null) {
             getSession().error("Unable to retrieve the proposal");
             throw new RestartResponseException(HomePage.class, null);
@@ -59,7 +73,7 @@ public class ProposalPage extends PageTemplate {
     }
 
     private void createProposalVote() {
-        add(new ProposalVote("proposalVote", propId));
+        add(new ProposalVote("proposalVote", propId, manageVote));
     }
 
     private void createProposalDescription() {

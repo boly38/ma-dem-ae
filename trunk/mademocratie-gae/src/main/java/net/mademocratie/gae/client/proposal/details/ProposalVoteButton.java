@@ -3,23 +3,29 @@ package net.mademocratie.gae.client.proposal.details;
 import net.mademocratie.gae.client.common.WicketUtils;
 import net.mademocratie.gae.model.VoteKind;
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.Link;
 
 /**
  * ProposalVoteButton
- * <p/>
+ *
+ * class not selected :
+ * btn btn-info
+ *
+ * class selected :
+ * btn btn-warning
+ *
  * Last update  : $LastChangedDate$
  * Last author  : $Author$
  *
  * @version : $Revision$
  */
-public class ProposalVoteButton extends ExternalLink {
-    public ProposalVoteButton(String id, String href, VoteKind voteKind) {
-        super(id, href);
+public abstract class ProposalVoteButton extends Link {
+    public ProposalVoteButton(String id, VoteKind voteKind) {
+        super(id);
         switch (voteKind) {
             case PRO:
                 setBody(WicketUtils.getStringResourceModel(this, "proposal.vote.pro.button"));
-                add(new AttributeModifier("class", "btn btn-warning"));
+                add(new AttributeModifier("class","btn btn-info"));
                 break;
             case NEUTRAL:
                 setBody(WicketUtils.getStringResourceModel(this, "proposal.vote.neutral.button"));
@@ -31,5 +37,14 @@ public class ProposalVoteButton extends ExternalLink {
                 add(new AttributeModifier("class","btn btn-info"));
                 break;
         }
+    }
+
+    public void toggle(boolean choice) {
+        if (choice) {
+            add(new AttributeModifier("class", "btn btn-warning"));
+            return;
+        }
+        add(new AttributeModifier("class", "btn btn-info"));
+        return;
     }
 }

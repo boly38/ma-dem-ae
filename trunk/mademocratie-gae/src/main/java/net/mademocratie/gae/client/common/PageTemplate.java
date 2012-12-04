@@ -26,16 +26,21 @@ public abstract class PageTemplate extends WebPage {
      * application
      */
 	private transient MaDemocratieApp maDemocratieApp;
+
+    protected PageTemplate() {
+        super();
+    }
+
     /**
      * PageTemplate constructor
      * @param params - page parameters map
      */
-    public PageTemplate(final PageParameters params) {
+    public PageTemplate(PageParameters params) {
     	super(params);
         this.params = params;
         maDemocratieApp = (MaDemocratieApp)getApplication();
         createCommons();
-        setPagetitle();
+        setPageTitle();
     }
     
     private void createCommons() {
@@ -45,7 +50,7 @@ public abstract class PageTemplate extends WebPage {
         add(footerPanel);
     }
 
-    protected void setPagetitle() {
+    protected void setPageTitle() {
         /* set head page title to display in browser title bar */
         add(new Label("head_page_title", "MaDemocratie"));
     }
