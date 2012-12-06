@@ -21,10 +21,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!--
-      Specify AppEngine version for your project. It should match SDK version pointed to
-      by ${gae.home} property (Typically, one used by your Eclipse plug-in)
-    <gae.version>1.7.1</gae.version>
-    -->
+        Specify AppEngine version for your project. It should match SDK version pointed to
+        by ${gae.home} property (Typically, one used by your Eclipse plug-in)
+      <gae.version>1.7.1</gae.version>
+      -->
     <gae.version>1.7.0</gae.version>
 
       <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
@@ -84,7 +84,7 @@
   </repositories>
   <profiles>
     <profile>
-        <id>developpement</id>
+        <id>dev</id>
         <properties>
             <!-- development (wicket)-->
             <mademocratie.configuration>development</mademocratie.configuration>
@@ -187,7 +187,7 @@
         <artifactId>maven-gae-plugin</artifactId>
         <version>0.9.4</version>
         <configuration>
-          <sdkDir>${gae.home}</sdkDir>
+          <!--<sdkDir>${gae.home}</sdkDir> -->
             <!-- http://code.google.com/p/maven-gae-plugin/issues/detail?id=38
            <jvmFlags>
             <jvmFlag>-Xdebug</jvmFlag>
