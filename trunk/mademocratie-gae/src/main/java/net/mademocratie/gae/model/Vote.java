@@ -67,4 +67,18 @@ public class Vote {
     public void setProposalId(Long proposalId) {
         this.proposalId = proposalId;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Vote");
+        if (getId() != null) {
+            sb.append("#").append(getId());
+        }
+        sb.append("|").append(getKind()).append("]")
+                .append(" by ").append(getCitizenEmail())
+                .append(" (proposal#").append(getProposalId())
+                .append(") date=").append(getWhen());
+        return sb.toString();
+    }
 }

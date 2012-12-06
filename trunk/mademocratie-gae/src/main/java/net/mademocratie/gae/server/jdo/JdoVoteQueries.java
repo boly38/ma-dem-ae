@@ -31,18 +31,28 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
     */
 
     @Override
-    public Vote findProposalVoteByUserEmail(String userEmail, Long proposalId) {
+    public Vote findProposalVoteByUserEmail(String citizenEmail, Long proposalId) {
         Query query = newQuery();
         query.declareParameters("String emailParam, Long proposalIdParam");
         query.setFilter("citizenEmail == emailParam");
         query.setFilter("proposalId == proposalIdParam");
         List<Vote> votes = null;
         try {
-            votes = toList(query.execute(userEmail, proposalId));
+            votes = toList(query.execute(citizenEmail, proposalId));
         } finally {
             query.closeAll();
         }
-        LOGGER.info("findProposalVoteByUserEmail " + userEmail + " for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
+        LOGGER.info("findProposalVoteByUserEmail " + citizenEmail + " for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
         return (votes != null && votes.size() > 0 ? votes.get(0) : null);
+    }
+
+    @Override
+    public void removeVoteByUserEmail(String citizenEmail, Long proposalId) {
+        Query query = newQuery();
+        query.declareParameters("String emailParam, Long proposalIdParam");
+        query.setFilter("citizenEmail == emailParam");
+        query.setFilter("proposalId == proposalIdParam");
+        long nbDelete = query.deletePersistentAll(citizenEmail, proposalId);
+        LOGGER.info("vote by " + citizenEmail + " for proposal#" + proposalId + " delete count=" + nbDelete);
     }
 }
