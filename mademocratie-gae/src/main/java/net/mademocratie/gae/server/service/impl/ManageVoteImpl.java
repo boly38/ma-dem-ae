@@ -25,15 +25,18 @@ public class ManageVoteImpl implements IManageVote {
 
 
     @Override
-    public Vote getProposalVoteOfACitizen(String citizenMail, Long proposalId) {
-        return votesQueries.findProposalVoteByUserEmail(citizenMail, proposalId);
+    public Vote getProposalVoteOfACitizen(String citizenEmail, Long proposalId) {
+        return votesQueries.findProposalVoteByUserEmail(citizenEmail, proposalId);
     }
 
     @Override
     public Vote vote(String citizenEmail, Long proposalId, VoteKind kind) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        Vote existingVote = votesQueries.findProposalVoteByUserEmail(citizenEmail, proposalId);
+        if (existingVote != null) {
+            votesQueries.removeVoteByUserEmail(citizenEmail, proposalId);
+        }
         Vote vote = new Vote(citizenEmail, kind, proposalId);
-        LOGGER.info("add vote " + vote);
+        LOGGER.info("ADD " + vote);
         voteRepo.persist(vote);
         return vote;
     }

@@ -86,6 +86,16 @@ public class ManageVoteImplIT extends BaseIT {
      * @throws Exception
      **/
     @Test
+    public void testAddProposalTwoDistinctVotesOnAuthoredProposal() throws Exception {
+        Vote testVote = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.NEUTRAL);
+        Vote testVoteBis = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.PRO);
+        assertThat(testVoteBis.getId()).isNotNull();
+    }
+
+    /**
+     * @throws Exception
+     **/
+    @Test
     public void testGetProposalVote() throws Exception {
         Vote testVote = manageVote.vote(myAuthorA.getEmail(), testProposalA.getId(), VoteKind.PRO);
         assertThat(testVote.getId()).isNotNull();
