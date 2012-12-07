@@ -8,7 +8,7 @@ xsi:schemaLocation="http://appengine.google.com/ns/1.0
     <version>${mademocratie.version}</version>
 
     <system-properties>
-        <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties"/>
+        <!-- <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties"/> -->
         <property name="log4j.configuration" value="WEB-INF/classes/log4j.properties"/>
     </system-properties>
 

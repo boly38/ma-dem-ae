@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>net.mademocratie.gae</groupId>
   <artifactId>mademocratie-gae</artifactId>
-  <version>0-5-4-alpha</version>
+  <version>0-5-5-alpha</version>
   <packaging>war</packaging>
 
   <name>ma-dem-ae</name>
@@ -39,6 +39,8 @@
     <maven-failsafe-plugin.version>2.12.4</maven-failsafe-plugin.version>
     <maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
     <festassert.version>1.4</festassert.version>
+      <log4j.version>1.2.17</log4j.version>
+      <slf4j-log4j12.version>1.6.6</slf4j-log4j12.version>
   </properties>
 
   <pluginRepositories>
@@ -299,23 +301,16 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-    <!--
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>0.9.24</version>
-    </dependency>
-    -->
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>${slf4j-log4j12.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+          <version>${log4j.version}</version>
+      </dependency>
       <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>servlet-api</artifactId>

@@ -2,10 +2,9 @@ package net.mademocratie.gae.server.jdo;
 
 import javax.servlet.*;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class PersistenceManagerFilter implements Filter {
-    private static final Logger logger = Logger.getLogger(PersistenceManagerFilter.class.getName());
+    // private static final Logger logger = Logger.getLogger(PersistenceManagerFilter.class.getName());
 
     public void init(FilterConfig filterConfig) throws ServletException {
         DataStore.initialize();
