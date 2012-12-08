@@ -2,15 +2,12 @@
 
 = Introduction =
 
-MaDemocratie est un projet de site web collaboratif et social de partage et de vote de propositions citoyennes.
+Ma démocratie est un projet de site web collaboratif et social. Ce site a pour objet le partage et la possibilité de voter des propositions citoyennes.
 
- * http://www.mademocratie.net (ou bien  http://ma-democratie.appspot.com) est destiné à accueillir la version courante du site
- * http://ma-dem-ae.appspot.com accueille la dernière version en test.
+L'adresse du site est :http://www.mademocratie.net
 
-Ce projet avance lentement (1contributeur à temps partiel) mais surement... 
-La cible est un simple PoC (Proof of Concept) pour faire naître d'autres projets du même genre par d'autres contributeurs.
-
-La page "about" du site donne la version courante. La version majeure 0 (0.x-y-z) ne donne pas de garantie de la conservation des données.
+=Configuration=
+Ce projet avance lentement (1 contributeur à temps partiel) mais surement... 
 
 
 Contact : info  at  mademocratie.net
