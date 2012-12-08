@@ -1,8 +1,16 @@
-#summary One-sentence summary of this page.
+#summary Présentation du projet.
 
 = Introduction =
 
-No more info for now.. project under construction !
+MaDemocratie est un projet de site web collaboratif et social de partage et de vote de propositions citoyennes.
+
+ * http://www.mademocratie.net (ou bien  http://ma-democratie.appspot.com) est destiné à accueillir la version courante du site
+ * http://ma-dem-ae.appspot.com accueille la dernière version en test.
+
+Ce projet avance lentement (1contributeur à temps partiel) mais surement... 
+La cible est un simple PoC (Proof of Concept) pour faire naître d'autres projets du même genre par d'autres contributeurs.
+
+Contact : info  at  mademocratie.net
 
 <wiki:comment>
  :
