@@ -4,7 +4,7 @@
 
 Ma démocratie est un projet de site web collaboratif et social. Ce site a pour objet le partage et la possibilité de voter des propositions citoyennes.
 
-L'adresse du site est :http://www.mademocratie.net
+L'adresse du site est http://www.mademocratie.net
 
 =Configuration=
 Ce projet avance lentement (1 contributeur à temps partiel) mais surement... 
