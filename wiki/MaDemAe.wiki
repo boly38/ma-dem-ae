@@ -7,9 +7,14 @@ Ma démocratie est un projet de site web collaboratif et social. Ce site a pour 
 L'adresse du site est http://www.mademocratie.net
 
 =Configuration=
-Ce projet avance lentement (1 contributeur à temps partiel) mais surement... 
+Ce projet avance lentement (1 contributeur à temps partiel).
+
+C'est un projet open source : [http://code.google.com/p/ma-dem-ae/source/ le code du site] est hébergé par Google code sous le nom [http://code.google.com/p/ma-dem-ae/ ma-dem-ae] (ma démocratie app engine)
+
+La page [http://code.google.com/p/ma-dem-ae/issues/list?can=2&q=&colspec=ID+Type+Status+Priority+Milestone+Owner+Summary+Modified&groupby=&sort=&x=status&y=priority&cells=tiles&mode=grid Issues] présente les évolutions et corrections prévues.
 
 
+=Contact=
 Contact : info  at  mademocratie.net
 
 <wiki:comment>
