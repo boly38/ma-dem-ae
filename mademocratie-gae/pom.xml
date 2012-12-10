@@ -5,12 +5,13 @@
   <!-- The Basics -->
   <groupId>net.mademocratie.gae</groupId>
   <artifactId>mademocratie-gae</artifactId>
-  <version>0-5-5-alpha</version>
+  <version>0-6-0-alpha</version>
   <packaging>war</packaging>
 
   <name>ma-dem-ae</name>
 
   <properties>
+    <!-- project -->
     <maven.build.timestamp.format>dd/MM/yyyy-HH:mm</maven.build.timestamp.format>
     <timestamp>${maven.build.timestamp}</timestamp>
     <mademocratie.version>${project.version}</mademocratie.version>
@@ -21,26 +22,39 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!--
-        Specify AppEngine version for your project. It should match SDK version pointed to
+        AppEngine version
+
+        It should match SDK version pointed to
         by ${gae.home} property (Typically, one used by your Eclipse plug-in)
       <gae.version>1.7.1</gae.version>
       -->
     <gae.version>1.7.0</gae.version>
-
-      <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
+    <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
     <gae.application.version>test</gae.application.version>
     <!-- port defaults to 8080 -->
     <gae.port>8080</gae.port>
+
+    <!-- client presentation frameworks -->
     <wicket.version>6.0.0</wicket.version>
+    <!-- old version <jquery-version>jquery-1.7.2</jquery-version> -->
+    <jquery-version>jquery-1.8.3</jquery-version>
+    <!-- old version bootstrap-2-0-4 (see also FooterPanel.html) -->
+    <bootstrap-version>bootstrap-2-2-2</bootstrap-version>
+
+    <!-- data persistence -->
     <datanucleus.version>3.1.1</datanucleus.version>
+
+    <!-- tests frameworks and libraries -->
     <junit.version>4.8.2</junit.version>
     <mockito.version>1.8.5</mockito.version>
     <skipUTs>false</skipUTs>
     <maven-failsafe-plugin.version>2.12.4</maven-failsafe-plugin.version>
     <maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
     <festassert.version>1.4</festassert.version>
-      <log4j.version>1.2.17</log4j.version>
-      <slf4j-log4j12.version>1.6.6</slf4j-log4j12.version>
+
+    <!-- loggers -->
+    <log4j.version>1.2.17</log4j.version>
+    <slf4j-log4j12.version>1.6.6</slf4j-log4j12.version>
   </properties>
 
   <pluginRepositories>
