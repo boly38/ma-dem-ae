@@ -29,16 +29,22 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#tabVot" data-toggle="tab">Votes</a></li>
-    <li><a href="#tabCom" data-toggle="tab">Comments</a></li>
+    <!-- <li><a href="#tabCom" data-toggle="tab">Comments</a></li> -->
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tabVot">
-       <div wicket:id="proposalVote"></div>
+        <div class="alert fade in"> <!-- wicket:id="special-admin" -->
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong><i class="icon-info-sign"></i>  vote summary</strong> (is not yet implemented but will be showed only when your vote is done and when proposal vote count is greater than 10).
+        </div>
+        <div wicket:id="proposalVote"></div>
     </div>
+    <!--
     <div class="tab-pane" id="tabCom">
-      <p>&lt;Proposal comments&gt;</p>
-      <p>TO COME</p>
+    <p>&lt;Proposal comments&gt;</p>
+    <p>TODO : proposal comments</p>
     </div>
+    -->
   </div>
 </div>
 	   </div>
