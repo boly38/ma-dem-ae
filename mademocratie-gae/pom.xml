@@ -5,7 +5,7 @@
   <!-- The Basics -->
   <groupId>net.mademocratie.gae</groupId>
   <artifactId>mademocratie-gae</artifactId>
-  <version>0-6-1-alpha</version>
+  <version>0-6-2-alpha</version>
   <packaging>war</packaging>
 
   <name>ma-dem-ae</name>
@@ -37,7 +37,7 @@
     <!-- client presentation frameworks -->
     <wicket.version>6.0.0</wicket.version>
     <!-- old version <jquery-version>jquery-1.7.2</jquery-version> -->
-    <jquery-version>jquery-1.8.3</jquery-version>
+    <jquery-version>jquery-1.8.1</jquery-version>
     <!-- old version bootstrap-2-0-4 (see also FooterPanel.html) -->
     <bootstrap-version>bootstrap-2-2-2</bootstrap-version>
 
