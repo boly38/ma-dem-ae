@@ -9,6 +9,7 @@ import net.mademocratie.gae.server.service.IProposal;
 import net.mademocratie.gae.server.service.IRepository;
 import net.mademocratie.gae.server.service.IVote;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 public class ManageVoteImpl implements IManageVote {
@@ -39,5 +40,10 @@ public class ManageVoteImpl implements IManageVote {
         LOGGER.info("ADD " + vote);
         voteRepo.persist(vote);
         return vote;
+    }
+
+    @Override
+    public Collection<Vote> getProposalVotes(Long proposalId) {
+        return votesQueries.findProposalVotes(proposalId);
     }
 }

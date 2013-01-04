@@ -7,6 +7,7 @@ import net.mademocratie.gae.server.service.IVote;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,10 +33,13 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
 
     @Override
     public Vote findProposalVoteByUserEmail(String citizenEmail, Long proposalId) {
+        if (citizenEmail == null) {
+            return null;
+        }
         Query query = newQuery();
         query.declareParameters("String emailParam, Long proposalIdParam");
-        query.setFilter("citizenEmail == emailParam");
-        query.setFilter("proposalId == proposalIdParam");
+        query.setFilter("citizenEmail == emailParam"
+                      + "&& proposalId == proposalIdParam");
         List<Vote> votes = null;
         try {
             votes = toList(query.execute(citizenEmail, proposalId));
@@ -48,11 +52,29 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
 
     @Override
     public void removeVoteByUserEmail(String citizenEmail, Long proposalId) {
+        if (citizenEmail == null) {
+            return;
+        }
         Query query = newQuery();
         query.declareParameters("String emailParam, Long proposalIdParam");
-        query.setFilter("citizenEmail == emailParam");
-        query.setFilter("proposalId == proposalIdParam");
+        query.setFilter("citizenEmail == emailParam"
+                      + "&& proposalId == proposalIdParam");
         long nbDelete = query.deletePersistentAll(citizenEmail, proposalId);
-        LOGGER.info("vote by " + citizenEmail + " for proposal#" + proposalId + " delete count=" + nbDelete);
+        LOGGER.info("remove vote by " + citizenEmail + " for proposal#" + proposalId + " delete count=" + nbDelete);
+    }
+
+    @Override
+    public Collection<Vote> findProposalVotes(Long proposalId) {
+        Query query = newQuery();
+        query.declareParameters("Long proposalIdParam");
+        query.setFilter("proposalId == proposalIdParam");
+        List<Vote> votes = null;
+        try {
+            votes = toList(query.execute(proposalId));
+        } finally {
+            query.closeAll();
+        }
+        LOGGER.info("findProposalVotes for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
+        return votes;
     }
 }
