@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -43,8 +44,8 @@ public class ManageVoteImplIT extends BaseIT {
     @Before
     public void init() {
         super.setUp();
-        myAuthorA = new Citizen("jo la frite", "frite365", "frite@jo-la.fr", "abc123");
-        myAuthorB = new Citizen("ji la frote", "frite421", "frote@jo-la.fr", "abc123");
+        myAuthorA = new Citizen("jo la frite", "frite365", "friteA@jo-la.fr", "abc123");
+        myAuthorB = new Citizen("ji la frote", "frite421", "froteB@jo-la.fr", "abc123");
         testProposalAnon = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
         testProposalA = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
         testProposalB = new Proposal(PROPOSAL_TITLE, PROPOSAL_CONTENT);
@@ -97,11 +98,41 @@ public class ManageVoteImplIT extends BaseIT {
      **/
     @Test
     public void testGetProposalVote() throws Exception {
+        // GIVEN
         Vote testVote = manageVote.vote(myAuthorA.getEmail(), testProposalA.getId(), VoteKind.PRO);
         assertThat(testVote.getId()).isNotNull();
+        // WHEN
         Vote retrievedVote = manageVote.getProposalVoteOfACitizen(myAuthorA.getEmail(), testProposalA.getId());
-        assertThat(retrievedVote).isNotNull();
-        assertThat(retrievedVote).isEqualTo(testVote);
+        // THEN
+        assertThat(retrievedVote)
+                .as("unable to retrieve a vote of a citizen")
+                .isNotNull();
+        assertThat(retrievedVote)
+                .as("unable to retrieve the vote of the citizen")
+                .isEqualTo(testVote);
+    }
+
+    /**
+     * @throws Exception
+     **/
+    @Test
+    public void testGetProposalVotes() throws Exception {
+        // GIVEN
+        Vote testVote = manageVote.vote(myAuthorA.getEmail(), testProposalA.getId(), VoteKind.PRO);
+        Vote testVoteB = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.NEUTRAL);
+        assertThat(testVote.getId()).isNotNull();
+        // WHEN
+        Collection<Vote> retrievedVotes = manageVote.getProposalVotes(testProposalA.getId());
+        //THEN
+        assertThat(retrievedVotes)
+                .as("unable to retrieve a proposal's vote")
+                .isNotNull();
+        assertThat(retrievedVotes)
+                .as("proposal's vote count is incorrect : " + retrievedVotes.size())
+                .hasSize(2);
+        assertThat(retrievedVotes)
+                .as("unable to retrieve given proposal's vote")
+                .contains(testVote, testVoteB);
     }
 
 }
