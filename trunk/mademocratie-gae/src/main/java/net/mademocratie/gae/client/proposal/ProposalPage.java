@@ -2,6 +2,7 @@ package net.mademocratie.gae.client.proposal;
 
 import net.mademocratie.gae.client.HomePage;
 import net.mademocratie.gae.client.common.PageTemplate;
+import net.mademocratie.gae.client.common.VoteItemContainer;
 import net.mademocratie.gae.client.proposal.details.ProposalVote;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.IManageProposal;
@@ -9,6 +10,7 @@ import net.mademocratie.gae.server.service.IManageVote;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
 import org.apache.wicket.util.string.StringValueConversionException;
@@ -16,7 +18,7 @@ import org.apache.wicket.util.string.StringValueConversionException;
 import javax.inject.Inject;
 import java.util.logging.Logger;
 
-public class ProposalPage extends PageTemplate {
+public class ProposalPage extends PageTemplate implements VoteItemContainer {
     /**
 	 * serialUID
 	 */
@@ -35,6 +37,8 @@ public class ProposalPage extends PageTemplate {
     private Long propId;
     
     private Proposal proposal;
+    private int proposalVotesCount;
+    private Label proposalVotesCountLabel;
 
 
     public ProposalPage() {
@@ -54,6 +58,12 @@ public class ProposalPage extends PageTemplate {
     private void initComponents() {
         createProposalDescription();
         createProposalVote();
+        updateVoteCount();
+    }
+
+    public void updateVoteCount() {
+        proposalVotesCount = manageVote.getProposalVotes(propId).size();
+        proposalVotesCountLabel.setDefaultModel(new Model<String>(String.valueOf(proposalVotesCount)));
     }
 
     private void handleParams() {
@@ -73,7 +83,7 @@ public class ProposalPage extends PageTemplate {
     }
 
     private void createProposalVote() {
-        add(new ProposalVote("proposalVote", propId, manageVote));
+        add(new ProposalVote("proposalVote", this, propId, manageVote));
     }
 
     private void createProposalDescription() {
@@ -84,12 +94,14 @@ public class ProposalPage extends PageTemplate {
         add(pDescContainer);
     	
     	Label proposalDate = new Label("proposalDate", proposal.getDate().toString());
+        proposalVotesCountLabel = new Label("proposalVotesCount", "0");
     	Label proposalAuthor = new Label("proposalAuthor", author);
     	Label proposalTitle = new Label("proposalTitle", proposal.getTitle());
     	Label proposalDesc = new Label("proposalDescription", pDescString);
     	
     	add(proposalDate);
     	add(proposalAuthor);
+        add(proposalVotesCountLabel);
     	add(proposalTitle);
     	pDescContainer.add(proposalDesc);
     	

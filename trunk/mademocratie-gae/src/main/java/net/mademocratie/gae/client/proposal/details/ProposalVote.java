@@ -1,6 +1,7 @@
 package net.mademocratie.gae.client.proposal.details;
 
 import net.mademocratie.gae.client.citizen.RegisterPage;
+import net.mademocratie.gae.client.common.VoteItemContainer;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.model.VoteKind;
@@ -30,12 +31,14 @@ public class ProposalVote extends Panel {
 
     private Vote currentVote;
     private Long proposalId;
+    private VoteItemContainer voteItemContainer;
 
-    public ProposalVote(String proposalVoteId, Long proposalId, IManageVote manageVote) {
+    public ProposalVote(String proposalVoteId, VoteItemContainer voteItemContainer, Long proposalId, IManageVote manageVote) {
         super(proposalVoteId);
         LOGGER.info("proposalVote");
         this.manageVote = manageVote;
         this.proposalId = proposalId;
+        this.voteItemContainer = voteItemContainer;
         initComponents();
         initData();
     }
@@ -90,6 +93,7 @@ public class ProposalVote extends Panel {
     private void clickVote(VoteKind voteKind) {
         try {
             vote(voteKind);
+            voteItemContainer.updateVoteCount();
         } catch (AnonymousCantVoteException e) {
             CitizenSession.get().error("anonymous user cant vote, please register or sign in!");
             gotoRegister();
