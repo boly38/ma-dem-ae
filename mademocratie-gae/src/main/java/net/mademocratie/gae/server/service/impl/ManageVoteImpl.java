@@ -2,6 +2,7 @@ package net.mademocratie.gae.server.service.impl;
 
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.model.ProposalVotes;
 import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.model.VoteKind;
 import net.mademocratie.gae.server.service.IManageVote;
@@ -43,7 +44,7 @@ public class ManageVoteImpl implements IManageVote {
     }
 
     @Override
-    public Collection<Vote> getProposalVotes(Long proposalId) {
-        return votesQueries.findProposalVotes(proposalId);
+    public ProposalVotes getProposalVotes(Long proposalId) {
+        return new ProposalVotes(votesQueries.findProposalVotes(proposalId));
     }
 }

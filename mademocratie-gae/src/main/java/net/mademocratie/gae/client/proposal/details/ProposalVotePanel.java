@@ -13,15 +13,15 @@ import org.apache.wicket.markup.html.panel.Panel;
 import java.util.logging.Logger;
 
 /**
- * ProposalVote
+ * ProposalVotePanel
  * <p/>
  * Last update  : $LastChangedDate$
  * Last author  : $Author$
  *
  * @version : $Revision$
  */
-public class ProposalVote extends Panel {
-    private static final Logger LOGGER = Logger.getLogger(ProposalVote.class.getName());
+public class ProposalVotePanel extends Panel {
+    private static final Logger LOGGER = Logger.getLogger(ProposalVotePanel.class.getName());
 
     private IManageVote manageVote;
 
@@ -33,7 +33,7 @@ public class ProposalVote extends Panel {
     private Long proposalId;
     private VoteItemContainer voteItemContainer;
 
-    public ProposalVote(String proposalVoteId, VoteItemContainer voteItemContainer, Long proposalId, IManageVote manageVote) {
+    public ProposalVotePanel(String proposalVoteId, VoteItemContainer voteItemContainer, Long proposalId, IManageVote manageVote) {
         super(proposalVoteId);
         LOGGER.info("proposalVote");
         this.manageVote = manageVote;
