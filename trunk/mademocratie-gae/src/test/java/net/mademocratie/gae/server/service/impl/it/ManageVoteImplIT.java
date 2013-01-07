@@ -1,10 +1,7 @@
 package net.mademocratie.gae.server.service.impl.it;
 
 import com.google.inject.Inject;
-import net.mademocratie.gae.model.Citizen;
-import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.model.Vote;
-import net.mademocratie.gae.model.VoteKind;
+import net.mademocratie.gae.model.*;
 import net.mademocratie.gae.server.MaDemocratieGuiceModule;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
@@ -14,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Collection;
 import java.util.logging.Logger;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -122,15 +118,18 @@ public class ManageVoteImplIT extends BaseIT {
         Vote testVoteB = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.NEUTRAL);
         assertThat(testVote.getId()).isNotNull();
         // WHEN
-        Collection<Vote> retrievedVotes = manageVote.getProposalVotes(testProposalA.getId());
+        ProposalVotes retrievedVotes = manageVote.getProposalVotes(testProposalA.getId());
         //THEN
         assertThat(retrievedVotes)
                 .as("unable to retrieve a proposal's vote")
                 .isNotNull();
-        assertThat(retrievedVotes)
-                .as("proposal's vote count is incorrect : " + retrievedVotes.size())
-                .hasSize(2);
-        assertThat(retrievedVotes)
+        assertThat(retrievedVotes.getVotes())
+                .as("unable to retrieve a proposal's vote")
+                .isNotNull();
+        assertThat(retrievedVotes.voteCount())
+                .as("proposal's vote count is incorrect : " + retrievedVotes.voteCount())
+                .equals(2);
+        assertThat(retrievedVotes.getVotes())
                 .as("unable to retrieve given proposal's vote")
                 .contains(testVote, testVoteB);
     }

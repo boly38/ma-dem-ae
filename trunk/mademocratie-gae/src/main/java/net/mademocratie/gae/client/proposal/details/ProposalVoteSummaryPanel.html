@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="https://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      xml:lang="en" lang="en">
+<wicket:panel>
+    <div class="alert fade in"> <!-- wicket:id="special-admin" -->
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong><i class="icon-info-sign"></i>  vote summary</strong> (is not yet fully implemented : should be showed only when your vote is done and when proposal vote count is greater than 10).
+    </div>
+    <div class="span7"><p>
+        <span style="font-weight: bold" wicket:id="proposalPro">0</span> FOR<br/>
+        <span style="font-weight: bold" wicket:id="proposalNeutral">0</span> NEUTRAL<br/>
+        <span style="font-weight: bold" wicket:id="proposalCon">0</span> CON
+    </p></div>
+</wicket:panel>
+</html>

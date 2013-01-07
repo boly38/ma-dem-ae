@@ -3,8 +3,10 @@ package net.mademocratie.gae.client.proposal;
 import net.mademocratie.gae.client.HomePage;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.client.common.VoteItemContainer;
-import net.mademocratie.gae.client.proposal.details.ProposalVote;
+import net.mademocratie.gae.client.proposal.details.ProposalVotePanel;
+import net.mademocratie.gae.client.proposal.details.ProposalVoteSummaryPanel;
 import net.mademocratie.gae.model.Proposal;
+import net.mademocratie.gae.model.ProposalVotes;
 import net.mademocratie.gae.server.service.IManageProposal;
 import net.mademocratie.gae.server.service.IManageVote;
 import org.apache.wicket.RestartResponseException;
@@ -37,8 +39,9 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
     private Long propId;
     
     private Proposal proposal;
-    private int proposalVotesCount;
+    private ProposalVotes proposalVotes;
     private Label proposalVotesCountLabel;
+    private ProposalVoteSummaryPanel proposalVoteSummary;
 
 
     public ProposalPage() {
@@ -52,19 +55,10 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
         super(params);
         LOGGER.info("proposalPage");
         handleParams();
+        loadData();
         initComponents();
     }
 
-    private void initComponents() {
-        createProposalDescription();
-        createProposalVote();
-        updateVoteCount();
-    }
-
-    public void updateVoteCount() {
-        proposalVotesCount = manageVote.getProposalVotes(propId).size();
-        proposalVotesCountLabel.setDefaultModel(new Model<String>(String.valueOf(proposalVotesCount)));
-    }
 
     private void handleParams() {
         PageParameters params = this.getPageParameters();
@@ -75,15 +69,39 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
             // nothing
         }
         LOGGER.info("display proposal number " + propId);
+    }
+
+    private void loadData() {
         proposal = (propId != null ? manageProposal.getById(propId) : null);
         if (proposal == null) {
             getSession().error("Unable to retrieve the proposal");
             throw new RestartResponseException(HomePage.class, null);
         }
+        loadDataProposalVotes();
     }
 
+    private void initComponents() {
+        createProposalDescription();
+        createProposalVote();
+    }
+
+    public void updateVoteCount() {
+        loadDataProposalVotes();
+        proposalVotesCountLabel.setDefaultModel(new Model<String>(String.valueOf(proposalVotes.voteCount())));
+        remove(proposalVoteSummary);
+        proposalVoteSummary = new ProposalVoteSummaryPanel("proposalVoteSummary", proposalVotes);
+        add(proposalVoteSummary);
+    }
+
+    private void loadDataProposalVotes() {
+        proposalVotes = manageVote.getProposalVotes(propId);
+    }
+
+
     private void createProposalVote() {
-        add(new ProposalVote("proposalVote", this, propId, manageVote));
+        add(new ProposalVotePanel("proposalVote", this, propId, manageVote));
+        proposalVoteSummary = new ProposalVoteSummaryPanel("proposalVoteSummary", proposalVotes);
+        add(proposalVoteSummary);
     }
 
     private void createProposalDescription() {
@@ -94,7 +112,7 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
         add(pDescContainer);
     	
     	Label proposalDate = new Label("proposalDate", proposal.getDate().toString());
-        proposalVotesCountLabel = new Label("proposalVotesCount", "0");
+        proposalVotesCountLabel = new Label("proposalVotesCount", new Model<String>(String.valueOf(proposalVotes.voteCount())));
     	Label proposalAuthor = new Label("proposalAuthor", author);
     	Label proposalTitle = new Label("proposalTitle", proposal.getTitle());
     	Label proposalDesc = new Label("proposalDescription", pDescString);
