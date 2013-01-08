@@ -35,7 +35,7 @@ public class ProposalVotePanel extends Panel {
 
     public ProposalVotePanel(String proposalVoteId, VoteItemContainer voteItemContainer, Long proposalId, IManageVote manageVote) {
         super(proposalVoteId);
-        LOGGER.info("proposalVote");
+        // LOGGER.finest("proposalVote");
         this.manageVote = manageVote;
         this.proposalId = proposalId;
         this.voteItemContainer = voteItemContainer;
@@ -95,12 +95,15 @@ public class ProposalVotePanel extends Panel {
             vote(voteKind);
             voteItemContainer.updateVoteCount();
         } catch (AnonymousCantVoteException e) {
-            CitizenSession.get().error("anonymous user cant vote, please register or sign in!");
+            String errMsg = "anonymous user cant vote, please register or sign in!";
+            LOGGER.info(errMsg);
+            CitizenSession.get().error(errMsg);
             gotoRegister();
         }
     }
 
     private void gotoRegister() {
+        // LOGGER.finest("goto register");
         setResponsePage(RegisterPage.class);
     }
 

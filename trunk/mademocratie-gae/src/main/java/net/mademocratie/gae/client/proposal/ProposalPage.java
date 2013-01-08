@@ -53,7 +53,7 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
 
     public ProposalPage(PageParameters params) {
         super(params);
-        LOGGER.info("proposalPage");
+        // LOGGER.finest("proposalPage");
         handleParams();
         loadData();
         initComponents();
@@ -68,7 +68,7 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
         } catch (StringValueConversionException nfe) {
             // nothing
         }
-        LOGGER.info("display proposal number " + propId);
+        // LOGGER.finest("display proposal number " + propId);
     }
 
     private void loadData() {

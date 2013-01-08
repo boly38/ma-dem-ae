@@ -28,7 +28,7 @@ public class CitizenSession extends AuthenticatedWebSession {
     public final boolean authenticate(final String email, final String password) {
         citizen = manageCitizen.authenticateCitizen(email, password);
         boolean authenticated = citizen != null;
-        LOGGER.info("authenticated="+authenticated);
+        // LOGGER.finest("authenticated="+authenticated);
         setCitizen(citizen);
         return authenticated;
     }
