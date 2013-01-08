@@ -99,7 +99,7 @@ public class ManageCitizenImpl implements IManageCitizen {
 
         if (session.getManageCitizen() == null) {
             // TODO : find a better way to inject manager
-            LOGGER.warning("setManageCitizen");
+            // LOGGER.warning("setManageCitizen");
             session.setManageCitizen(this);
         }
         boolean authenticated = session.signIn(email, password);
