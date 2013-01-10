@@ -1,10 +1,14 @@
 package net.mademocratie.gae.model;
 
+import net.mademocratie.gae.client.proposal.ProposalPage;
+import org.apache.wicket.Page;
+
 import javax.jdo.annotations.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class Vote {
+public class Vote implements Serializable, IContribution {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
@@ -80,5 +84,20 @@ public class Vote {
                 .append(" (proposal#").append(getProposalId())
                 .append(") date=").append(getWhen());
         return sb.toString();
+    }
+
+    @Override
+    public Date getDate() {
+        return getWhen();
+    }
+
+    @Override
+    public Class<? extends Page> getContributionPage() {
+        return ProposalPage.class;
+    }
+
+    @Override
+    public String getContributionDetails() {
+        return "vote for proposal " + getProposalId();
     }
 }

@@ -6,6 +6,7 @@ import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.IManageProposal;
 import net.mademocratie.gae.server.service.IProposal;
 import net.mademocratie.gae.server.service.IRepository;
+import net.mademocratie.gae.server.service.IVote;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class ManageProposalImpl implements IManageProposal {
     // ~services
     @Inject
     private IProposal proposalsQueries;
+    @Inject
+    private IVote votesQueries;
     @Inject
     private IRepository<Proposal> proposalRepo;
 
@@ -28,9 +31,9 @@ public class ManageProposalImpl implements IManageProposal {
 	public void addProposal(Proposal inputProposal, Citizen author) {
         inputProposal.setAuthor(author);
         inputProposal.setDate(new Date());
-        LOGGER.info("add proposal " + inputProposal);
        	proposalRepo.persist(inputProposal);
-	}
+        LOGGER.info("* Proposal ADDED : " + inputProposal);
+    }
 
 	@Override
 	public List<Proposal> latest(int max) {
@@ -39,7 +42,8 @@ public class ManageProposalImpl implements IManageProposal {
 
     @Override
     public void removeAll() {
-        // TODO : implement me
+        proposalsQueries.removeAll();
+        votesQueries.removeAll();
     }
 
     public void setProposalsQueries(IProposal proposalsQueries) {

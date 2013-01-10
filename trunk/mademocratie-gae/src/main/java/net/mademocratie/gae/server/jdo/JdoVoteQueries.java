@@ -77,4 +77,29 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
         LOGGER.info("findProposalVotes for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
         return votes;
     }
+
+    @Override
+    public void removeProposalVotes(Long proposalId) {
+        Query query = newQuery();
+        query.declareParameters("Long proposalIdParam");
+        query.setFilter("proposalId == proposalIdParam");
+        long nbDelete = query.deletePersistentAll( proposalId);
+        LOGGER.info("removeProposalVotes for proposal#" + proposalId + " delete count=" + nbDelete);
+    }
+
+    @Override
+    public void removeAll() {
+        Query query = newQuery();
+        long nbDelete = query.deletePersistentAll();
+        LOGGER.info("removeAll delete count=" + nbDelete);
+    }
+
+
+    @Override
+    public List<Vote> latest(int max) {
+        Query query = newQuery();
+        query.setOrdering("when desc");
+        query.setRange(0, max);
+        return toList(query.execute());
+    }
 }

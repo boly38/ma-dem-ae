@@ -10,7 +10,7 @@ import net.mademocratie.gae.server.service.IProposal;
 import net.mademocratie.gae.server.service.IRepository;
 import net.mademocratie.gae.server.service.IVote;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class ManageVoteImpl implements IManageVote {
@@ -38,13 +38,23 @@ public class ManageVoteImpl implements IManageVote {
             votesQueries.removeVoteByUserEmail(citizenEmail, proposalId);
         }
         Vote vote = new Vote(citizenEmail, kind, proposalId);
-        LOGGER.info("ADD " + vote);
         voteRepo.persist(vote);
+        LOGGER.info("* Vote ADDED : " + vote);
         return vote;
     }
 
     @Override
     public ProposalVotes getProposalVotes(Long proposalId) {
         return new ProposalVotes(votesQueries.findProposalVotes(proposalId));
+    }
+
+    @Override
+    public void removeProposalVotes(Long proposalId) {
+       votesQueries.removeProposalVotes(proposalId);
+    }
+
+    @Override
+    public List<Vote> latest(int max) {
+        return votesQueries.latest(max);
     }
 }

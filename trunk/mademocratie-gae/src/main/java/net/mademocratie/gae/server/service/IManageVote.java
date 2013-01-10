@@ -6,6 +6,8 @@ import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.model.VoteKind;
 import net.mademocratie.gae.server.service.impl.ManageVoteImpl;
 
+import java.util.List;
+
 @ImplementedBy(ManageVoteImpl.class)
 public interface IManageVote {
 
@@ -14,4 +16,8 @@ public interface IManageVote {
     Vote vote(String citizenEmail, Long proposalId, VoteKind kind);
 
     ProposalVotes getProposalVotes(Long proposalId);
+
+    List<Vote> latest(int maxVotes);
+
+    void removeProposalVotes(Long proposalId);
 }
