@@ -1,6 +1,8 @@
 package net.mademocratie.gae.model;
 
 import com.google.appengine.api.datastore.Text;
+import net.mademocratie.gae.client.proposal.ProposalPage;
+import org.apache.wicket.Page;
 
 import javax.jdo.annotations.*;
 import java.io.Serializable;
@@ -9,7 +11,7 @@ import java.util.Date;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 // @Query(name="latestProposals",
 //       value="select from net.mademocratie.gae.model.Proposal order by date desc range 0,5")
-public class Proposal implements Serializable {
+public class Proposal implements Serializable, IContribution {
 
 	/**
 	 * serialUID
@@ -58,7 +60,18 @@ public class Proposal implements Serializable {
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+
+    @Override
+    public Class<? extends Page> getContributionPage() {
+        return ProposalPage.class;
+    }
+
+    @Override
+    public String getContributionDetails() {
+        return "create proposition " + getTitle();
+    }
+
+    public void setDate(Date date) {
 		this.date = date;
 	}
 

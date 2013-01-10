@@ -8,6 +8,7 @@ import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.server.jdo.*;
 import net.mademocratie.gae.server.service.*;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
+import net.mademocratie.gae.server.service.impl.ManageContributionsImpl;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
 import net.mademocratie.gae.server.service.impl.ManageVoteImpl;
 
@@ -35,6 +36,9 @@ public class MaDemocratieGuiceModule extends AbstractModule {
         bind(IManageVote.class).to(ManageVoteImpl.class);
         bind(IVote.class).to(JdoVoteQueries.class);
         bind(new TypeLiteral<IRepository<Vote>>() { }).to(JdoVoteRepository.class);
+
+        // contributions
+        bind(IManageContributions.class).to(ManageContributionsImpl.class);
     }
 
 }

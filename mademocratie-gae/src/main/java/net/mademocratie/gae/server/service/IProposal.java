@@ -1,8 +1,8 @@
 package net.mademocratie.gae.server.service;
 
-import java.util.List;
-
 import net.mademocratie.gae.model.Proposal;
+
+import java.util.List;
 
 public interface IProposal {
     /**
@@ -12,4 +12,9 @@ public interface IProposal {
      * @return the proposals
      */
     List<Proposal> latest(int max);
+
+    /**
+     * remove all proposals
+     */
+    void removeAll();
 }

@@ -6,9 +6,10 @@ import com.google.inject.Inject;
 import net.mademocratie.gae.client.common.PageTemplate;
 import net.mademocratie.gae.client.proposal.ProposalPage;
 import net.mademocratie.gae.client.proposal.ProposalsPage;
-import net.mademocratie.gae.model.Citizen;
+import net.mademocratie.gae.model.IContribution;
 import net.mademocratie.gae.model.Proposal;
 import net.mademocratie.gae.server.service.IManageCitizen;
+import net.mademocratie.gae.server.service.IManageContributions;
 import net.mademocratie.gae.server.service.IManageProposal;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
@@ -39,6 +40,9 @@ public class HomePage extends PageTemplate {
     private IManageProposal manageProposals;
 
     @Inject
+    private IManageContributions manageContributions;
+
+    @Inject
     private IManageCitizen manageCitizens;
 
     /**
@@ -61,7 +65,7 @@ public class HomePage extends PageTemplate {
 	    createFeedback();
     	createHelloUser();
         createProposalsList();
-        createCitizensList();
+        createContributionsList();
     }
 
     private void createFeedback() {
@@ -132,21 +136,18 @@ public class HomePage extends PageTemplate {
 	}
 
 
-    private void createCitizensList() {
-        // BookmarkablePageLink<CitizensPage> citizensLink
-        //         = new BookmarkablePageLink<CitizensPage>("last-citizens", CitizensPage.class, new PageParameters());
-        // add(citizensLink);
-        LoadableDetachableModel<List<Citizen>> latestCitizen = new LoadableDetachableModel<List<Citizen>>() {
+    private void createContributionsList() {
+        LoadableDetachableModel<List<IContribution>> latestContributions= new LoadableDetachableModel<List<IContribution>>() {
             @Override
-            protected List<Citizen> load()
+            protected List<IContribution> load()
             {
                 try {
-                    return manageCitizens.latest(5);
+                    return manageContributions.getLastContributions(10);
                 } catch (Exception e) {
-                    String errMsg = "Unable to load citizens: " + e.getMessage();
+                    String errMsg = "Unable to load last contributions: " + e.getMessage();
                     LOGGER.severe(errMsg);
                     error(errMsg);
-                    return new ArrayList<Citizen>();
+                    return new ArrayList<IContribution>();
                 }
             }
         };
@@ -156,19 +157,19 @@ public class HomePage extends PageTemplate {
 //            noMessages.setVisible(false);
 //        }
 
-        ListView<Citizen> citizens = new ListView<Citizen>("citizens", latestCitizen) {
+        ListView<IContribution> contributions = new ListView<IContribution>("contributions", latestContributions) {
             @Override
-            protected void populateItem(ListItem<Citizen> item) {
-                populateCitizen(item);
+            protected void populateItem(ListItem<IContribution> item) {
+                populateContribution(item);
             }
         };
-        add(citizens);
+        add(contributions);
     }
 
-    private void populateCitizen(ListItem<Citizen> item) {
-        Citizen citizen = item.getModel().getObject();
-        String pseudo = citizen.getPseudo();
-        item.add(new Label("pseudo", pseudo));
+    private void populateContribution(ListItem<IContribution> item) {
+        IContribution contribution = item.getModel().getObject();
+        String details = contribution.getContributionDetails();
+        item.add(new Label("contribution_details", details));
         /*
         PageParameters params = new PageParameters();
         params.set("id", proposal.getId());
