@@ -41,7 +41,6 @@ public class ManageProposalImplIT extends BaseIT {
     @After
     public void tearDown() {
         super.tearDown();
-        manageProposal.removeAll();
     }
 
     /**
