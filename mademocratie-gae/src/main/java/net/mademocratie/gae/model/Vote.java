@@ -1,23 +1,21 @@
 package net.mademocratie.gae.model;
 
-import net.mademocratie.gae.client.proposal.ProposalPage;
-import org.apache.wicket.Page;
-
 import javax.jdo.annotations.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class Vote implements Serializable, IContribution {
+public class Vote implements Serializable {
+    public static final String VOTE_DATE = "date";
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Long id;
 
-    @Persistent
-    private Date when;
+    @Persistent(name = VOTE_DATE)
+    private Date date;
 
     @Persistent
-    private String citizenEmail = null;
+    private String citizenEmail;
 
     @Persistent
     private Long proposalId;
@@ -25,11 +23,11 @@ public class Vote implements Serializable, IContribution {
     @Persistent()
     private VoteKind kind;
 
-    public Vote(String citizenEmail, VoteKind kind, Long proposalId) {
+    public Vote(String citizenEmail, Long proposalId, VoteKind kind) {
         this.citizenEmail = citizenEmail;
         this.kind = kind;
         this.proposalId = proposalId;
-        this.when = new Date();
+        this.date = new Date();
     }
 
     public String getCitizenEmail() {
@@ -48,12 +46,12 @@ public class Vote implements Serializable, IContribution {
         this.id = id;
     }
 
-    public Date getWhen() {
-        return when;
+    public Date getDate() {
+        return date;
     }
 
-    public void setWhen(Date when) {
-        this.when = when;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public VoteKind getKind() {
@@ -79,25 +77,11 @@ public class Vote implements Serializable, IContribution {
         if (getId() != null) {
             sb.append("#").append(getId());
         }
-        sb.append("|").append(getKind()).append("]")
+        sb.append(":").append(getDate());
+        sb.append("|").append(getKind())
                 .append(" by ").append(getCitizenEmail())
-                .append(" (proposal#").append(getProposalId())
-                .append(") date=").append(getWhen());
+                .append(" on proposal#").append(getProposalId())
+                .append("]");
         return sb.toString();
-    }
-
-    @Override
-    public Date getDate() {
-        return getWhen();
-    }
-
-    @Override
-    public Class<? extends Page> getContributionPage() {
-        return ProposalPage.class;
-    }
-
-    @Override
-    public String getContributionDetails() {
-        return "vote for proposal " + getProposalId();
     }
 }

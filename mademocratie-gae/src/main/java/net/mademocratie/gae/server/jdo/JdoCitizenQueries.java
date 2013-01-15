@@ -44,8 +44,15 @@ public class JdoCitizenQueries extends JdoQueries<Citizen> implements ICitizen {
     public List<Citizen> latest(int max)
     {
         Query query = newQuery();
-        query.setOrdering("date desc");
+        query.setOrdering(Citizen.CITIZEN_DATE + " desc");
         query.setRange(0, max);
         return toList(query.execute());
+    }
+
+    @Override
+    public void removeAll() {
+        Query query = newQuery();
+        long nbDelete = query.deletePersistentAll();
+        LOGGER.info("removeAll delete count=" + nbDelete);
     }
 }

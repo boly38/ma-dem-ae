@@ -19,9 +19,11 @@ public class Citizen implements Serializable {
     @Persistent
     private User googleUser;
 
+
     /*
      * citizen creation date
      */
+    public static final String CITIZEN_DATE = "date";
     @Persistent(nullValue = NullValue.EXCEPTION)
     private Date date;
 
@@ -50,7 +52,6 @@ public class Citizen implements Serializable {
      */
     @Persistent
     private String citizenStateData;
-
     @Persistent
     private String location;
 
