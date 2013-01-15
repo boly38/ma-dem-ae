@@ -3,6 +3,8 @@ package net.mademocratie.gae.server.service.impl.it;
 import com.google.inject.Inject;
 import net.mademocratie.gae.model.*;
 import net.mademocratie.gae.server.MaDemocratieGuiceModule;
+import net.mademocratie.gae.server.exception.CitizenAlreadyExistsException;
+import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 import net.mademocratie.gae.server.service.impl.ManageContributionsImpl;
 import net.mademocratie.gae.server.service.impl.ManageProposalImpl;
 import net.mademocratie.gae.server.service.impl.ManageVoteImpl;
@@ -30,6 +32,8 @@ import static org.fest.assertions.Assertions.assertThat;
 public class ManageContributionsImplIT extends BaseIT {
     private static final Logger logger = Logger.getLogger(ManageContributionsImplIT.class.getName());
     @Inject
+    private ManageCitizenImpl manageCitizen;
+    @Inject
     private ManageProposalImpl manageProposal;
     @Inject
     private ManageVoteImpl manageVote;
@@ -47,26 +51,33 @@ public class ManageContributionsImplIT extends BaseIT {
     private int contributionsCount;
     private Vote bForANeutral;
     private Vote bForAPro;
+    private VoteContribution contribution_bForAPro;
     private Proposal testProposalAnonB;
 
     @Before
-    public void init() {
+    public void init() throws CitizenAlreadyExistsException {
         super.setUp();
         manageProposal.removeAll();
-        myAuthorA = new Citizen("jo la frite", "frite365", "friteA@jo-la.fr", "abc123");
-        myAuthorB = new Citizen("ji la frote", "frite421", "froteB@jo-la.fr", "abc123");
+        manageCitizen.removeAll();
+        myAuthorA = manageCitizen.addCitizen(new Citizen("jo la frite", "frite365", "friteA@jo-la.fr", "abc123"));
+        myAuthorB = manageCitizen.addCitizen(new Citizen("ji la frote", "frite421", "froteB@jo-la.fr", "abc123"));
+
         testProposalAnon = new Proposal(PROPOSAL_TITLE + "Anon", PROPOSAL_CONTENT);
         testProposalAnonB = new Proposal(PROPOSAL_TITLE + "AnonB", PROPOSAL_CONTENT);
         testProposalA = new Proposal(PROPOSAL_TITLE + "A", PROPOSAL_CONTENT);
         testProposalB = new Proposal(PROPOSAL_TITLE + "B", PROPOSAL_CONTENT);
         testProposalA2 = new Proposal(PROPOSAL_TITLE + "A2", PROPOSAL_CONTENT);
+
         manageProposal.addProposal(testProposalAnon, null);
         manageProposal.addProposal(testProposalAnonB, null);
         manageProposal.addProposal(testProposalA, myAuthorA);
+
         bForANeutral = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.NEUTRAL);
         bForAPro = manageVote.vote(myAuthorB.getEmail(), testProposalA.getId(), VoteKind.PRO);
+
         manageProposal.addProposal(testProposalB, myAuthorB);
         manageProposal.addProposal(testProposalA2, myAuthorA);
+
         contributionsCount = 7;
     }
 
@@ -82,7 +93,14 @@ public class ManageContributionsImplIT extends BaseIT {
         assertThat(lastContributions)
                 .hasSize(Math.min(contributionsCount, askedMaxContributions));
         assertThat(lastContributions)
-                .containsExactly(testProposalA2, testProposalB, bForAPro, testProposalA, testProposalAnonB);
+                .contains(testProposalA2);
+        assertThat(lastContributions)
+                .contains(testProposalB);
+        assertThat(lastContributions)
+                .contains(testProposalA);
+        assertThat(lastContributions)
+                .contains(testProposalAnonB);
+
         logger.info(lastContributions.toString());
         for (IContribution contribution : lastContributions) {
             logger.info("/CONTRIBUTION/ '" + contribution.getContributionDetails()

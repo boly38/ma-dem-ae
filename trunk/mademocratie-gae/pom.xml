@@ -185,7 +185,7 @@
           <plugin>
               <artifactId>maven-surefire-plugin</artifactId>
               <configuration>
-                  <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
+                  <!-- unit tests are skipped date skipTests = true or skipUTs=true -->
                   <!-- see properties for further details -->
                   <skipTests>${skipUTs}</skipTests>
               </configuration>

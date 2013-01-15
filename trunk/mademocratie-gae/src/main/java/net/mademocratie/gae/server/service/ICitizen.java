@@ -19,4 +19,6 @@ public interface ICitizen {
      * @return the citiens
      */
     List<Citizen> latest(int max);
+
+    void removeAll();
 }

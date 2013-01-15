@@ -37,7 +37,7 @@ public class ManageVoteImpl implements IManageVote {
         if (existingVote != null) {
             votesQueries.removeVoteByUserEmail(citizenEmail, proposalId);
         }
-        Vote vote = new Vote(citizenEmail, kind, proposalId);
+        Vote vote = new Vote(citizenEmail, proposalId, kind);
         voteRepo.persist(vote);
         LOGGER.info("* Vote ADDED : " + vote);
         return vote;

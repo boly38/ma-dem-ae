@@ -98,7 +98,7 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
     @Override
     public List<Vote> latest(int max) {
         Query query = newQuery();
-        query.setOrdering("when desc");
+        query.setOrdering(Vote.VOTE_DATE + " desc");
         query.setRange(0, max);
         return toList(query.execute());
     }

@@ -3,7 +3,6 @@ package net.mademocratie.gae.server.service;
 import com.google.appengine.api.users.User;
 import com.google.inject.ImplementedBy;
 import net.mademocratie.gae.model.Citizen;
-import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.exception.*;
 import net.mademocratie.gae.server.service.impl.ManageCitizenImpl;
 
@@ -35,7 +34,6 @@ public interface IManageCitizen {
 
     /**
      * Sign in a citizen an store it into the given session or return false;
-     * @param session
      * @param email
      * @param password
      * @return
@@ -58,4 +56,8 @@ public interface IManageCitizen {
     void changeCitizenPassword(Long cId, String newPassword) throws ChangePasswordException;
 
     boolean signInGoogleCitizen();
+
+    Citizen addCitizen(Citizen myAuthorA) throws CitizenAlreadyExistsException;
+
+    void removeAll();
 }

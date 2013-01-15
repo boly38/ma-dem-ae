@@ -8,9 +8,7 @@ import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.CitizenState;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.exception.*;
-import net.mademocratie.gae.server.service.ICitizen;
-import net.mademocratie.gae.server.service.IManageCitizen;
-import net.mademocratie.gae.server.service.IRepository;
+import net.mademocratie.gae.server.service.*;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -36,6 +34,10 @@ public class ManageCitizenImpl implements IManageCitizen {
     @Inject
     private ICitizen citizensQueries;
     @Inject
+    private IProposal proposalsQueries;
+    @Inject
+    private IVote votesQueries;
+    @Inject
     private IRepository<Citizen> citizenRepo;
 
     private UserService userService = UserServiceFactory.getUserService();
@@ -57,12 +59,19 @@ public class ManageCitizenImpl implements IManageCitizen {
      * add a new citizen to the database
      * @param inputCitizen citizen to add
      */
-    Citizen addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
+    public Citizen addCitizen(Citizen inputCitizen) throws CitizenAlreadyExistsException {
         if (citizensQueries.findByEmail(inputCitizen.getEmail()) != null) {
             throw new CitizenAlreadyExistsException();
         }
         citizenRepo.persist(inputCitizen);
         return inputCitizen;
+    }
+
+    @Override
+    public void removeAll() {
+        proposalsQueries.removeAll();
+        votesQueries.removeAll();
+        citizensQueries.removeAll();
     }
 
     @Override

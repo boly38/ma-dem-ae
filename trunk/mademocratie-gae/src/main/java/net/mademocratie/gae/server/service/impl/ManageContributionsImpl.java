@@ -2,10 +2,11 @@ package net.mademocratie.gae.server.service.impl;
 
 import net.mademocratie.gae.model.IContribution;
 import net.mademocratie.gae.model.Proposal;
-import net.mademocratie.gae.model.Vote;
+import net.mademocratie.gae.model.VoteContribution;
 import net.mademocratie.gae.server.service.IManageContributions;
 import net.mademocratie.gae.server.service.IManageProposal;
 import net.mademocratie.gae.server.service.IManageVote;
+import net.mademocratie.gae.server.service.IManageVoteContributionImpl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -32,10 +33,13 @@ public class ManageContributionsImpl implements IManageContributions {
     @Inject
     private IManageProposal manageProposal;
 
+    @Inject
+    private IManageVoteContributionImpl manageVoteContribution;
+
     @Override
     public List<IContribution> getLastContributions(int maxContributions) {
         List<Proposal> latestProposals = manageProposal.latest(maxContributions);
-        List<Vote> latestVotes = manageVote.latest(maxContributions);
+        List<VoteContribution> latestVotes = manageVoteContribution.latest(maxContributions);
         List<IContribution> latestContributions = new ArrayList<IContribution>();
         latestContributions.addAll(latestProposals);
         latestContributions.addAll(latestVotes);
