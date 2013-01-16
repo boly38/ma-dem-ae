@@ -46,7 +46,7 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
         } finally {
             query.closeAll();
         }
-        LOGGER.info("findProposalVoteByUserEmail " + citizenEmail + " for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
+        LOGGER.info(citizenEmail + " votes for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
         return (votes != null && votes.size() > 0 ? votes.get(0) : null);
     }
 
@@ -74,7 +74,7 @@ public class JdoVoteQueries extends JdoQueries<Vote> implements IVote {
         } finally {
             query.closeAll();
         }
-        LOGGER.info("findProposalVotes for proposalId=" + proposalId + " result count=" + (votes != null ? votes.size() : "0"));
+        LOGGER.info("proposalId=" + proposalId + " votes result count=" + (votes != null ? votes.size() : "0"));
         return votes;
     }
 

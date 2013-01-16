@@ -1,13 +1,14 @@
 package net.mademocratie.gae.client.proposal.details;
 
 import net.mademocratie.gae.client.citizen.RegisterPage;
-import net.mademocratie.gae.client.common.VoteItemContainer;
+import net.mademocratie.gae.client.proposal.ProposalPage;
 import net.mademocratie.gae.model.Citizen;
 import net.mademocratie.gae.model.Vote;
 import net.mademocratie.gae.model.VoteKind;
 import net.mademocratie.gae.server.CitizenSession;
 import net.mademocratie.gae.server.exception.AnonymousCantVoteException;
 import net.mademocratie.gae.server.service.IManageVote;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import java.util.logging.Logger;
@@ -31,14 +32,14 @@ public class ProposalVotePanel extends Panel {
 
     private Vote currentVote;
     private Long proposalId;
-    private VoteItemContainer voteItemContainer;
+    private ProposalPage proposalPage;
 
-    public ProposalVotePanel(String proposalVoteId, VoteItemContainer voteItemContainer, Long proposalId, IManageVote manageVote) {
+    public ProposalVotePanel(String proposalVoteId, ProposalPage proposalPage, Long proposalId, IManageVote manageVote) {
         super(proposalVoteId);
-        // LOGGER.finest("proposalVote");
+        LOGGER.info("proposalVote proposalVoteId=" + proposalVoteId + " proposalId=" + proposalId);
         this.manageVote = manageVote;
         this.proposalId = proposalId;
-        this.voteItemContainer = voteItemContainer;
+        this.proposalPage = proposalPage;
         initComponents();
         initData();
     }
@@ -66,20 +67,20 @@ public class ProposalVotePanel extends Panel {
     private void initComponents() {
         proButton = new ProposalVoteButton("proposalVoteProButton", VoteKind.PRO) {
             @Override
-            public void onClick() {
-                clickVote(VoteKind.PRO);
+            public void onClick(AjaxRequestTarget target) {
+                clickVote(target, VoteKind.PRO);
             }
         };
         neutralButton = new ProposalVoteButton("proposalVoteNeutralButton", VoteKind.NEUTRAL){
             @Override
-            public void onClick() {
-                clickVote(VoteKind.NEUTRAL);
+            public void onClick(AjaxRequestTarget target) {
+                clickVote(target, VoteKind.NEUTRAL);
             }
         };
         conButton = new ProposalVoteButton("proposalVoteConButton", VoteKind.CON){
             @Override
-            public void onClick() {
-                clickVote(VoteKind.CON);
+            public void onClick(AjaxRequestTarget target) {
+                clickVote(target, VoteKind.CON);
             }
         };
 
@@ -90,10 +91,11 @@ public class ProposalVotePanel extends Panel {
         add(conButton);
     }
 
-    private void clickVote(VoteKind voteKind) {
+    private void clickVote(AjaxRequestTarget target, VoteKind voteKind) {
         try {
-            vote(voteKind);
-            voteItemContainer.updateVoteCount();
+            vote(target, voteKind);
+            proposalPage.updateVoteCount();
+            target.add(proposalPage);
         } catch (AnonymousCantVoteException e) {
             String errMsg = "anonymous user cant vote, please register or sign in!";
             LOGGER.info(errMsg);
@@ -107,9 +109,10 @@ public class ProposalVotePanel extends Panel {
         setResponsePage(RegisterPage.class);
     }
 
-    private void vote(VoteKind voteKind) throws AnonymousCantVoteException {
+    private void vote(AjaxRequestTarget target, VoteKind voteKind) throws AnonymousCantVoteException {
         Citizen currentUser = CitizenSession.get().getCitizen();
         if (currentUser == null) {
+            LOGGER.info("anonymous can't vote");
             throw new AnonymousCantVoteException();
         }
         manageVote.vote(currentUser.getEmail(),proposalId,voteKind);

@@ -23,6 +23,7 @@ import org.apache.wicket.session.ISessionStore;
 import org.apache.wicket.settings.IApplicationSettings;
 
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MaDemocratieApp extends WebApplication {
@@ -57,6 +58,11 @@ public class MaDemocratieApp extends WebApplication {
     }
 
     private void initSettings() {
+        // com.google.inject.internal.util.$FinalizableReferenceQueue <init>: Failed to start reference finalizer thread. Reference cleanup will only occur when new references are created.
+        // java.lang.reflect.InvocationTargetException
+        // see also http://code.google.com/p/google-guice/issues/detail?id=488
+        Logger.getLogger("com.google.inject.internal.util").setLevel(Level.WARNING);
+
         if (!RuntimeConfigurationType.DEVELOPMENT.equals(getConfigurationType())) {
             getMarkupSettings().setStripWicketTags(true);
         }

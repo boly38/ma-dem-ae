@@ -46,6 +46,7 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
 
     public ProposalPage() {
         super(null);
+        LOGGER.info("proposalPage()");
         handleParams();
         initComponents();
     }
@@ -53,8 +54,8 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
 
     public ProposalPage(PageParameters params) {
         super(params);
-        // LOGGER.finest("proposalPage");
         handleParams();
+        LOGGER.info("proposalPage(params) propId=" + propId);
         loadData();
         initComponents();
     }
@@ -66,21 +67,22 @@ public class ProposalPage extends PageTemplate implements VoteItemContainer {
         try {
             propId = (propIdStr != null ? propIdStr.toLong() : null);
         } catch (StringValueConversionException nfe) {
-            // nothing
+            LOGGER.warning("invalid proposal id " + nfe.getMessage());
+            nfe.printStackTrace();
         }
-        // LOGGER.finest("display proposal number " + propId);
     }
 
     private void loadData() {
         proposal = (propId != null ? manageProposal.getById(propId) : null);
         if (proposal == null) {
-            getSession().error("Unable to retrieve the proposal");
+            getSession().error("Unable to retrieve the proposal id=" + propId);
             throw new RestartResponseException(HomePage.class, null);
         }
         loadDataProposalVotes();
     }
 
     private void initComponents() {
+        setOutputMarkupId(true);
         createProposalDescription();
         createProposalVote();
     }
