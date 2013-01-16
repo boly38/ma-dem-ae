@@ -3,7 +3,7 @@ package net.mademocratie.gae.client.proposal.details;
 import net.mademocratie.gae.client.common.WicketUtils;
 import net.mademocratie.gae.model.VoteKind;
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 
 /**
  * ProposalVoteButton
@@ -19,7 +19,7 @@ import org.apache.wicket.markup.html.link.Link;
  *
  * @version : $Revision$
  */
-public abstract class ProposalVoteButton extends Link {
+public abstract class ProposalVoteButton extends AjaxLink {
     public ProposalVoteButton(String id, VoteKind voteKind) {
         super(id);
         switch (voteKind) {
